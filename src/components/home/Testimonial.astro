@@ -1,0 +1,77 @@
+---
+const logos = [
+  { name: 'TECHBRAND', class: 'font-black tracking-tighter' },
+  { name: 'SMATRICS', class: 'font-black tracking-widest uppercase' },
+  { name: 'Bayern', class: 'font-serif italic font-bold' },
+  { name: 'acrevis', class: 'font-bold tracking-tight lowercase' },
+  { name: 'SAUTER', class: 'font-extrabold uppercase' },
+  { name: 'EVOLVED', class: 'font-black italic uppercase' },
+];
+---
+
+<section class="py-24 md:py-32 bg-white">
+  <div class="container mx-auto px-4 max-w-7xl">
+    
+    <!-- Testimonial Section -->
+    <div class="grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-16 lg:gap-24 items-center mb-24 cursor-default">
+      
+      <!-- Left: Overlapping Circles -->
+      <div class="relative w-full max-w-[320px] h-[240px] mx-auto lg:mx-0 hidden md:block">
+        <!-- Quote Circle -->
+        <div class="absolute left-0 top-1/2 -translate-y-1/2 w-48 h-48 rounded-full border border-slate-200 bg-white flex items-center justify-center z-0">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor" class="text-slate-800 -translate-x-4"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/></svg>
+        </div>
+        <!-- Image Circle -->
+        <div class="absolute right-0 top-1/2 -translate-y-1/2 w-48 h-48 rounded-full overflow-hidden z-10 shadow-2xl border-4 border-white">
+          <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=400" alt="Customer" class="w-full h-full object-cover">
+        </div>
+      </div>
+
+      <!-- Right: Content -->
+      <div class="space-y-8">
+        <p class="text-rose-500 font-bold tracking-wide text-sm uppercase">
+          Khách hàng nghĩ gì về dịch vụ của chúng tôi!
+        </p>
+        
+        <h3 class="text-2xl md:text-3xl lg:text-4xl font-extrabold text-slate-900 leading-[1.4] tracking-tight">
+          "Đó là một trải nghiệm tuyệt vời. Đội ngũ NextTax là một đối tác đáng tin cậy; họ đã dành thời gian cần thiết để hiểu rõ hoạt động và nhu cầu của chúng tôi. Sự chuyên nghiệp của họ đã giúp dự án đi đúng hướng."
+        </h3>
+
+        <div class="flex items-center gap-12 pt-4">
+          <!-- Navigation Arrows -->
+          <div class="flex items-center gap-6 text-slate-400">
+            <button class="hover:text-rose-500 transition-colors">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            </button>
+            <button class="hover:text-rose-500 transition-colors">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+
+          <!-- Author Info -->
+          <div class="flex flex-col">
+            <span class="font-bold text-slate-900">Dana Wade Sr</span>
+            <span class="text-sm text-slate-500 uppercase tracking-wider text-[11px] font-semibold mt-1">allianz Inc</span>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+
+    <!-- Partner Logos -->
+    <div class="border-t border-slate-100 pt-16">
+      <div class="flex flex-wrap items-center justify-center lg:justify-between gap-10 lg:gap-6">
+        {logos.map(logo => (
+          <div class={`text-2xl md:text-3xl text-slate-300 hover:text-slate-900 transition-colors duration-500 cursor-pointer ${logo.class}`}>
+            <!-- Logo Icon generic mapping -->
+            <div class="flex items-center gap-2">
+              {logo.name === 'TECHBRAND' && <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5zm0 2.8L18.4 8 12 11.2 5.6 8 12 4.8zM2 17l10 5 10-5-10-5-10 5zm10-1.2l6.4-3.2-6.4-3.2-6.4 3.2 6.4 3.2z"/></svg>}
+              {logo.name}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+  </div>
+</section>

@@ -1,0 +1,128 @@
+---
+import Button from '../ui/Button.astro';
+
+const slides = [
+  {
+    title: 'Grow Your Wealth With Our Leading Edge Solutions!',
+    subtitle: 'Take control of your financial future and start growing your wealth',
+    image: 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&q=80&w=2000',
+  },
+  {
+    title: 'Tối ưu hóa thuế & Quản trị rủi ro chuyên nghiệp',
+    subtitle: 'Đội ngũ chuyên gia hàng đầu mang đến giải pháp bảo vệ tài chính an toàn nhất',
+    image: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&q=80&w=2000',
+  },
+  {
+    title: 'Giải pháp kế toán toàn diện cho doanh nghiệp',
+    subtitle: 'Giúp bạn tối đa hóa lợi nhuận và tập trung nguồn lực phát triển kinh doanh',
+    image: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&q=80&w=2000',
+  }
+];
+---
+
+<section class="relative w-full h-screen min-h-[600px] bg-slate-900 group">
+  <div class="swiper hero-swiper w-full h-full">
+    <div class="swiper-wrapper">
+      {slides.map((slide, index) => (
+        <div class="swiper-slide relative w-full h-full">
+          <!-- Background Image with Gradient Overlay -->
+          <div class="absolute inset-0">
+            <img src={slide.image} alt={slide.title} class="w-full h-full object-cover" />
+            <div class="absolute inset-0 bg-gradient-to-r from-slate-900/90 via-slate-900/60 to-transparent"></div>
+          </div>
+          
+          <!-- Content -->
+          <div class="relative container mx-auto px-6 h-full flex items-center">
+            <div class="max-w-3xl space-y-6 pt-20">
+              <p class="text-white/80 font-semibold tracking-wider uppercase text-sm md:text-base animate-fade-in-up" style={`animation-delay: 0.1s`}>
+                {slide.subtitle}
+              </p>
+              <h1 class="text-5xl md:text-7xl lg:text-8xl font-black text-white leading-[1.1] tracking-tight animate-fade-in-up" style={`animation-delay: 0.3s`}>
+                {slide.title}
+              </h1>
+              
+              <div class="pt-8 flex items-center gap-6 animate-fade-in-up" style={`animation-delay: 0.5s`}>
+                <!-- Round arrow button style similar to screenshot -->
+                <a href="/services" class="w-20 h-20 rounded-full border border-white/50 flex items-center justify-center text-white hover:bg-white hover:text-slate-900 transition-colors group/btn">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" class="group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <!-- Swiper Navigation Bottom Controls -->
+    <div class="absolute bottom-10 left-0 w-full z-10">
+      <div class="container mx-auto px-6">
+        <div class="flex items-center gap-12 border-t border-white/20 pt-6">
+          <div class="flex-1">
+            <h3 class="text-white font-bold text-lg mb-2">We help our clients achieve their goals</h3>
+            <p class="text-white/60 text-sm">Providing expert consulting services</p>
+          </div>
+          <div class="flex gap-4">
+            <button class="swiper-button-prev-custom w-12 h-12 rounded-full flex items-center justify-center text-white hover:bg-white/10 transition-colors">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+            </button>
+            <button class="swiper-button-next-custom w-12 h-12 rounded-full flex items-center justify-center text-white hover:bg-white/10 transition-colors">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import Swiper from 'swiper';
+  import { Navigation, Autoplay, EffectFade } from 'swiper/modules';
+  import 'swiper/css';
+  import 'swiper/css/effect-fade';
+
+  // Initialize Swiper
+  const initSwiper = () => {
+    new Swiper('.hero-swiper', {
+      modules: [Navigation, Autoplay, EffectFade],
+      effect: 'fade',
+      fadeEffect: {
+        crossFade: true
+      },
+      speed: 1000,
+      autoplay: {
+        delay: 6000,
+        disableOnInteraction: false,
+      },
+      navigation: {
+        nextEl: '.swiper-button-next-custom',
+        prevEl: '.swiper-button-prev-custom',
+      },
+      loop: true,
+    });
+  };
+
+  // Run on first load
+  initSwiper();
+  
+  // Re-run safely if using Astro View Transitions
+  document.addEventListener('astro:page-load', initSwiper);
+</script>
+
+<style>
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .swiper-slide-active .animate-fade-in-up {
+    animation: fadeInUp 0.8s ease-out forwards;
+    opacity: 0;
+  }
+</style>

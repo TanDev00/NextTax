@@ -1,0 +1,61 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import Button from '../../components/ui/Button.astro';
+
+export function getStaticPaths() {
+  return [
+    { params: { slug: 'ke-toan-tron-goi' } },
+    { params: { slug: 'quyet-toan-thue' } },
+    { params: { slug: 'thanh-lap-doanh-nghiep' } },
+    { params: { slug: 'thay-doi-giay-phep' } },
+    { params: { slug: 'giai-the-doanh-nghiep' } },
+    { params: { slug: 'chu-ky-so-hoa-don' } },
+  ];
+}
+
+const { slug } = Astro.params;
+
+const serviceTitles = {
+  'ke-toan-tron-goi': 'Kế toán trọn gói',
+  'quyet-toan-thue': 'Quyết toán thuế',
+  'thanh-lap-doanh-nghiep': 'Thành lập doanh nghiệp',
+  'thay-doi-giay-phep': 'Thay đổi giấy phép',
+  'giai-the-doanh-nghiep': 'Giải thể doanh nghiệp',
+  'chu-ky-so-hoa-don': 'Chữ ký số & Hóa đơn',
+};
+
+const title = serviceTitles[slug as keyof typeof serviceTitles] || 'Dịch vụ';
+---
+
+<MainLayout title={`${title} - NextTax`}>
+  <section class="pt-32 pb-20 bg-slate-50">
+    <div class="container mx-auto px-4">
+      <div class="max-w-4xl mx-auto space-y-8">
+        <a href="/services" class="text-indigo-600 font-bold flex items-center gap-2 hover:translate-x-[-4px] transition-transform w-fit">
+          &larr; Quay lại danh sách
+        </a>
+        <h1 class="text-4xl md:text-6xl">{title}</h1>
+        <div class="prose prose-lg prose-indigo max-w-none text-slate-600 leading-relaxed space-y-6">
+          <p class="text-xl font-medium text-slate-800">
+            Nội dung chi tiết về dịch vụ {title.toLowerCase()} đang được cập nhật...
+          </p>
+          <p>
+            Chúng tôi cam kết mang đến giải pháp tối ưu nhất cho doanh nghiệp của bạn. Với đội ngũ chuyên gia giàu kinh nghiệm, NextTax sẽ giúp bạn giải quyết mọi vấn đề về pháp lý và sổ sách kế toán một cách nhanh chóng, hiệu quả và đúng quy định pháp luật.
+          </p>
+          <div class="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm space-y-4">
+            <h3 class="text-2xl font-bold text-slate-800">Tại sao chọn NextTax?</h3>
+            <ul class="list-disc list-inside space-y-2">
+              <li>Tiết kiệm chi phí vận hành</li>
+              <li>Đảm bảo tính chính xác và kịp thời</li>
+              <li>Hỗ trợ tư vấn pháp lý 24/7</li>
+              <li>Chịu trách nhiệm hoàn toàn trước cơ quan thuế</li>
+            </ul>
+          </div>
+        </div>
+        <div class="pt-8">
+          <Button variant="primary" size="lg" href="/contact">Yêu cầu tư vấn ngay</Button>
+        </div>
+      </div>
+    </div>
+  </section>
+</MainLayout>

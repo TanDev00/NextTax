@@ -1,0 +1,50 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import Button from '../components/ui/Button.astro';
+import Card from '../components/ui/Card.astro';
+---
+
+<MainLayout title="Về chúng tôi - NextTax">
+  <section class="pt-32 pb-20 bg-slate-50 relative overflow-hidden">
+    <div class="container mx-auto px-4 text-center">
+      <h1 class="text-4xl md:text-6xl mb-6">Câu chuyện của <span class="text-indigo-600">NextTax</span></h1>
+      <p class="text-xl text-slate-600 max-w-2xl mx-auto">
+        Chúng tôi xây dựng NextTax với sứ mệnh giúp các doanh nghiệp Việt Nam vượt qua rào cản về thủ tục pháp lý và tài chính phức tạp.
+      </p>
+    </div>
+  </section>
+
+  <section class="section-padding">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+        <div class="space-y-6">
+          <h2 class="text-3xl">Tầm nhìn & Sứ mệnh</h2>
+          <p class="text-lg text-slate-600 leading-relaxed">
+            NextTax hướng tới việc trở thành người bạn đồng hành tin cậy nhất của doanh nghiệp SME tại Việt Nam, nơi công nghệ và tri thức kết hợp để mang lại giá trị thực sự.
+          </p>
+          <p class="text-lg text-slate-600 leading-relaxed">
+            Chúng tôi tin rằng khi doanh nghiệp không còn phải lo lắng về sổ sách, họ sẽ có nhiều thời gian và nguồn lực hơn để sáng tạo và bứt phá.
+          </p>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <Card className="p-6 text-center shadow-none bg-indigo-50 border-none">
+            <div class="text-4xl font-bold text-indigo-600 mb-2">500+</div>
+            <div class="text-xs font-bold text-slate-500 uppercase">Khách hàng</div>
+          </Card>
+          <Card className="p-6 text-center shadow-none bg-emerald-50 border-none">
+            <div class="text-4xl font-bold text-emerald-600 mb-2">10+</div>
+            <div class="text-xs font-bold text-slate-500 uppercase">Năm kinh nghiệm</div>
+          </Card>
+          <Card className="p-6 text-center shadow-none bg-amber-50 border-none">
+            <div class="text-4xl font-bold text-amber-600 mb-2">15+</div>
+            <div class="text-xs font-bold text-slate-500 uppercase">Chuyên gia</div>
+          </Card>
+          <Card className="p-6 text-center shadow-none bg-rose-50 border-none">
+            <div class="text-4xl font-bold text-rose-600 mb-2">99%</div>
+            <div class="text-xs font-bold text-slate-500 uppercase">Hài lòng</div>
+          </Card>
+        </div>
+      </div>
+    </div>
+  </section>
+</MainLayout>

@@ -1,0 +1,81 @@
+---
+import Button from '../ui/Button.astro';
+
+const navItems = [
+  { label: 'Trang chủ', href: '/' },
+  { label: 'Dịch vụ', href: '/services' },
+  { label: 'Về chúng tôi', href: '/about' },
+  { label: 'Tin tức', href: '/blog' },
+  { label: 'Liên hệ', href: '/contact' },
+];
+
+const currentPath = Astro.url.pathname;
+const isHome = currentPath === '/' || currentPath === '';
+---
+
+<header id="main-header" class={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b ${isHome ? 'bg-transparent text-white border-white/20' : 'bg-white/90 backdrop-blur-md border-slate-100 text-slate-800 shadow-sm'}`} data-ishome={isHome ? 'true' : 'false'}>
+  <div class="container mx-auto px-4 h-24 flex items-center justify-between">
+    <a href="/" class="flex items-center gap-2 group">
+      <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center group-hover:rotate-6 transition-transform logo-icon">
+        <span class="text-white font-black text-xl leading-none">N</span>
+      </div>
+      <span class="text-2xl font-black tracking-tight" id="header-logo-text">Next<span class="text-indigo-600 border-none px-0">Tax</span></span>
+    </a>
+
+    <nav class="hidden md:flex items-center gap-8">
+      {navItems.map(item => (
+        <a 
+          href={item.href} 
+          class="font-medium hover:opacity-70 transition-opacity"
+        >
+          {item.label}
+        </a>
+      ))}
+    </nav>
+
+    <div class="flex items-center gap-4">
+      <div class="hidden md:block">
+        <button class="w-10 h-10 flex items-center justify-center hover:opacity-70 transition-opacity">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" class="stroke-current" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        </button>
+      </div>
+      <Button variant="primary" size="sm" className="hidden sm:inline-flex get-quote-btn shadow-none">Tư vấn ngay ↗</Button>
+
+      <button class="md:hidden w-10 h-10 flex items-center justify-center">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" class="stroke-current" stroke-width="2"><path d="M4 12h16M4 6h16M4 18h16"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+{!isHome && <div class="h-24"></div>}
+
+<script>
+  const initHeaderScroll = () => {
+    const header = document.getElementById('main-header');
+    if (!header) return;
+    
+    const isHome = header.dataset.ishome === 'true';
+
+    if (isHome) {
+      const handleScroll = () => {
+        if (window.scrollY > 50) {
+          header.classList.remove('bg-transparent', 'text-white', 'border-white/20');
+          header.classList.add('bg-white/95', 'backdrop-blur-md', 'border-slate-100', 'text-slate-800', 'shadow-sm');
+        } else {
+          header.classList.add('bg-transparent', 'text-white', 'border-white/20');
+          header.classList.remove('bg-white/95', 'backdrop-blur-md', 'border-slate-100', 'text-slate-800', 'shadow-sm');
+        }
+      };
+
+      // Apply initial state
+      handleScroll();
+
+      // Listen for scroll
+      window.addEventListener('scroll', handleScroll);
+    }
+  };
+
+  initHeaderScroll();
+  document.addEventListener('astro:page-load', initHeaderScroll);
+</script>

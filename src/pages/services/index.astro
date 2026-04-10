@@ -1,0 +1,85 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import Card from '../../components/ui/Card.astro';
+import Button from '../../components/ui/Button.astro';
+
+const services = [
+  {
+    title: 'Kế toán trọn gói',
+    slug: 'ke-toan-tron-goi',
+    description: 'Xử lý toàn bộ sổ sách, chứng từ và báo cáo tài chính hàng tháng/quý cho doanh nghiệp.',
+    icon: '📊',
+    price: 'Từ 1.000.000đ/tháng'
+  },
+  {
+    title: 'Quyết toán thuế',
+    slug: 'quyet-toan-thue',
+    description: 'Đại diện doanh nghiệp làm việc với cơ quan thuế, tối ưu số thuế phải nộp đúng luật.',
+    icon: '🏦',
+    price: 'Liên hệ tư vấn'
+  },
+  {
+    title: 'Thành lập doanh nghiệp',
+    slug: 'thanh-lap-doanh-nghiep',
+    description: 'Hỗ trợ thủ tục pháp lý từ A-Z để doanh nghiệp bắt đầu hoạt động nhanh chóng.',
+    icon: '🚀',
+    price: 'Chỉ từ 2.000.000đ'
+  },
+  {
+    title: 'Thay đổi giấy phép',
+    slug: 'thay-doi-giay-phep',
+    description: 'Cập nhật thông tin đăng ký kinh doanh, người đại diện, vốn điều lệ...',
+    icon: '📋',
+    price: 'Liên hệ tư vấn'
+  },
+  {
+    title: 'Giải thể doanh nghiệp',
+    slug: 'giai-the-doanh-nghiep',
+    description: 'Thủ tục đóng mã số thuế và giải thể doanh nghiệp đúng quy định pháp luật.',
+    icon: '🏢',
+    price: 'Liên hệ tư vấn'
+  },
+  {
+    title: 'Chữ ký số & Hóa đơn',
+    slug: 'chu-ky-so-hoa-don',
+    description: 'Cung cấp và hỗ trợ cài đặt chữ ký số, hóa đơn điện tử chính hãng.',
+    icon: '✍️',
+    price: 'Giá đại lý'
+  }
+];
+---
+
+<MainLayout title="Dịch vụ - NextTax">
+  <section class="pt-32 pb-20 bg-slate-50">
+    <div class="container mx-auto px-4 text-center">
+      <h1 class="text-4xl md:text-6xl mb-6">Dịch vụ <span class="text-indigo-600">toàn diện</span></h1>
+      <p class="text-xl text-slate-600 max-w-2xl mx-auto">
+        Giải pháp pháp lý và tài chính trọn gói giúp doanh nghiệp tối ưu vận hành và tuân thủ pháp luật.
+      </p>
+    </div>
+  </section>
+
+  <section class="section-padding">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {services.map(service => (
+          <Card className="p-8 flex flex-col items-start gap-6">
+            <div class="w-16 h-16 rounded-2xl bg-indigo-50 flex items-center justify-center text-3xl">
+              {service.icon}
+            </div>
+            <div class="space-y-4">
+              <h3 class="text-2xl">{service.title}</h3>
+              <p class="text-slate-600 leading-relaxed">
+                {service.description}
+              </p>
+              <div class="text-indigo-600 font-bold">
+                {service.price}
+              </div>
+            </div>
+            <Button variant="outline" className="w-full mt-4" href={`/services/${service.slug}`}>Xem chi tiết</Button>
+          </Card>
+        ))}
+      </div>
+    </div>
+  </section>
+</MainLayout>

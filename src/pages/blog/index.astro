@@ -1,0 +1,37 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import BlogCard from '../../components/blog/BlogCard.astro';
+
+import { getAllPosts } from '../../services/wordpress';
+
+const wpPosts = await getAllPosts();
+const posts = wpPosts.map(post => ({
+  title: post.title,
+  slug: post.slug,
+  excerpt: post.excerpt?.replace(/<[^>]+>/g, '') || '', // Strip simple HTML tags from excerpt
+  date: post.date,
+  category: post.categories?.nodes?.[0]?.name || 'Tin tức',
+  image: post.featuredImage?.node?.sourceUrl || 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&q=80&w=800'
+}));
+---
+
+<MainLayout title="Tin tức - NextTax">
+  <section class="pt-32 pb-20 bg-slate-50">
+    <div class="container mx-auto px-4 text-center">
+      <h1 class="text-4xl md:text-6xl mb-6">Tin tức & <span class="text-indigo-600">Kiến thức</span></h1>
+      <p class="text-xl text-slate-600 max-w-2xl mx-auto">
+        Cập nhật những thông tin mới nhất về luật thuế, kế toán và kinh nghiệm quản lý doanh nghiệp.
+      </p>
+    </div>
+  </section>
+
+  <section class="section-padding">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {posts.map(post => (
+          <BlogCard post={post} />
+        ))}
+      </div>
+    </div>
+  </section>
+</MainLayout>

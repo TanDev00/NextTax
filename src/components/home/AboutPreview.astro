@@ -1,0 +1,148 @@
+---
+import Button from '../ui/Button.astro';
+
+const stats = [
+  { value: 50, suffix: '+', label: 'Chuyên gia trình độ cao phục vụ.' },
+  { value: 1034, suffix: '+', label: 'Hồ sơ quyết toán thành công trong 5 năm.' },
+  { value: 63, suffix: '', label: 'Tỉnh thành trên toàn quốc được hỗ trợ.' },
+  { value: 100, suffix: '%', label: 'Sự hài lòng từ khách hàng.' },
+];
+---
+
+<section class="py-24 md:py-32 bg-white overflow-hidden">
+  <div class="container mx-auto px-4 max-w-7xl">
+    
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
+      
+      <!-- Left Column -->
+      <div class="flex flex-col gap-16">
+        <div class="space-y-4">
+          <p class="text-rose-500 font-bold tracking-wide uppercase text-sm">
+            Chiến lược toàn cầu thiết kế để giải quyết thách thức tương lai.
+          </p>
+          <h2 class="text-4xl md:text-5xl lg:text-6xl font-black text-slate-900 leading-[1.1] tracking-tight">
+            Chúng Tôi Xây Dựng Niềm Tin Và Duy Trì Mối Quan Hệ Bền Vững!
+          </h2>
+        </div>
+
+        <div class="relative max-w-[80%] mt-8 group h-[500px]">
+          <!-- Background arrow vectors (Decorative) -->
+          <div class="absolute -right-20 top-1/2 -translate-y-1/2 w-48 h-48 opacity-5 -z-10 text-slate-900">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 7-7 7 7"/><path d="M12 19V5"/></svg>
+          </div>
+
+          <!-- Cutout Square Effect (Top Left) -->
+          <div class="absolute -top-1 -left-1 w-20 h-20 bg-white z-10 transition-all duration-500 group-hover:w-10 group-hover:h-10"></div>
+          
+          <img 
+            src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=1000" 
+            alt="Doanh nhân nghe điện thoại" 
+            class="w-full h-full object-cover grayscale-[20%] hover:grayscale-0 transition-all duration-700"
+          />
+        </div>
+      </div>
+
+      <!-- Right Column -->
+      <div class="flex flex-col gap-10 lg:pt-24">
+        <div class="space-y-6">
+          <h3 class="text-2xl font-bold text-slate-900">
+            Chúng tôi mang lại kết quả chất lượng cao nhất.
+          </h3>
+          <div class="space-y-4 text-slate-500 leading-relaxed text-[15px]">
+            <p>
+              Chúng tôi là một công ty tư vấn với hơn 10 năm kinh nghiệm trong nhiều lĩnh vực, hỗ trợ sự phát triển tài chính của hàng nghìn doanh nghiệp. Đội ngũ của chúng tôi hoạt động trên khắp các thị trường, giúp bạn thiết lập một kế toán tinh gọn đáp ứng thực tế kinh doanh của mình.
+            </p>
+            <p>
+              Cho dù bạn muốn tối ưu hóa hiệu suất dòng tiền hay giảm thiểu rủi ro khi quyết toán thuế. Chúng tôi thấu hiểu đội ngũ đằng sau sự thành công của công ty và tin tưởng rằng đầu tư theo cách này sẽ truyền sức mạnh cho nguồn vốn của khách hàng.
+            </p>
+          </div>
+          
+          <!-- Signature area -->
+          <div class="flex items-center gap-4 pt-2">
+            <div>
+              <p class="text-slate-900 font-bold text-lg">Đỗ Trọng Quân</p>
+              <p class="text-slate-500 text-sm">Người sáng lập</p>
+            </div>
+            <!-- Mock signature cursive font -->
+            <div class="font-[Brush_Script_MT,cursive] text-4xl text-slate-300 -rotate-6 select-none pl-4">
+              TrongQuan
+            </div>
+          </div>
+        </div>
+
+        <!-- Animated Stats List -->
+        <div class="flex flex-col w-full border-t border-slate-100 mt-4" id="stats-container">
+          {stats.map((stat, index) => (
+            <div class="flex flex-col sm:flex-row sm:items-center py-6 border-b border-slate-100 gap-4 sm:gap-12 transition-colors hover:bg-slate-50">
+              <div class="text-3xl md:text-4xl font-extrabold text-slate-900 sm:w-32 flex items-center">
+                <!-- Data attributes for JS counting -->
+                <span class="counter-value" data-target={stat.value}>0</span>
+                <span>{stat.suffix}</span>
+              </div>
+              <div class="text-slate-700 font-bold text-sm md:text-base flex-1">
+                {stat.label}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div class="pt-6">
+          <Button variant="primary" size="lg" className="bg-rose-500 hover:bg-rose-600 text-white rounded-none font-bold uppercase text-sm tracking-wider px-8 border-none" href="/about">
+            Xem thêm về chúng tôi <span class="ml-2 font-normal">↗</span>
+          </Button>
+        </div>
+        
+      </div>
+      
+    </div>
+  </div>
+</section>
+
+<script>
+  // Script đếm số động (Number Counter Animation)
+  const animateCounters = () => {
+    const container = document.getElementById('stats-container');
+    if (!container) return;
+
+    const counters = container.querySelectorAll('.counter-value');
+    let hasAnimated = false;
+
+    const startCounting = () => {
+      counters.forEach((counter) => {
+        const targetElement = counter as HTMLElement;
+        const target = parseFloat(targetElement.getAttribute('data-target') || '0');
+        const duration = 2000; // 2 seconds
+        const stepTime = Math.abs(Math.floor(duration / 60)); // assuming 60fps
+        let current = 0;
+        
+        // Increase rate depends on the target size
+        const increment = target / (duration / stepTime);
+
+        const timer = setInterval(() => {
+          current += increment;
+          if (current >= target) {
+            targetElement.innerText = target.toLocaleString('en-US'); // Format with commas like 1,034
+            clearInterval(timer);
+          } else {
+            targetElement.innerText = Math.ceil(current).toLocaleString('en-US');
+          }
+        }, stepTime);
+      });
+    };
+
+    // Use Intersection Observer to trigger when visible
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting && !hasAnimated) {
+        hasAnimated = true;
+        startCounting();
+        observer.disconnect(); // Only animate once
+      }
+    }, { threshold: 0.1 });
+
+    observer.observe(container);
+  };
+
+  // Chạy script
+  animateCounters();
+  document.addEventListener('astro:page-load', animateCounters);
+</script>
