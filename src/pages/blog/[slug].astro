@@ -1,15 +1,9 @@
 ---
+export const prerender = false;
 import { Icon } from 'astro-icon/components';
 import MainLayout from '../../layouts/MainLayout.astro';
 import { formatDate } from '../../lib/format';
-import { getAllPosts, getPostBySlug } from '../../services/wordpress';
-
-export async function getStaticPaths() {
-  const posts = await getAllPosts();
-  return posts.map(post => ({
-    params: { slug: post.slug }
-  }));
-}
+import { getPostBySlug } from '../../services/wordpress';
 
 const { slug } = Astro.params;
 const post = await getPostBySlug(slug as string);
