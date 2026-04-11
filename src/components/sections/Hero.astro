@@ -1,23 +1,14 @@
 ---
 import { Icon } from 'astro-icon/components';
+import { getHeroSlides, type HeroSlide } from '../../lib/wordpress';
 
-const slides = [
-  {
-    title: 'Grow Your Wealth With Our Leading Edge Solutions!',
-    subtitle: 'Take control of your financial future and start growing your wealth',
-    image: 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&q=80&w=1200',
-  },
-  {
-    title: 'Tối ưu hóa thuế & Quản trị rủi ro chuyên nghiệp',
-    subtitle: 'Đội ngũ chuyên gia hàng đầu mang đến giải pháp bảo vệ tài chính an toàn nhất',
-    image: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&q=80&w=1200',
-  },
-  {
-    title: 'Giải pháp kế toán toàn diện cho doanh nghiệp',
-    subtitle: 'Giúp bạn tối đa hóa lợi nhuận và tập trung nguồn lực phát triển kinh doanh',
-    image: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&q=80&w=1200',
-  }
-];
+const heroSlides = await getHeroSlides();
+
+const slides = heroSlides.map((slide: HeroSlide) => ({
+  title: slide.title,
+  subtitle: slide.subtitle,
+  image: slide.image.node.sourceUrl,
+}));
 ---
 
 <section class="relative w-full h-screen min-h-[600px] bg-slate-900 group" id="hero-section">
