@@ -81,7 +81,7 @@ const services = [
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {services.map(service => (
           <Card className="svc-page-card p-8 flex flex-col items-start gap-6">
-            <div class="w-16 h-16 rounded-2xl bg-indigo-50 flex items-center justify-center text-indigo-600">
+            <div class="w-16 h-16 rounded-2xl bg-orange-50 flex items-center justify-center text-orange-600">
               <Icon name={service.iconName} class="w-8 h-8" />
             </div>
             <div class="space-y-4">
@@ -89,7 +89,7 @@ const services = [
               <p class="text-slate-600 leading-relaxed">
                 {service.description}
               </p>
-              <div class="text-indigo-600 font-bold">
+              <div class="text-orange-600 font-bold">
                 {service.price}
               </div>
             </div>
