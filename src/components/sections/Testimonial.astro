@@ -6,19 +6,19 @@ const testimonials = [
     quote: "Đó là một trải nghiệm tuyệt vời. Đội ngũ NextTax là một đối tác đáng tin cậy; họ đã dành thời gian cần thiết để hiểu rõ hoạt động và nhu cầu của chúng tôi. Sự chuyên nghiệp của họ đã giúp dự án đi đúng hướng.",
     author: "Dana Wade Sr",
     company: "Allianz Inc",
-    image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=400"
+    image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=75&w=200"
   },
   {
     quote: "Chúng tôi rất hài lòng với dịch vụ kế toán trọn gói của NextTax. Họ không chỉ làm tốt phần việc chuyên môn mà còn tư vấn rất tận tâm về các rủi ro tài chính tiềm ẩn.",
     author: "Nguyễn Văn Hùng",
     company: "H-Tech Solutions",
-    image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=400"
+    image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=75&w=200"
   },
   {
     quote: "Quy trình làm việc chuyên nghiệp, minh bạch và nhanh chóng. NextTax giúp doanh nghiệp của tôi tiết kiệm được rất nhiều thời gian và chi phí vận hành.",
     author: "Trần Thị Lan",
     company: "Lan Furniture",
-    image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=400"
+    image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=75&w=200"
   }
 ];
 
@@ -46,7 +46,7 @@ const logos = [
         </div>
         <!-- Image Circle - Controlled by Swiper -->
         <div class="absolute right-0 top-1/2 -translate-y-1/2 w-48 h-48 rounded-full overflow-hidden z-10 shadow-2xl border-4 border-white testimonial-image-container">
-          <img src={testimonials[0].image} alt="Customer" class="w-full h-full object-cover main-testimonial-img">
+          <img src={testimonials[0].image} alt="Customer" class="w-full h-full object-cover main-testimonial-img" width="200" height="200" loading="lazy" decoding="async">
         </div>
       </div>
 
@@ -137,9 +137,9 @@ const logos = [
         slideChange: (s) => {
           // Update the circle image based on active slide index
           const testimonials = [
-            "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=400",
-            "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=400",
-            "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=400"
+            "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=75&w=200",
+            "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=75&w=200",
+            "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=75&w=200"
           ];
           const imgEl = document.querySelector('.main-testimonial-img') as HTMLImageElement;
           if (imgEl) {
