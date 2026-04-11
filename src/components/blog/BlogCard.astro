@@ -1,6 +1,5 @@
 ---
-import Card from '../ui/Card.astro';
-import Badge from '../ui/Badge.astro';
+import { Icon } from 'astro-icon/components';
 import { formatDate } from '../../lib/format';
 
 interface Props {
@@ -17,27 +16,50 @@ interface Props {
 const { post } = Astro.props;
 ---
 
-<Card className="flex flex-col h-full">
-  <div class="h-48 overflow-hidden">
+<a href={`/blog/${post.slug}`} class="block group relative bg-white border border-slate-100 h-[480px] flex flex-col hover:shadow-2xl transition-all duration-500 overflow-hidden">
+  
+  <!-- Image section: Shrinks elegantly from 240px to 140px on hover -->
+  <div class="h-[240px] group-hover:h-[140px] w-full overflow-hidden shrink-0 transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)]">
     <img 
       src={post.image} 
       alt={post.title} 
-      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
+      class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110" 
     />
   </div>
-  <div class="p-6 flex flex-col flex-1 gap-4">
-    <div class="flex justify-between items-center text-xs font-bold text-slate-400 uppercase tracking-widest">
-      <Badge variant="neutral">{post.category}</Badge>
-      <span>{formatDate(post.date)}</span>
+
+  <!-- Content section -->
+  <div class="p-8 flex flex-col flex-1 pb-16 relative bg-white z-10 line-clamp-none">
+    
+    <!-- Category -->
+    <div class="text-sm font-medium mb-4 flex items-center gap-2">
+      <span class="text-slate-600">{post.category}</span>
     </div>
-    <h3 class="text-xl leading-tight group-hover:text-indigo-600 transition-colors">
-      <a href={`/blog/${post.slug}`}>{post.title}</a>
-    </h3>
-    <p class="text-slate-600 text-sm line-clamp-3">
-      {post.excerpt}
-    </p>
-    <a href={`/blog/${post.slug}`} class="mt-auto text-sm font-bold text-indigo-600 hover:underline">
-      Đọc thêm &rarr;
-    </a>
+
+    <!-- Text Wrapper -->
+    <div class="relative flex-1">
+      
+      <!-- Title: Fades out quickly without flying up (avoids "đau mắt") -->
+      <h3 class="text-xl md:text-2xl font-bold leading-tight text-slate-900 absolute top-0 left-0 w-full transition-opacity duration-200 group-hover:opacity-0 line-clamp-3">
+        {post.title}
+      </h3>
+      
+      <!-- Excerpt: Fades in slightly later and slides up naturally as image gives it more space -->
+      <p class="text-slate-500 text-sm md:text-base leading-relaxed line-clamp-5 absolute top-0 left-0 w-full opacity-0 translate-y-4 transition-all duration-500 delay-100 ease-out group-hover:opacity-100 group-hover:translate-y-0">
+        {post.excerpt}
+      </p>
+
+    </div>
+
+    <!-- Date (Bottom Left) -->
+    <div class="absolute bottom-6 left-8 text-sm text-slate-500 font-medium z-20 bg-white shadow-[0_-10px_20px_white]">
+      {formatDate(post.date)}
+    </div>
+
   </div>
-</Card>
+
+  <!-- Arrow Block (Bottom Right Corner) -->
+  <div class="absolute bottom-0 right-0 w-16 h-16 flex items-center justify-center bg-white border-l border-t border-slate-100 transition-colors duration-300 group-hover:bg-[#1a1a1a] group-hover:border-[#1a1a1a] z-20">
+    <Icon name="lucide:arrow-up-right" class="w-6 h-6 text-slate-400 group-hover:text-white transition-colors duration-300" />
+  </div>
+
+</a>

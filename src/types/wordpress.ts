@@ -1,5 +1,6 @@
 export interface Post {
   id: string;
+  databaseId: number;
   title: string;
   slug: string;
   date: string;
@@ -24,6 +25,21 @@ export interface Post {
         url: string;
       };
     };
+  };
+  comments?: {
+    nodes: Array<{
+      id: string;
+      date: string;
+      content: string;
+      author?: {
+        node?: {
+          name: string;
+          avatar?: {
+            url: string;
+          };
+        };
+      };
+    }>;
   };
 }
 

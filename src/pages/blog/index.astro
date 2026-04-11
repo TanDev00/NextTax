@@ -5,6 +5,7 @@ export const prerender = false;
 // Cache for 60 seconds, serve stale content while revalidating in background for 5 mins
 Astro.response.headers.set('Cache-Control', 's-maxage=60, stale-while-revalidate=300');
 
+import { Icon } from 'astro-icon/components';
 import MainLayout from '../../layouts/MainLayout.astro';
 import BlogCard from '../../components/blog/BlogCard.astro';
 
@@ -22,12 +23,28 @@ const posts = wpPosts.map(post => ({
 ---
 
 <MainLayout title="Tin tức - NextTax">
-  <section class="pt-32 pb-20 bg-slate-50">
-    <div class="container mx-auto px-4 text-center">
-      <h1 class="text-4xl md:text-6xl mb-6">Tin tức & <span class="text-indigo-600">Kiến thức</span></h1>
-      <p class="text-xl text-slate-600 max-w-2xl mx-auto">
-        Cập nhật những thông tin mới nhất về luật thuế, kế toán và kinh nghiệm quản lý doanh nghiệp.
-      </p>
+  <!-- Blog Hero Section -->
+  <section class="relative w-full h-[60vh] min-h-[500px] flex items-center justify-center">
+    <!-- Background Image with Gradient Overlay -->
+    <div class="absolute inset-0">
+      <img 
+        src="https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?auto=format&fit=crop&q=80&w=2000" 
+        alt="Blog Header" 
+        class="w-full h-full object-cover"
+      />
+      <!-- Dark overlay with a warm orange hint like the image -->
+      <div class="absolute inset-0 bg-gradient-to-r from-slate-900/90 via-slate-900/70 to-orange-900/50 mix-blend-multiply"></div>
+      <div class="absolute inset-0 bg-black/30"></div>
+    </div>
+
+    <!-- Content -->
+    <div class="relative z-10 text-center px-4 mt-20">
+      <h1 class="text-5xl md:text-7xl font-bold text-white mb-6 tracking-tight">Tin tức & Kiến thức</h1>
+      <div class="flex items-center justify-center gap-3 text-white/90 text-sm md:text-base font-medium">
+        <a href="/" class="hover:text-white transition-colors">Home</a>
+        <Icon name="lucide:chevron-right" class="w-4 h-4 opacity-70" />
+        <span class="font-bold text-white">Blog</span>
+      </div>
     </div>
   </section>
 

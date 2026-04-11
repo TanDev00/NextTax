@@ -65,6 +65,7 @@ export async function getPostBySlug(slug: string): Promise<Post> {
     query PostBySlug($id: ID!, $idType: PostIdType!) {
       post(id: $id, idType: $idType) {
         id
+        databaseId
         title
         slug
         date
@@ -86,6 +87,18 @@ export async function getPostBySlug(slug: string): Promise<Post> {
             name
             avatar {
               url
+            }
+          }
+        }
+        comments {
+          nodes {
+            id
+            date
+            content
+            author {
+              node {
+                name
+              }
             }
           }
         }
@@ -118,4 +131,36 @@ export async function getAllServices(): Promise<Service[]> {
     }
   `);
   return data?.posts?.nodes || [];
+}
+
+export async function submitComment(postId: number, author: string, authorEmail: string, content: string) {
+  const data = await fetchAPI(`
+    mutation CreateComment(
+      $author: String!, 
+      $authorEmail: String!, 
+      $content: String!, 
+      $commentOn: Int!
+    ) {
+      createComment(input: {
+        author: $author,
+        authorEmail: $authorEmail,
+        content: $content,
+        commentOn: $commentOn
+      }) {
+        success
+        comment {
+          id
+          content
+        }
+      }
+    }
+  `, {
+    variables: {
+      author,
+      authorEmail,
+      content,
+      commentOn: postId
+    }
+  });
+  return data?.createComment;
 }
