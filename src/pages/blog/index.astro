@@ -1,5 +1,10 @@
 ---
 export const prerender = false;
+
+// Set caching headers for Vercel Edge Network
+// Cache for 60 seconds, serve stale content while revalidating in background for 5 mins
+Astro.response.headers.set('Cache-Control', 's-maxage=60, stale-while-revalidate=300');
+
 import MainLayout from '../../layouts/MainLayout.astro';
 import BlogCard from '../../components/blog/BlogCard.astro';
 
