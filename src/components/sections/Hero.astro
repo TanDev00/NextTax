@@ -31,20 +31,20 @@ const slides = [
             <div class="absolute inset-0 bg-gradient-to-r from-slate-900/90 via-slate-900/60 to-transparent"></div>
           </div>
           
-          <!-- Content -->
-          <div class="relative container mx-auto px-6 h-full flex items-center">
+          <!-- Content - flex column to push bottom bar down -->
+          <div class="relative container mx-auto px-6 h-full flex flex-col justify-center pb-48 md:pb-40">
             <div class="max-w-3xl space-y-6 pt-20">
               <p class="hero-subtitle text-white/80 font-semibold tracking-wider uppercase text-sm md:text-base">
                 {slide.subtitle}
               </p>
-              <h1 class="hero-title text-3xl md:text-5xl lg:text-6xl font-black text-white leading-[1.1] tracking-tight">
+              <h1 class="hero-title text-4xl md:text-5xl lg:text-6xl font-black text-white leading-[1.2] md:leading-[1.1] tracking-tight">
                 {slide.title}
               </h1>
               
-              <div class="pt-8 flex items-center gap-6 hero-cta">
-                <!-- Round arrow button style similar to screenshot -->
-                <a href="/services" class="w-20 h-20 rounded-full border border-white/50 flex items-center justify-center text-white hover:bg-white hover:text-slate-900 transition-colors group/btn">
-                  <Icon name="lucide:arrow-up-right" class="w-8 h-8 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform" />
+              <div class="pt-6 md:pt-8 flex items-center hero-cta">
+                <!-- Round arrow button style -->
+                <a href="/services" class="w-16 h-16 md:w-20 md:h-20 rounded-full border border-white/50 flex items-center justify-center text-white hover:bg-white hover:text-slate-900 transition-colors group/btn">
+                  <Icon name="lucide:arrow-up-right" class="w-6 h-6 md:w-8 md:h-8 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform" />
                 </a>
               </div>
             </div>
@@ -54,19 +54,19 @@ const slides = [
     </div>
 
     <!-- Swiper Navigation Bottom Controls -->
-    <div class="absolute bottom-10 left-0 w-full z-10">
+    <div class="absolute bottom-6 md:bottom-10 left-0 w-full z-10">
       <div class="container mx-auto px-6">
-        <div class="hero-bottom-bar flex items-center gap-12 border-t border-white/20 pt-6">
-          <div class="flex-1">
-            <h3 class="text-white font-bold text-lg mb-2">We help our clients achieve their goals</h3>
-            <p class="text-white/60 text-sm">Providing expert consulting services</p>
+        <div class="hero-bottom-bar flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-6 border-t border-white/20 pt-5 md:pt-6">
+          <div class="flex-1 pr-6">
+            <h3 class="text-white font-bold text-base md:text-lg mb-1 md:mb-2 leading-snug">We help our clients achieve their goals</h3>
+            <p class="text-white/60 text-xs md:text-sm">Providing expert consulting services</p>
           </div>
-          <div class="flex gap-4">
-            <button class="swiper-button-prev-custom w-12 h-12 rounded-full flex items-center justify-center text-white hover:bg-white/10 transition-colors">
-              <Icon name="lucide:chevron-left" class="w-6 h-6" />
+          <div class="flex gap-3 md:gap-4 self-start md:self-auto">
+            <button class="swiper-button-prev-custom w-12 h-12 rounded-full flex items-center justify-center text-white hover:bg-white/10 transition-colors border border-white/10 md:border-transparent bg-white/5 md:bg-transparent backdrop-blur-sm">
+              <Icon name="lucide:chevron-left" class="w-5 h-5 md:w-6 md:h-6" />
             </button>
-            <button class="swiper-button-next-custom w-12 h-12 rounded-full flex items-center justify-center text-white hover:bg-white/10 transition-colors">
-              <Icon name="lucide:chevron-right" class="w-6 h-6" />
+            <button class="swiper-button-next-custom w-12 h-12 rounded-full flex items-center justify-center text-white hover:bg-white/10 transition-colors border border-white/10 md:border-transparent bg-white/5 md:bg-transparent backdrop-blur-sm">
+              <Icon name="lucide:chevron-right" class="w-5 h-5 md:w-6 md:h-6" />
             </button>
           </div>
         </div>

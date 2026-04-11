@@ -40,45 +40,118 @@ const isHome = currentPath === '/' || currentPath === '';
           <Icon name="lucide:search" class="w-5 h-5" />
         </button>
       </div>
-      <Button variant="primary" size="sm" className="hidden sm:inline-flex get-quote-btn shadow-none">
-        Tư vấn ngay <Icon name="lucide:arrow-up-right" class="w-4 h-4 ml-1 inline-block" />
-      </Button>
+      <div class="hidden lg:block">
+        <Button variant="primary" size="sm" className="get-quote-btn shadow-none">
+          Tư vấn ngay <Icon name="lucide:arrow-up-right" class="w-4 h-4 ml-1 inline-block" />
+        </Button>
+      </div>
 
-      <button class="md:hidden w-10 h-10 flex items-center justify-center">
-        <Icon name="lucide:menu" class="w-6 h-6" />
+      <!-- Mobile menu toggle -->
+      <button id="mobile-menu-toggle" class="md:hidden w-10 h-10 flex items-center justify-center relative z-[60]" aria-label="Toggle Menu">
+        <Icon name="lucide:menu" class="w-6 h-6 menu-icon-open" />
+        <Icon name="lucide:x" class="w-6 h-6 menu-icon-close hidden" />
       </button>
     </div>
+  </div>
+
+  <!-- Mobile Slide-Down Menu -->
+  <div id="mobile-menu" class="md:hidden overflow-hidden max-h-0 transition-all duration-500 ease-in-out bg-white border-t border-slate-100 shadow-xl">
+    <nav class="container mx-auto px-4 py-6 flex flex-col gap-1">
+      {navItems.map(item => (
+        <a 
+          href={item.href} 
+          class="mobile-nav-link block px-4 py-3.5 text-slate-800 font-semibold text-base rounded-xl hover:bg-slate-50 transition-colors"
+        >
+          {item.label}
+        </a>
+      ))}
+      <div class="mt-4 px-4">
+        <Button variant="primary" size="md" className="w-full justify-center shadow-none">
+          Tư vấn ngay <Icon name="lucide:arrow-up-right" class="w-4 h-4 ml-1 inline-block" />
+        </Button>
+      </div>
+    </nav>
   </div>
 </header>
 
 {!isHome && <div class="h-24"></div>}
 
 <script>
-  const initHeaderScroll = () => {
+  const initHeader = () => {
     const header = document.getElementById('main-header');
-    if (!header) return;
-    
+    const toggleBtn = document.getElementById('mobile-menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    if (!header || !toggleBtn || !mobileMenu) return;
+
     const isHome = header.dataset.ishome === 'true';
+    let isMenuOpen = false;
+
+    const iconOpen = toggleBtn.querySelector('.menu-icon-open') as HTMLElement;
+    const iconClose = toggleBtn.querySelector('.menu-icon-close') as HTMLElement;
+
+    const openMenu = () => {
+      isMenuOpen = true;
+      mobileMenu.style.maxHeight = mobileMenu.scrollHeight + 'px';
+
+      // Force white background when menu is open
+      header.classList.remove('bg-transparent', 'text-white', 'border-white/20');
+      header.classList.add('bg-white', 'backdrop-blur-md', 'border-slate-100', 'text-slate-800', 'shadow-sm');
+
+      iconOpen?.classList.add('hidden');
+      iconClose?.classList.remove('hidden');
+    };
+
+    const closeMenu = () => {
+      isMenuOpen = false;
+      mobileMenu.style.maxHeight = '0px';
+
+      iconOpen?.classList.remove('hidden');
+      iconClose?.classList.add('hidden');
+
+      // Remove all header style classes first (including bg-white from openMenu)
+      header.classList.remove('bg-white', 'bg-white/95', 'backdrop-blur-md', 'border-slate-100', 'text-slate-800', 'shadow-sm', 'bg-transparent', 'text-white', 'border-white/20');
+
+      // Restore header style based on scroll position
+      if (isHome) {
+        handleScroll();
+      } else {
+        // Non-home pages: always white bg
+        header.classList.add('bg-white/90', 'backdrop-blur-md', 'border-slate-100', 'text-slate-800', 'shadow-sm');
+      }
+    };
+
+    toggleBtn.addEventListener('click', () => {
+      if (isMenuOpen) {
+        closeMenu();
+      } else {
+        openMenu();
+      }
+    });
+
+    // Close menu when clicking a nav link
+    mobileMenu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => closeMenu());
+    });
+
+    // Scroll handler for homepage
+    const handleScroll = () => {
+      if (isMenuOpen) return; // Don't change styles while menu is open
+
+      if (window.scrollY > 50) {
+        header.classList.remove('bg-transparent', 'text-white', 'border-white/20');
+        header.classList.add('bg-white/95', 'backdrop-blur-md', 'border-slate-100', 'text-slate-800', 'shadow-sm');
+      } else {
+        header.classList.add('bg-transparent', 'text-white', 'border-white/20');
+        header.classList.remove('bg-white/95', 'backdrop-blur-md', 'border-slate-100', 'text-slate-800', 'shadow-sm');
+      }
+    };
 
     if (isHome) {
-      const handleScroll = () => {
-        if (window.scrollY > 50) {
-          header.classList.remove('bg-transparent', 'text-white', 'border-white/20');
-          header.classList.add('bg-white/95', 'backdrop-blur-md', 'border-slate-100', 'text-slate-800', 'shadow-sm');
-        } else {
-          header.classList.add('bg-transparent', 'text-white', 'border-white/20');
-          header.classList.remove('bg-white/95', 'backdrop-blur-md', 'border-slate-100', 'text-slate-800', 'shadow-sm');
-        }
-      };
-
-      // Apply initial state
       handleScroll();
-
-      // Listen for scroll
       window.addEventListener('scroll', handleScroll);
     }
   };
 
-  initHeaderScroll();
-  document.addEventListener('astro:page-load', initHeaderScroll);
+  initHeader();
+  document.addEventListener('astro:page-load', initHeader);
 </script>
