@@ -1,43 +1,45 @@
 ---
+import { Icon } from 'astro-icon/components';
+
 const services = [
   {
     title: 'Kế toán trọn gói',
     description: 'Xử lý toàn bộ sổ sách, chứng từ và báo cáo tài chính hàng tháng/quý cho doanh nghiệp, đảm bảo chuẩn xác và kịp thời theo quy định pháp luật.',
-    iconPath: 'M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z M14 2v6h6 M16 13H8 M16 17H8 M10 9H8',
+    iconName: 'lucide:file-text',
     tags: ['Báo cáo thường kỳ', 'Chứng từ thuế', 'Sổ sách kế toán'],
   },
   {
     title: 'Quyết toán thuế',
     description: 'Đại diện doanh nghiệp làm việc trực tiếp với cơ quan thuế, thực hiện rà soát chuyên sâu nhằm tối ưu hóa số thuế phải nộp một cách hợp pháp.',
-    iconPath: 'M3 3v18h18 M19 9l-5 5-4-4-3 3 M14 9h5v5',
+    iconName: 'lucide:trending-up',
     tags: ['Hoàn thuế', 'Kiểm tra', 'Bảo vệ số liệu'],
   },
   {
     title: 'Tư vấn doanh nghiệp',
     description: 'Hỗ trợ lên kế hoạch chiến lược, tối ưu mô hình tài chính và thực hiện nhanh chóng các thủ tục pháp lý, thay đổi giấy phép đầu tư.',
-    iconPath: 'M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z',
+    iconName: 'lucide:book-open',
     tags: ['Thành lập mới', 'Chiến lược tài chính', 'Mua bán M&A'],
   },
 ];
 ---
 
-<section class="py-24 md:py-32 bg-white">
+<section class="py-24 md:py-32 bg-white" id="services-section">
   <div class="container mx-auto px-4 max-w-7xl">
     
     <!-- Title matching screenshot -->
     <div class="max-w-4xl mb-20 space-y-4">
-      <p class="text-rose-600 font-bold tracking-wide uppercase text-sm">
+      <p class="services-label text-rose-600 font-bold tracking-wide uppercase text-sm">
         Tận tâm với doanh nghiệp, hướng tới kết quả vượt trội.
       </p>
-      <h2 class="text-4xl md:text-5xl lg:text-5xl font-black text-slate-900 leading-[1.15] tracking-tight">
+      <h2 class="services-heading text-2xl md:text-3xl lg:text-4xl font-black text-slate-900 leading-[1.15] tracking-tight">
         Chiến lược tư vấn hiệu quả, tập trung giải quyết chính xác các vấn đề cốt lõi của doanh nghiệp.
       </h2>
     </div>
 
     <!-- Cards Layout -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
-      {services.map(service => (
-        <div class="relative group rounded-3xl h-full p-[2px] overflow-hidden bg-white shadow-[0_4px_24px_rgb(0,0,0,0.06)] hover:shadow-2xl transition-shadow duration-500 isolate">
+      {services.map((service, index) => (
+        <div class="service-card relative group rounded-3xl h-full p-[2px] overflow-hidden bg-white shadow-[0_4px_24px_rgb(0,0,0,0.06)] hover:shadow-2xl transition-shadow duration-500 isolate" data-index={index}>
           
           <!-- Animated Border on Hover (Hiệu ứng vòng sáng chạy quanh card) -->
           <div class="absolute inset-[-100%] opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0 pointer-events-none">
@@ -52,9 +54,7 @@ const services = [
 
             <!-- Icon -->
             <div class="text-slate-800 transition-transform duration-500 group-hover:-translate-y-1">
-              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round">
-                <path d={service.iconPath} />
-              </svg>
+              <Icon name={service.iconName} class="w-12 h-12" stroke-width="1.25" />
             </div>
 
             <!-- Header & Description -->
@@ -82,10 +82,7 @@ const services = [
 
                 <!-- Mũi tên cam bay lên (Hiện khi hover, giống screenshot) -->
                 <div class="text-rose-500 opacity-0 transform translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 delay-100 relative w-full flex">
-                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M7 17L17 7"/>
-                    <path d="M7 7h10v10"/>
-                  </svg>
+                  <Icon name="lucide:arrow-up-right" class="w-8 h-8" />
                 </div>
 
               </div>
@@ -98,3 +95,16 @@ const services = [
     
   </div>
 </section>
+
+<script>
+  import { fadeIn, staggerReveal } from '../animations/fadeIn';
+
+  const initServicesAnim = () => {
+    fadeIn('.services-label', 0, -30);
+    fadeIn('.services-heading', 0.2);
+    staggerReveal('.service-card', 0.15);
+  };
+
+  initServicesAnim();
+  document.addEventListener('astro:page-load', initServicesAnim);
+</script>

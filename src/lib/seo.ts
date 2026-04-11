@@ -1,6 +1,9 @@
 import { SITE_TITLE, SITE_DESCRIPTION } from './constants';
 
-export function generateMeta(title?: string, description?: string) {
+/**
+ * SEO Helper following the Astro Skill Blueprint
+ */
+export function generateSEO({ title, description }: { title?: string, description?: string }) {
   const metaTitle = title ? `${title} | ${SITE_TITLE}` : SITE_TITLE;
   const metaDescription = description || SITE_DESCRIPTION;
 
@@ -9,3 +12,6 @@ export function generateMeta(title?: string, description?: string) {
     description: metaDescription,
   };
 }
+
+// Keep generateMeta for backward compatibility if needed during refactor, but deprecated
+export const generateMeta = (title?: string, description?: string) => generateSEO({ title, description });

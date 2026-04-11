@@ -1,16 +1,17 @@
 ---
+import { Icon } from 'astro-icon/components';
 import MainLayout from '../layouts/MainLayout.astro';
 import Button from '../components/ui/Button.astro';
 import Card from '../components/ui/Card.astro';
 ---
 
 <MainLayout title="Liên hệ - NextTax">
-  <section class="pt-32 pb-20 bg-slate-50">
+  <section class="pt-32 pb-20 bg-slate-50" id="contact-hero">
     <div class="container mx-auto px-4">
       <div class="max-w-3xl mx-auto text-center">
-        <h1 class="text-4xl md:text-6xl mb-6">Liên hệ với <span class="text-indigo-600">chúng tôi</span></h1>
-        <p class="text-xl text-slate-600">
-          Đội ngũ của chúng tôi luôn sẵn sàng lắng nghe và giải đáp mọi thắc mắc của bạn 24/7.
+        <h1 class="contact-title text-3xl md:text-4xl mb-6">Liên hệ với NextTax <span class="text-indigo-600">tại Hồ Chí Minh</span></h1>
+        <p class="contact-desc text-xl text-slate-600">
+          Đội ngũ chuyên gia kế toán của chúng tôi tại Quận 1 luôn sẵn sàng lắng nghe và giải đáp mọi thắc mắc của bạn.
         </p>
       </div>
     </div>
@@ -19,32 +20,32 @@ import Card from '../components/ui/Card.astro';
   <section class="section-padding">
     <div class="container mx-auto px-4">
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
-        <div class="space-y-12">
+        <div class="contact-info space-y-12">
           <div class="space-y-6">
-            <h2 class="text-3xl">Thông tin liên hệ</h2>
+            <h2 class="text-3xl font-bold">Văn phòng Hồ Chí Minh</h2>
             <div class="space-y-4">
-              <a href="#" class="flex items-center gap-4 text-lg text-slate-600 hover:text-indigo-600 transition-colors">
+              <a href="tel:0123456789" class="contact-item flex items-center gap-4 text-lg text-slate-600 hover:text-indigo-600 transition-colors">
                 <div class="w-12 h-12 rounded-xl bg-indigo-50 flex items-center justify-center text-indigo-600">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l2.28-2.28a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                  <Icon name="lucide:phone" class="w-6 h-6" />
                 </div>
                 0123 456 789
               </a>
-              <a href="#" class="flex items-center gap-4 text-lg text-slate-600 hover:text-indigo-600 transition-colors">
+              <a href="mailto:contact@nexttax.vn" class="contact-item flex items-center gap-4 text-lg text-slate-600 hover:text-indigo-600 transition-colors">
                 <div class="w-12 h-12 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-600">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                  <Icon name="lucide:mail" class="w-6 h-6" />
                 </div>
                 contact@nexttax.vn
               </a>
-              <div class="flex items-center gap-4 text-lg text-slate-600">
+              <div class="contact-item flex items-center gap-4 text-lg text-slate-600">
                 <div class="w-12 h-12 rounded-xl bg-amber-50 flex items-center justify-center text-amber-600">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                  <Icon name="lucide:map-pin" class="w-6 h-6" />
                 </div>
-                Hồ Chí Minh, Việt Nam
+                123 Đường Đông Du, Q.1, Hồ Chí Minh
               </div>
             </div>
           </div>
           
-          <div class="p-8 rounded-[2rem] bg-slate-900 text-white space-y-4">
+          <div class="contact-hours p-8 rounded-[2rem] bg-slate-900 text-white space-y-4">
             <h3 class="text-xl">Giờ làm việc</h3>
             <div class="space-y-2 text-slate-400">
               <div class="flex justify-between">
@@ -63,7 +64,7 @@ import Card from '../components/ui/Card.astro';
           </div>
         </div>
 
-        <Card className="p-8 md:p-12 border-none shadow-2xl shadow-indigo-100">
+        <Card className="contact-form-card p-8 md:p-12 border-none shadow-2xl shadow-indigo-100">
           <form class="space-y-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div class="space-y-2">
@@ -92,10 +93,43 @@ import Card from '../components/ui/Card.astro';
               <label class="text-sm font-bold text-slate-700">Tin nhắn</label>
               <textarea rows="4" placeholder="Tôi cần tư vấn về..." class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-indigo-600 focus:ring-4 focus:ring-indigo-50 outline-none transition-all resize-none"></textarea>
             </div>
-            <Button variant="primary" size="lg" className="w-full">Gửi yêu cầu</Button>
+            <Button variant="primary" size="lg" className="w-full">
+              <Icon name="lucide:send" class="w-4 h-4 mr-2 inline-block" /> Gửi yêu cầu
+            </Button>
           </form>
         </Card>
       </div>
     </div>
+  <section class="pb-24">
+    <div class="container mx-auto px-4">
+      <div class="w-full h-[450px] rounded-[2.5rem] overflow-hidden shadow-2xl shadow-slate-200/50 contact-map">
+        <iframe 
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m12!1m3!1d3919.4582352822!2d106.701!3d10.776!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752f4700000001%3A0x1234567890abcdef!2zMTIzIMSQxrDhu51uZyDEkMO0bmcgRHUsIFBoxhu51uZyBC4bq_biBOZ2jDqSwgUXXhuq1uIDEsIEjhu5MgQ2jDrSBNaW5oLCBWaeG7h3QgTmFt!5e0!3m2!1svi!2s!4v1700000000000!5m2!1svi!2s" 
+          width="100%" 
+          height="100%" 
+          style="border:0;" 
+          allowfullscreen="" 
+          loading="lazy" 
+          referrerpolicy="no-referrer-when-downgrade"
+          class="grayscale opacity-80 hover:grayscale-0 hover:opacity-100 transition-all duration-700"
+        ></iframe>
+      </div>
+    </div>
   </section>
 </MainLayout>
+
+<script>
+  import { fadeIn, staggerReveal } from '../components/animations/fadeIn';
+
+  const initContactAnim = () => {
+    fadeIn('.contact-title', 0);
+    fadeIn('.contact-desc', 0.2);
+    staggerReveal('.contact-item', 0.12, 0.4);
+    fadeIn('.contact-hours', 0.6);
+    fadeIn('.contact-form-card', 0.8, 50);
+    fadeIn('.contact-map', 1, 30);
+  };
+
+  initContactAnim();
+  document.addEventListener('astro:page-load', initContactAnim);
+</script>

@@ -44,7 +44,51 @@ const {
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Great+Vibes&display=swap" rel="stylesheet">
+
+    <!-- Local SEO (GEO) Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "AccountingService",
+      "name": "NextTax - Dịch Vụ Kế Toán Thuế Thông Minh",
+      "image": "https://nexttax.vn/logo.png",
+      "@id": "https://nexttax.vn",
+      "url": "https://nexttax.vn",
+      "telephone": "0123456789",
+      "priceRange": "$$",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "123 Đường Đông Du, Phường Bến Nghé",
+        "addressLocality": "Quận 1, Hồ Chí Minh",
+        "postalCode": "700000",
+        "addressCountry": "VN"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 10.776,
+        "longitude": 106.701
+      },
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+          "opens": "08:00",
+          "closes": "17:30"
+        },
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": "Saturday",
+          "opens": "08:00",
+          "closes": "12:00"
+        }
+      ],
+      "sameAs": [
+        "https://www.facebook.com/nexttax",
+        "https://www.linkedin.com/company/nexttax"
+      ]
+    }
+    </script>
 	</head>
 	<body class="bg-slate-50 text-slate-900 font-sans selection:bg-indigo-100 selection:text-indigo-900">
 		<slot />

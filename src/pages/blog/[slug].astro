@@ -1,4 +1,5 @@
 ---
+import { Icon } from 'astro-icon/components';
 import MainLayout from '../../layouts/MainLayout.astro';
 import { formatDate } from '../../lib/format';
 import { getAllPosts, getPostBySlug } from '../../services/wordpress';
@@ -45,10 +46,16 @@ const image = post.featuredImage?.node?.sourceUrl || 'https://images.unsplash.co
         <div class="prose prose-lg prose-indigo max-w-none text-slate-600 leading-relaxed space-y-6 wordpress-content" set:html={post.content} />
 
         <div class="pt-12 border-t border-slate-100 flex items-center justify-between">
-          <a href="/blog" class="text-indigo-600 font-bold hover:underline">&larr; Quay lại tin tức</a>
+          <a href="/blog" class="text-indigo-600 font-bold hover:underline flex items-center gap-2">
+            <Icon name="lucide:arrow-left" class="w-4 h-4" /> Quay lại tin tức
+          </a>
           <div class="flex gap-4">
-            <button class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center hover:bg-indigo-600 hover:text-white transition-colors">f</button>
-            <button class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center hover:bg-slate-800 hover:text-white transition-colors">𝕏</button>
+            <button class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center hover:bg-indigo-600 hover:text-white transition-colors">
+              <Icon name="lucide:facebook" class="w-4 h-4" />
+            </button>
+            <button class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center hover:bg-slate-800 hover:text-white transition-colors">
+              <Icon name="lucide:twitter" class="w-4 h-4" />
+            </button>
           </div>
         </div>
       </div>
