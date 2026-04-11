@@ -1,5 +1,6 @@
 ---
-import { Icon } from 'astro-icon/components';
+import { Icon } from "astro-icon/components";
+import SectionHeading from "../../ui/SectionHeading.astro";
 
 const testimonials = [
   {
@@ -53,9 +54,13 @@ const logos = [
       <!-- Right: Content Swiper -->
       <div class="relative min-w-0 w-full">
         <div class="space-y-8">
-          <p class="testimonial-label text-orange-500 font-bold tracking-wide text-sm uppercase">
-            Khách hàng nghĩ gì về dịch vụ của chúng tôi!
-          </p>
+          <SectionHeading 
+            badge="Đồng hành cùng sự thành công"
+            title="Đánh giá chuyên sâu từ những đối tác chiến lược."
+            class="mb-6"
+            badgeClass="testi-label"
+            titleClass="testi-heading text-4xl md:text-5xl lg:text-5xl tracking-tighter"
+          />
 
           <div class="swiper testimonial-swiper">
             <div class="swiper-wrapper">
@@ -104,7 +109,7 @@ const logos = [
   import 'swiper/css';
   import 'swiper/css/effect-fade';
   import { gsap } from 'gsap';
-  import { fadeIn } from '../animations/fadeIn';
+  import { fadeIn } from '../../animations/fadeIn';
 
   const initTestimonial = () => {
     const section = document.getElementById('testimonial-section');

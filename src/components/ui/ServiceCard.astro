@@ -1,0 +1,117 @@
+---
+import { Icon } from "astro-icon/components";
+
+interface Props {
+  title: string;
+  description: string;
+  iconName: string;
+  features?: string[];
+  priceValue?: string;
+  class?: string;
+  slug?: string;
+}
+
+const {
+  title,
+  description,
+  iconName,
+  features = [],
+  priceValue,
+  class: className,
+  slug,
+} = Astro.props;
+---
+
+<div
+  class={`service-card group relative rounded-md p-[2px] overflow-hidden bg-white shadow-[0_4px_20px_rgb(0,0,0,0.03)] transition-all duration-500 hover:shadow-[0_14px_45px_rgb(0,0,0,0.1)] hover:-translate-y-2 h-full isolate ${className}`}
+>
+  <!-- Animated Border on Hover (Vùng màu cam chạy quanh card - Original Style) -->
+  <div
+    class="absolute inset-[-100%] opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0 pointer-events-none"
+  >
+    <div
+      class="absolute inset-0 bg-[conic-gradient(from_0deg_at_50%_50%,transparent_0%,transparent_60%,#ef4444_80%,#fb923c_100%)] animate-spin-slow"
+    >
+    </div>
+  </div>
+
+  <!-- Card Body -->
+  <div
+    class="relative w-full h-full rounded-md bg-white z-10 p-8 lg:p-10 flex flex-col overflow-hidden"
+  >
+    <!-- Original Orange Gradient Glow -->
+    <div
+      class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-0 bg-gradient-to-tr from-[#ff6b30]/80 via-[#ffaf8f]/40 to-white/0 to-75%"
+    >
+    </div>
+
+    <!-- Icon (Original Style: On Top) -->
+    <div
+      class="mb-8 text-black opacity-90 relative z-10 transition-transform duration-500 group-hover:-translate-y-2"
+    >
+      <Icon name={iconName} class="w-14 h-14" stroke-width="1.25" />
+    </div>
+
+    <!-- Content Area -->
+    <div class="relative z-10 flex-grow">
+      <h3
+        class="text-xl lg:text-2xl font-bold text-slate-900 mb-4 tracking-tight group-hover:text-orange-700 transition-colors"
+      >
+        {title}
+      </h3>
+      <p
+        class="text-slate-500 text-[15px] leading-relaxed font-[400] mb-8 group-hover:text-slate-700 transition-colors duration-500"
+      >
+        {description}
+      </p>
+
+      <!-- Integrated Features Checklist -->
+      {
+        features.length > 0 && (
+          <ul class="space-y-3 mb-8">
+            {features.map((feature) => (
+              <li class="flex items-start gap-2.5 text-slate-600">
+                <div class="mt-1 text-orange-600 bg-orange-50 rounded-full p-0.5">
+                  <Icon
+                    name="lucide:check"
+                    class="w-3.5 h-3.5"
+                    stroke-width="3"
+                  />
+                </div>
+                <span class="text-[14px] font-medium leading-tight">
+                  {feature}
+                </span>
+              </li>
+            ))}
+          </ul>
+        )
+      }
+    </div>
+
+    <!-- Bottom Section: Price & Interaction -->
+    <div class="relative z-10 mt-auto pt-6 border-t border-slate-50">
+      <div class="flex items-center justify-between gap-4">
+        {
+          priceValue && (
+            <div class="flex flex-col">
+              <span class="text-[10px] uppercase tracking-wider text-slate-400 font-bold">
+                Giá dịch vụ
+              </span>
+              <span class="text-lg font-black text-slate-900">
+                {priceValue}
+              </span>
+            </div>
+          )
+        }
+
+        <a
+          href={slug ? `/services/${slug}` : "#"}
+          class="flex items-center gap-2 text-orange-600 font-bold text-sm hover:translate-x-1 transition-transform"
+        >
+          Chi tiết
+          <Icon name="lucide:arrow-right" class="w-5 h-5" />
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

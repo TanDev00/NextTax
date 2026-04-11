@@ -1,0 +1,70 @@
+---
+import ServiceCard from "../../ui/ServiceCard.astro";
+import SectionHeading from "../../ui/SectionHeading.astro";
+
+const services = [
+  {
+    title: "Kế toán trọn gói",
+    description:
+      "Xử lý toàn bộ sổ sách, chứng từ và báo cáo tài chính hàng tháng/quý cho doanh nghiệp, đảm bảo chuẩn xác và kịp thời theo quy định pháp luật.",
+    iconName: "lucide:file-text",
+    tags: ["Báo cáo thường kỳ", "Chứng từ thuế", "Sổ sách kế toán"],
+  },
+  {
+    title: "Quyết toán thuế",
+    description:
+      "Đại diện doanh nghiệp làm việc trực tiếp với cơ quan thuế, thực hiện rà soát chuyên sâu nhằm tối ưu hóa số thuế phải nộp một cách hợp pháp.",
+    iconName: "lucide:trending-up",
+    tags: ["Hoàn thuế", "Kiểm tra", "Bảo vệ số liệu"],
+  },
+  {
+    title: "Tư vấn doanh nghiệp",
+    description:
+      "Hỗ trợ lên kế hoạch chiến lược, tối ưu mô hình tài chính và thực hiện nhanh chóng các thủ tục pháp lý, thay đổi giấy phép đầu tư.",
+    iconName: "lucide:book-open",
+    tags: ["Thành lập mới", "Chiến lược tài chính", "Mua bán M&A"],
+  },
+];
+---
+
+<section class="py-16 lg:py-24 bg-[#FAFAFA]" id="services-section">
+  <div class="container mx-auto px-4 max-w-7xl">
+    <SectionHeading 
+      badge="Tận tâm với doanh nghiệp, hướng tới kết quả vượt trội."
+      title="Chiến lược tư vấn hiệu quả, tập trung giải quyết chính xác các vấn đề."
+      class="mb-16"
+      badgeClass="services-label"
+      titleClass="services-heading"
+    />
+
+    <!-- Cards Grid -->
+    <div
+      class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 items-stretch pt-4"
+    >
+      {
+        services.map((service) => (
+          <ServiceCard
+            title={service.title}
+            description={service.description}
+            iconName={service.iconName}
+            features={service.tags}
+          />
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<script>
+  import { fadeIn, staggerReveal } from "../../animations/fadeIn";
+
+  const initServicesAnim = () => {
+    fadeIn(".services-label", 0, -30);
+    fadeIn(".services-heading", 0.2);
+    // Lưu ý: class service-card nằm trong component ServiceCard
+    staggerReveal(".service-card", 0.15);
+  };
+
+  initServicesAnim();
+  document.addEventListener("astro:page-load", initServicesAnim);
+</script>

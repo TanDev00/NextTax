@@ -1,6 +1,6 @@
 ---
 import { Icon } from 'astro-icon/components';
-import { getHeroSlides, type HeroSlide } from '../../lib/wordpress';
+import { getHeroSlides, type HeroSlide } from '../../../lib/wordpress';
 
 const heroSlides = await getHeroSlides();
 
@@ -43,7 +43,7 @@ const slides = heroSlides.map((slide: HeroSlide) => ({
               
               <div class="pt-6 md:pt-8 flex items-center hero-cta">
                 <!-- Round arrow button style -->
-                <a href="/services" class="w-16 h-16 md:w-20 md:h-20 rounded-full border border-white/50 flex items-center justify-center text-white hover:bg-white hover:text-slate-900 transition-colors group/btn">
+                <a href="/contact" class="w-16 h-16 md:w-20 md:h-20 rounded-full border border-white/50 flex items-center justify-center text-white hover:bg-white hover:text-slate-900 transition-colors group/btn">
                   <Icon name="lucide:arrow-up-right" class="w-6 h-6 md:w-8 md:h-8 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform" />
                 </a>
               </div>
@@ -81,7 +81,7 @@ const slides = heroSlides.map((slide: HeroSlide) => ({
   import 'swiper/css';
   import 'swiper/css/effect-fade';
   import { gsap } from 'gsap';
-  import { fadeIn } from '../animations/fadeIn';
+  import { fadeIn } from '../../animations/fadeIn';
 
   const initHero = () => {
     // --- GSAP Hero entrance animation ---

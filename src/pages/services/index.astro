@@ -1,117 +1,96 @@
 ---
 export const prerender = true;
-import { Icon } from 'astro-icon/components';
-import MainLayout from '../../layouts/MainLayout.astro';
-import Card from '../../components/ui/Card.astro';
-import Button from '../../components/ui/Button.astro';
+import MainLayout from "../../layouts/MainLayout.astro";
+import WhyChooseUs from "../../components/sections/service/WhyChooseUs.astro";
+import ServiceHero from "../../components/sections/service/ServiceHero.astro";
+import ServiceList from "../../components/sections/service/ServiceList.astro";
+import WorkFlow from "../../components/sections/service/WorkFlow.astro";
 
 const services = [
   {
-    title: 'Kế toán trọn gói',
-    slug: 'ke-toan-tron-goi',
-    description: 'Xử lý toàn bộ sổ sách, chứng từ và báo cáo tài chính hàng tháng/quý cho doanh nghiệp.',
-    iconName: 'lucide:bar-chart-3',
-    price: 'Từ 1.000.000đ/tháng'
+    title: "Gói Khởi Nghiệp",
+    slug: "ke-toan-tron-goi",
+    description: "Dành cho doanh nghiệp mới thành lập",
+    iconName: "lucide:calculator",
+    priceValue: "2.000.000đ/tháng",
+    features: [
+      "Ghi sổ kế toán",
+      "Lập báo cáo tài chính",
+      "Kê khai thuế hàng tháng",
+      "Tư vấn qua điện thoại",
+    ],
   },
   {
-    title: 'Quyết toán thuế',
-    slug: 'quyet-toan-thue',
-    description: 'Đại diện doanh nghiệp làm việc với cơ quan thuế, tối ưu số thuế phải nộp đúng luật.',
-    iconName: 'lucide:landmark',
-    price: 'Liên hệ tư vấn'
+    title: "Gói Chuyên Nghiệp",
+    slug: "quyet-toan-thue",
+    description: "Giải pháp toàn diện cho doanh nghiệp đang phát triển",
+    iconName: "lucide:landmark",
+    priceValue: "5.000.000đ/tháng",
+    features: [
+      "Đại diện làm việc với thuế",
+      "Tối ưu chi phí thuế",
+      "Báo cáo quản trị hàng tháng",
+      "Hỗ trợ kiểm toán",
+    ],
   },
   {
-    title: 'Thành lập doanh nghiệp',
-    slug: 'thanh-lap-doanh-nghiep',
-    description: 'Hỗ trợ thủ tục pháp lý từ A-Z để doanh nghiệp bắt đầu hoạt động nhanh chóng.',
-    iconName: 'lucide:rocket',
-    price: 'Chỉ từ 2.000.000đ'
+    title: "Gói Doanh Nghiệp Lớn",
+    slug: "thanh-lap-doanh-nghiep",
+    description: "Dành cho tập đoàn và quy mô nhân sự lớn",
+    iconName: "lucide:rocket",
+    priceValue: "10.000.000đ/tháng",
+    features: [
+      "Xây dựng hệ thống kế toán",
+      "Kiểm soát nội bộ rủi ro",
+      "Tư vấn M&A và đầu tư",
+      "Pháp lý doanh nghiệp cao cấp",
+    ],
   },
   {
-    title: 'Thay đổi giấy phép',
-    slug: 'thay-doi-giay-phep',
-    description: 'Cập nhật thông tin đăng ký kinh doanh, người đại diện, vốn điều lệ...',
-    iconName: 'lucide:clipboard-list',
-    price: 'Liên hệ tư vấn'
+    title: "Giải Thể Doanh Nghiệp",
+    slug: "giai-the-doanh-nghiep",
+    description: "Thủ tục đóng mã số thuế và giải thể đúng luật",
+    iconName: "lucide:building-2",
+    priceValue: "Liên hệ tư vấn",
+    features: [
+      "Quyết toán thuế giải thể",
+      "Hủy hóa đơn & Chữ ký số",
+      "Trả giấy chứng nhận ĐKKD",
+      "Cam kết không phát sinh chi phí",
+    ],
   },
   {
-    title: 'Giải thể doanh nghiệp',
-    slug: 'giai-the-doanh-nghiep',
-    description: 'Thủ tục đóng mã số thuế và giải thể doanh nghiệp đúng quy định pháp luật.',
-    iconName: 'lucide:building-2',
-    price: 'Liên hệ tư vấn'
+    title: "Chữ ký số & Hóa đơn",
+    slug: "chu-ky-so-hoa-don",
+    description: "Cung cấp giải pháp số hóa doanh nghiệp",
+    iconName: "lucide:pen-tool",
+    priceValue: "Giá đại lý",
+    features: [
+      "Chữ ký số (USB Token)",
+      "Hóa đơn điện tử chuẩn",
+      "Phần mềm bảo hiểm xã hội",
+      "Hỗ trợ cài đặt 24/7",
+    ],
   },
   {
-    title: 'Chữ ký số & Hóa đơn',
-    slug: 'chu-ky-so-hoa-don',
-    description: 'Cung cấp và hỗ trợ cài đặt chữ ký số, hóa đơn điện tử chính hãng.',
-    iconName: 'lucide:pen-tool',
-    price: 'Giá đại lý'
-  }
+    title: "Thay Đổi Giấy Phép",
+    slug: "thay-doi-giay-phep",
+    description: "Cập nhật thông tin đăng ký kinh doanh nhanh chóng",
+    iconName: "lucide:clipboard-list",
+    priceValue: "Từ 1.000.000đ",
+    features: [
+      "Thay đổi người đại diện",
+      "Tăng/Giảm vốn điều lệ",
+      "Thay đổi địa chỉ kinh doanh",
+      "Thêm/Bớt ngành nghề",
+    ],
+  },
 ];
 ---
 
 <MainLayout title="Dịch vụ - NextTax">
-  <section class="relative w-full h-[60vh] min-h-[500px] flex items-center justify-center" id="services-page-hero">
-    <div class="absolute inset-0">
-      <img 
-        src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&q=80&w=2000" 
-        alt="Services Header" 
-        class="w-full h-full object-cover"
-      />
-      <div class="absolute inset-0 bg-gradient-to-r from-slate-900/90 via-slate-900/70 to-orange-900/50 mix-blend-multiply"></div>
-      <div class="absolute inset-0 bg-black/30"></div>
-    </div>
-
-    <div class="relative z-10 text-center px-4 mt-20 max-w-3xl mx-auto">
-      <h1 class="page-hero-title text-5xl md:text-7xl font-bold text-white mb-6 tracking-tight">Dịch Vụ</h1>
-      <p class="page-hero-desc text-lg md:text-xl text-white/90 max-w-3xl mx-auto mb-8 font-medium">
-        Giải pháp pháp lý và tài chính trọn gói giúp doanh nghiệp tối ưu vận hành và tuân thủ pháp luật một cách dễ dàng.
-      </p>
-      <div class="flex items-center justify-center gap-3 text-white/90 text-sm md:text-base font-medium">
-        <a href="/" class="hover:text-white transition-colors">Home</a>
-        <Icon name="lucide:chevron-right" class="w-4 h-4 opacity-70" />
-        <span class="font-bold text-white">Dịch vụ</span>
-      </div>
-    </div>
-  </section>
-
-  <section class="section-padding">
-    <div class="container mx-auto px-4">
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {services.map(service => (
-          <Card className="svc-page-card p-8 flex flex-col items-start gap-6">
-            <div class="w-16 h-16 rounded-2xl bg-orange-50 flex items-center justify-center text-orange-600">
-              <Icon name={service.iconName} class="w-8 h-8" />
-            </div>
-            <div class="space-y-4">
-              <h3 class="text-2xl">{service.title}</h3>
-              <p class="text-slate-600 leading-relaxed">
-                {service.description}
-              </p>
-              <div class="text-orange-600 font-bold">
-                {service.price}
-              </div>
-            </div>
-            <Button variant="outline" className="w-full mt-4" href={`/services/${service.slug}`}>
-              Xem chi tiết <Icon name="lucide:arrow-right" class="w-4 h-4 ml-1 inline-block" />
-            </Button>
-          </Card>
-        ))}
-      </div>
-    </div>
-  </section>
+  <ServiceHero />
+  <ServiceList services={services} />
+  <WhyChooseUs />
+  <WorkFlow />
 </MainLayout>
-
-<script>
-  import { fadeIn, staggerReveal } from '../../components/animations/fadeIn';
-
-  const initServicesPageAnim = () => {
-    fadeIn('.page-hero-title', 0);
-    fadeIn('.page-hero-desc', 0.2);
-    staggerReveal('.svc-page-card', 0.1, 0.4);
-  };
-
-  initServicesPageAnim();
-  document.addEventListener('astro:page-load', initServicesPageAnim);
-</script>

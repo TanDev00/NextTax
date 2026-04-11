@@ -1,0 +1,104 @@
+---
+import { Icon } from "astro-icon/components";
+import Button from "../../ui/Button.astro";
+import Card from "../../ui/Card.astro";
+---
+
+<div class="contact-form-card-wrapper group relative p-[1px] rounded-md overflow-hidden bg-white shadow-2xl shadow-orange-100 isolate">
+  <!-- Animated Border on Hover (Rotating Orange/Red Gradient) -->
+  <div class="absolute inset-[-100%] opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-0 pointer-events-none">
+    <div class="absolute inset-0 bg-[conic-gradient(from_0deg_at_50%_50%,transparent_0%,transparent_60%,#ef4444_80%,#fb923c_100%)] animate-spin-slow"></div>
+  </div>
+
+  <Card
+    className="relative z-10 p-8 md:p-12 border-none bg-white rounded-md h-full"
+  >
+    <div class="mb-10">
+      <h2 class="text-3xl font-black text-slate-900 tracking-tight">
+        Gửi Yêu Cầu Tư Vấn
+      </h2>
+      <div class="w-12 h-1 bg-orange-600 mt-4 rounded-full"></div>
+    </div>
+
+    <form class="space-y-6">
+      <div class="space-y-2">
+        <label class="text-sm font-bold text-slate-700">Họ và tên <span class="text-orange-600">*</span></label>
+        <input
+          type="text"
+          placeholder="Nhập họ và tên"
+          class="w-full px-5 py-4 rounded-md border-none bg-slate-50 focus:bg-white focus:ring-2 focus:ring-orange-600/20 outline-none transition-all"
+        />
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="space-y-2">
+          <label class="text-sm font-bold text-slate-700">Email</label>
+          <input
+            type="email"
+            placeholder="example@email.com"
+            class="w-full px-5 py-4 rounded-md border-none bg-slate-50 focus:bg-white focus:ring-2 focus:ring-orange-600/20 outline-none transition-all"
+          />
+        </div>
+        <div class="space-y-2">
+          <label class="text-sm font-bold text-slate-700">Số điện thoại <span class="text-orange-600">*</span></label>
+          <input
+            type="tel"
+            placeholder="0123456789"
+            class="w-full px-5 py-4 rounded-md border-none bg-slate-50 focus:bg-white focus:ring-2 focus:ring-orange-600/20 outline-none transition-all"
+          />
+        </div>
+      </div>
+
+      <div class="space-y-2">
+        <label class="text-sm font-bold text-slate-700">Tên công ty</label>
+        <input
+          type="text"
+          placeholder="Nhập tên công ty"
+          class="w-full px-5 py-4 rounded-md border-none bg-slate-50 focus:bg-white focus:ring-2 focus:ring-orange-600/20 outline-none transition-all"
+        />
+      </div>
+
+      <div class="space-y-2">
+        <label class="text-sm font-bold text-slate-700">Dịch vụ quan tâm <span class="text-orange-600">*</span></label>
+        <div class="relative">
+          <select
+            class="w-full px-5 py-4 rounded-md border-none bg-slate-50 focus:bg-white focus:ring-2 focus:ring-orange-600/20 outline-none transition-all appearance-none cursor-pointer"
+          >
+            <option disabled selected>Chọn dịch vụ</option>
+            <option>Kế toán trọn gói</option>
+            <option>Quyết toán thuế</option>
+            <option>Thành lập doanh nghiệp</option>
+            <option>Khác</option>
+          </select>
+          <Icon name="lucide:chevron-down" class="absolute right-5 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 pointer-events-none" />
+        </div>
+      </div>
+
+      <div class="space-y-2">
+        <label class="text-sm font-bold text-slate-700">Nội dung</label>
+        <textarea
+          rows="4"
+          placeholder="Nhập nội dung cần tư vấn..."
+          class="w-full px-5 py-4 rounded-md border-none bg-slate-50 focus:bg-white focus:ring-2 focus:ring-orange-600/20 outline-none transition-all resize-none"
+        ></textarea>
+      </div>
+
+      <div class="pt-4">
+        <Button variant="secondary" size="lg" className="w-full group/btn shadow-xl hover:shadow-orange-600/20">
+          Gửi yêu cầu <Icon name="lucide:send" class="w-5 h-5 ml-2 transition-transform group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1" />
+        </Button>
+      </div>
+    </form>
+  </Card>
+</div>
+
+<script>
+  import { fadeIn } from "../../animations/fadeIn";
+
+  const initContactFormAnim = () => {
+    fadeIn(".contact-form-card-wrapper", 0.5, 50);
+  };
+
+  initContactFormAnim();
+  document.addEventListener("astro:page-load", initContactFormAnim);
+</script>

@@ -1,0 +1,143 @@
+---
+import { Icon } from "astro-icon/components";
+---
+
+<section class="py-20 bg-white border-t border-slate-100" id="about-stats-section">
+  <div class="container mx-auto px-4 max-w-7xl">
+    <div
+      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12"
+      id="about-stats-container"
+    >
+      <div class="about-stat-item space-y-4">
+        <div class="flex items-baseline gap-2">
+          <h3
+            class="text-4xl lg:text-[2.75rem] font-bold text-slate-900 tracking-tight stat-counter"
+            data-target="6154"
+          >
+            0
+          </h3>
+          <Icon
+            name="lucide:arrow-up-right"
+            class="w-6 h-6 text-slate-900 stroke-1 opacity-80"
+          />
+        </div>
+        <p class="text-sm text-slate-500 leading-relaxed font-medium pr-4">
+          Dự án và hồ sơ chiến lược đã được công ty triển khai thành công.
+        </p>
+      </div>
+
+      <div class="about-stat-item space-y-4">
+        <div class="flex items-baseline gap-2">
+          <h3
+            class="text-4xl lg:text-[2.75rem] font-bold text-slate-900 tracking-tight stat-counter"
+            data-target="2512"
+          >
+            0
+          </h3>
+          <Icon
+            name="lucide:arrow-up-right"
+            class="w-6 h-6 text-slate-900 stroke-1 opacity-80"
+          />
+        </div>
+        <p class="text-sm text-slate-500 leading-relaxed font-medium pr-4">
+          Chuyên gia tài chính và kế toán trình độ cao sẵn sàng hỗ trợ bạn.
+        </p>
+      </div>
+
+      <div class="about-stat-item space-y-4">
+        <div class="flex items-baseline gap-2">
+          <h3
+            class="text-4xl lg:text-[2.75rem] font-bold text-slate-900 tracking-tight stat-counter"
+            data-target="1784"
+          >
+            0
+          </h3>
+          <Icon
+            name="lucide:arrow-up-right"
+            class="w-6 h-6 text-slate-900 stroke-1 opacity-80"
+          />
+        </div>
+        <p class="text-sm text-slate-500 leading-relaxed font-medium pr-4">
+          Khách hàng hoàn toàn hài lòng với chất lượng dịch vụ trên toàn quốc.
+        </p>
+      </div>
+
+      <div class="about-stat-item space-y-4">
+        <div class="flex items-baseline gap-2">
+          <!-- Used prefix 0, to match exactly what is in the provided image -->
+          <h3
+            class="text-4xl lg:text-[2.75rem] font-bold text-slate-900 tracking-tight stat-counter"
+            data-target="29"
+            data-prefix="0,"
+          >
+            0
+          </h3>
+          <Icon
+            name="lucide:arrow-up-right"
+            class="w-6 h-6 text-slate-900 stroke-1 opacity-80"
+          />
+        </div>
+        <p class="text-sm text-slate-500 leading-relaxed font-medium pr-4">
+          Năm kinh nghiệm uy tín trong lĩnh vực hoạch định và quản lý thuế.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { staggerReveal } from "../../animations/fadeIn";
+
+  const initStatsAnim = () => {
+    // Animate stats container showing up
+    staggerReveal(".about-stat-item", 0.1, 0.2);
+
+    // Number Counter Logic
+    const container = document.getElementById("about-stats-container");
+    if (!container) return;
+
+    const counters = container.querySelectorAll(".stat-counter");
+    let hasAnimated = false;
+
+    const startCounting = () => {
+      counters.forEach((counter) => {
+        const targetElement = counter as HTMLElement;
+        const target = parseFloat(
+          targetElement.getAttribute("data-target") || "0",
+        );
+        const prefix = targetElement.getAttribute("data-prefix") || "";
+        const duration = 2000;
+        const stepTime = Math.abs(Math.floor(duration / 60));
+        let current = 0;
+        const increment = target / (duration / stepTime);
+
+        const timer = setInterval(() => {
+          current += increment;
+          if (current >= target) {
+            targetElement.innerText = prefix + target.toLocaleString("en-US");
+            clearInterval(timer);
+          } else {
+            targetElement.innerText =
+              prefix + Math.ceil(current).toLocaleString("en-US");
+          }
+        }, stepTime);
+      });
+    };
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && !hasAnimated) {
+          hasAnimated = true;
+          startCounting();
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.2 },
+    );
+
+    observer.observe(container);
+  };
+
+  initStatsAnim();
+  document.addEventListener("astro:page-load", initStatsAnim);
+</script>

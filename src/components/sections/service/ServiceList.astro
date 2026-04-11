@@ -1,0 +1,58 @@
+---
+import ServiceCard from "../../ui/ServiceCard.astro";
+import SectionHeading from "../../ui/SectionHeading.astro";
+
+interface Service {
+  title: string;
+  slug: string;
+  description: string;
+  iconName: string;
+  priceValue: string;
+  features: string[];
+}
+
+interface Props {
+  services: Service[];
+}
+
+const { services } = Astro.props;
+---
+
+<section class="section-padding bg-[#FAFAFA]" id="service-list">
+  <div class="container mx-auto px-4">
+    <SectionHeading 
+      badge="Tận tâm với doanh nghiệp, hướng tới kết quả vượt trội."
+      title="Chiến lược tư vấn hiệu quả, tập trung giải quyết chính xác các vấn đề."
+      class="mb-16"
+      badgeClass="services-label"
+      titleClass="services-heading"
+    />
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {
+        services.map((service) => (
+          <div class="svc-page-card">
+            <ServiceCard
+              iconName={service.iconName}
+              description={service.description}
+              title={service.title}
+              features={service.features}
+              priceValue={service.priceValue}
+              slug={service.slug}
+            />
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<script>
+  import { staggerReveal } from "../../animations/fadeIn";
+
+  const initListAnim = () => {
+    staggerReveal(".svc-page-card", 0.1, 0.4);
+  };
+
+  initListAnim();
+  document.addEventListener("astro:page-load", initListAnim);
+</script>

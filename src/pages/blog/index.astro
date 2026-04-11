@@ -3,45 +3,59 @@ export const prerender = false;
 
 // Set caching headers for Vercel Edge Network
 // Cache for 60 seconds, serve stale content while revalidating in background for 5 mins
-Astro.response.headers.set('Cache-Control', 's-maxage=60, stale-while-revalidate=300');
+Astro.response.headers.set(
+  "Cache-Control",
+  "s-maxage=60, stale-while-revalidate=300",
+);
 
-import { Icon } from 'astro-icon/components';
-import MainLayout from '../../layouts/MainLayout.astro';
-import BlogCard from '../../components/blog/BlogCard.astro';
+import { Icon } from "astro-icon/components";
+import MainLayout from "../../layouts/MainLayout.astro";
+import BlogCard from "../../components/blog/BlogCard.astro";
 
-import { getAllPosts } from '../../services/wordpress';
+import { getAllPosts } from "../../services/wordpress";
 
 const wpPosts = await getAllPosts();
-const posts = wpPosts.map(post => ({
+const posts = wpPosts.map((post) => ({
   title: post.title,
   slug: post.slug,
-  excerpt: post.excerpt?.replace(/<[^>]+>/g, '') || '', // Strip simple HTML tags from excerpt
+  excerpt: post.excerpt?.replace(/<[^>]+>/g, "") || "", // Strip simple HTML tags from excerpt
   date: post.date,
-  category: post.categories?.nodes?.[0]?.name || 'Tin tức',
-  image: post.featuredImage?.node?.sourceUrl || 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&q=80&w=800'
+  category: post.categories?.nodes?.[0]?.name || "Tin tức",
+  image:
+    post.featuredImage?.node?.sourceUrl ||
+    "https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&q=80&w=800",
 }));
 ---
 
 <MainLayout title="Tin tức - NextTax">
   <!-- Blog Hero Section -->
-  <section class="relative w-full h-[60vh] min-h-[500px] flex items-center justify-center">
+  <section
+    class="relative w-full h-[60vh] min-h-[500px] flex items-center justify-center"
+  >
     <!-- Background Image with Gradient Overlay -->
     <div class="absolute inset-0">
-      <img 
-        src="https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?auto=format&fit=crop&q=80&w=2000" 
-        alt="Blog Header" 
+      <img
+        src="https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?auto=format&fit=crop&q=80&w=2000"
+        alt="Blog Header"
         class="w-full h-full object-cover"
       />
       <!-- Dark overlay with a warm orange hint like the image -->
-      <div class="absolute inset-0 bg-gradient-to-r from-slate-900/90 via-slate-900/70 to-orange-900/50 mix-blend-multiply"></div>
+      <div
+        class="absolute inset-0 bg-gradient-to-r from-slate-900/90 via-slate-900/70 to-orange-900/50 mix-blend-multiply"
+      >
+      </div>
       <div class="absolute inset-0 bg-black/30"></div>
     </div>
 
     <!-- Content -->
     <div class="relative z-10 text-center px-4 mt-20">
-      <h1 class="text-5xl md:text-7xl font-bold text-white mb-6 tracking-tight">Tin tức & Kiến thức</h1>
-      <div class="flex items-center justify-center gap-3 text-white/90 text-sm md:text-base font-medium">
-        <a href="/" class="hover:text-white transition-colors">Home</a>
+      <h1 class="text-5xl md:text-7xl font-bold text-white mb-6 tracking-tight">
+        Tin tức & Kiến thức
+      </h1>
+      <div
+        class="flex items-center justify-center gap-3 text-white/90 text-sm md:text-base font-medium"
+      >
+        <a href="/" class="hover:text-white transition-colors">Trang chủ</a>
         <Icon name="lucide:chevron-right" class="w-4 h-4 opacity-70" />
         <span class="font-bold text-white">Blog</span>
       </div>
@@ -51,9 +65,7 @@ const posts = wpPosts.map(post => ({
   <section class="section-padding">
     <div class="container mx-auto px-4">
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {posts.map(post => (
-          <BlogCard post={post} />
-        ))}
+        {posts.map((post) => <BlogCard post={post} />)}
       </div>
     </div>
   </section>

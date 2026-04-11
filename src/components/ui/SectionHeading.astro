@@ -1,0 +1,66 @@
+---
+interface Props {
+  title: string;
+  subtitle?: string;
+  badge?: string;
+  centered?: boolean;
+  class?: string;
+  titleClass?: string;
+  subtitleClass?: string;
+  badgeClass?: string;
+}
+
+const { 
+  title, 
+  subtitle, 
+  badge, 
+  centered = false, 
+  class: className,
+  titleClass = "",
+  subtitleClass = "",
+  badgeClass = ""
+} = Astro.props;
+
+const containerClasses = [
+  "relative space-y-4 md:space-y-6",
+  centered ? "text-center max-w-3xl mx-auto" : "max-w-4xl text-left",
+  className
+].join(" ");
+
+const titleClasses = [
+  "font-black text-slate-900 tracking-tight leading-[1.15]",
+  centered ? "text-3xl md:text-4xl lg:text-5xl" : "text-3xl md:text-5xl lg:text-6xl",
+  titleClass
+].join(" ");
+
+const badgeClasses = [
+  "text-orange-600 font-bold tracking-widest uppercase text-sm",
+  badgeClass
+].join(" ");
+
+const subtitleClasses = [
+  "text-lg text-slate-500 font-medium leading-relaxed max-w-3xl",
+  centered ? "mx-auto" : "",
+  subtitleClass
+].join(" ");
+---
+
+<div class={containerClasses}>
+  {badge && (
+    <p class={badgeClasses}>
+      {badge}
+    </p>
+  )}
+  
+  <h2 class={titleClasses} set:html={title} />
+  
+  {centered && (
+    <div class="w-20 h-1.5 bg-orange-600 mx-auto rounded-md"></div>
+  )}
+
+  {subtitle && (
+    <p class={subtitleClasses}>
+      {subtitle}
+    </p>
+  )}
+</div>

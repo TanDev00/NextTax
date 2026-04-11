@@ -1,0 +1,34 @@
+---
+interface Props {
+  index: string;
+  step: number;
+  title: string;
+  description: string;
+  class?: string;
+}
+
+const { index, step, title, description, class: className } = Astro.props;
+---
+
+<div 
+  class={`flow-step group relative flex flex-row lg:flex-col items-center lg:items-center text-left lg:text-center w-full lg:max-w-[280px] px-0 lg:px-4 ${className}`}
+  data-step={step}
+>
+  <!-- Node (Circle) -->
+  <div class="flow-node relative z-10 w-16 h-16 md:w-20 md:h-20 rounded-full bg-orange-600 flex items-center justify-center text-white text-xl md:text-2xl font-black shadow-[0_0_20px_rgba(249,115,22,0.3)] transition-all duration-500 group-hover:scale-110 group-hover:shadow-[0_0_30px_rgba(249,115,22,0.6)] flex-shrink-0">
+    {index}
+    
+    <!-- Pulse Effect (visible after animation completion) -->
+    <div class="absolute inset-0 rounded-full bg-orange-600 animate-ping opacity-0 group-hover:opacity-20 pointer-events-none"></div>
+  </div>
+
+  <!-- Content -->
+  <div class="ml-6 lg:ml-0 lg:mt-6 space-y-1 lg:space-y-2 flex-grow">
+    <h3 class="text-xl font-bold text-slate-900 group-hover:text-orange-600 transition-colors duration-300 leading-tight">
+      {title}
+    </h3>
+    <p class="text-slate-500 text-sm md:text-base lg:text-sm leading-relaxed font-medium">
+      {description}
+    </p>
+  </div>
+</div>

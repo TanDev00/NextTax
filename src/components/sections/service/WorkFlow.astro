@@ -1,0 +1,282 @@
+---
+import FlowStep from "./FlowStep.astro";
+import SectionHeading from "../../ui/SectionHeading.astro";
+
+const steps = [
+  {
+    index: "01",
+    title: "Tiếp nhận",
+    description: "Tiếp nhận yêu cầu và tư vấn ban đầu",
+  },
+  {
+    index: "02",
+    title: "Phân tích",
+    description: "Phân tích nhu cầu và đề xuất giải pháp",
+  },
+  {
+    index: "03",
+    title: "Thực hiện",
+    description: "Triển khai dịch vụ theo tiến độ",
+  },
+  {
+    index: "04",
+    title: "Hoàn thành",
+    description: "Bàn giao và hỗ trợ sau dịch vụ",
+  },
+];
+---
+
+<section class="py-24 bg-[#f8fafc] overflow-hidden" id="work-flow-section">
+  <div class="container mx-auto px-4 max-w-7xl">
+    <SectionHeading
+      title="Quy Trình Làm Việc"
+      badge="Quy trình chuyên nghiệp, minh bạch và hiệu quả"
+      centered
+      class="mb-20"
+      badgeClass="services-label"
+      titleClass="services-heading"
+    />
+
+    <!-- Flow Container -->
+    <div class="relative">
+      <!-- Desktop Connectors (Hidden on Mobile) -->
+      <div
+        class="absolute top-10 left-0 w-full hidden lg:block pointer-events-none"
+      >
+        <svg
+          class="w-full h-10 overflow-visible"
+          viewBox="0 0 100 20"
+          preserveAspectRatio="none"
+          fill="none"
+        >
+          <!-- Connector 1-2 -->
+          <path
+            class="connector-path"
+            d="M 12.5,10 H 37.5"
+            stroke="#e2e8f0"
+            stroke-width="0.5"
+            stroke-dasharray="1 1"></path>
+          <!-- Connector 2-3 -->
+          <path
+            class="connector-path"
+            d="M 37.5,10 H 62.5"
+            stroke="#e2e8f0"
+            stroke-width="0.5"
+            stroke-dasharray="1 1"></path>
+          <!-- Connector 3-4 -->
+          <path
+            class="connector-path"
+            d="M 62.5,10 H 87.5"
+            stroke="#e2e8f0"
+            stroke-width="0.5"
+            stroke-dasharray="1 1"></path>
+
+          <!-- Animated Paths (Growth) -->
+          <path
+            class="animated-path"
+            d="M 12.5,10 H 37.5"
+            stroke="#ea580c"
+            stroke-width="0.5"></path>
+          <path
+            class="animated-path"
+            d="M 37.5,10 H 62.5"
+            stroke="#ea580c"
+            stroke-width="0.5"></path>
+          <path
+            class="animated-path"
+            d="M 62.5,10 H 87.5"
+            stroke="#ea580c"
+            stroke-width="0.5"></path>
+        </svg>
+      </div>
+
+      <!-- Mobile Connectors (Vertical - Visible on Mobile) -->
+      <div
+        class="absolute left-8 lg:left-1/2 top-0 h-full w-1 lg:-translate-x-1/2 block lg:hidden pointer-events-none py-10"
+      >
+        <div class="h-full w-full border-r-4 border-slate-200 border-dashed">
+        </div>
+        <div
+          class="animated-vertical-line absolute top-0 left-0 w-full bg-orange-600 h-0 transition-all duration-1000 shadow-[0_0_15px_rgba(234,88,12,0.3)]"
+        >
+        </div>
+      </div>
+
+      <!-- Steps Grid -->
+      <div
+        class="grid grid-cols-1 lg:grid-cols-4 gap-16 lg:gap-0 relative z-10"
+      >
+        {
+          steps.map((step, i) => (
+            <FlowStep
+              index={step.index}
+              step={i}
+              title={step.title}
+              description={step.description}
+              class="flow-step-item"
+            />
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .animated-path {
+    transition: stroke-dashoffset 0.8s ease-in-out;
+  }
+</style>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  import { fadeIn } from "../../animations/fadeIn";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const initWorkFlow = () => {
+    // Header animations
+    fadeIn(".flow-heading", 0);
+    fadeIn(".flow-subheading", 0.2);
+
+    const section = document.querySelector("#work-flow-section");
+    const steps = gsap.utils.toArray(".flow-step-item");
+    const paths = gsap.utils.toArray(".animated-path") as SVGPathElement[];
+
+    // Initialize paths correctly based on their actual length
+    paths.forEach((path) => {
+      const length = path.getTotalLength();
+      gsap.set(path, { strokeDasharray: length, strokeDashoffset: length });
+    });
+
+    // Timeline for Sequential Animation
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: section,
+        start: "top 75%",
+        toggleActions: "play none none none",
+      },
+    });
+
+    // Step 1
+    tl.fromTo(
+      steps[0] as HTMLElement,
+      { opacity: 0, y: 30, scale: 0.8 },
+      { opacity: 1, y: 0, scale: 1, duration: 0.6 },
+    );
+
+    // Sequence for steps 2, 3, 4
+    for (let i = 1; i < 4; i++) {
+      // Draw connector (Desktop)
+      tl.to(paths[i - 1], {
+        strokeDashoffset: 0,
+        duration: 0.5,
+        ease: "none",
+      });
+
+      // Mobile vertical line progress
+      tl.to(
+        ".animated-vertical-line",
+        {
+          height: `${(i / 3) * 100}%`,
+          duration: 0.5,
+          ease: "none",
+        },
+        "-=0.5",
+      ); // Run in parallel with path animation
+
+      // Reveal step
+      tl.fromTo(
+        steps[i] as HTMLElement,
+        { opacity: 0, y: 30, scale: 0.8 },
+        { opacity: 1, y: 0, scale: 1, duration: 0.6 },
+        "-=0.1",
+      );
+    }
+
+    // Final pulse effect glow on all nodes
+    tl.to(".flow-node", {
+      boxShadow: "0 0 40px rgba(234,88,12,0.6)",
+      duration: 0.8,
+      repeat: 1,
+      yoyo: true,
+    });
+
+    // --- Interactive Hover Highlighting ---
+
+    steps.forEach((stepEl: any) => {
+      stepEl.addEventListener("mouseenter", () => {
+        const index = parseInt(stepEl.getAttribute("data-step"));
+
+        // Highlight current and all previous steps
+        steps.forEach((el: any, i) => {
+          if (i <= index) {
+            gsap.to(el.querySelector(".flow-node"), {
+              scale: 1.2,
+              boxShadow: "0 0 50px rgba(234,88,12,0.8)",
+              duration: 0.3,
+            });
+            gsap.to(el.querySelector("h3"), {
+              color: "#ea580c",
+              duration: 0.3,
+            });
+          } else {
+            gsap.to(el, { opacity: 0.3, scale: 0.9, duration: 0.3 });
+          }
+        });
+
+        // Highlight connectors up to index
+        paths.forEach((path: any, i) => {
+          if (i < index) {
+            gsap.to(path, {
+              strokeWidth: 1.2,
+              stroke: "#f97316",
+              duration: 0.3,
+            });
+          } else {
+            gsap.to(path, { opacity: 0.1, duration: 0.3 });
+          }
+        });
+
+        // Mobile line highlight
+        gsap.to(".animated-vertical-line", {
+          boxShadow: "0 0 20px rgba(234,88,12,0.5)",
+          duration: 0.3,
+        });
+      });
+
+      stepEl.addEventListener("mouseleave", () => {
+        // Reset all steps
+        steps.forEach((el: any) => {
+          gsap.to(el, { opacity: 1, scale: 1, duration: 0.3 });
+          gsap.to(el.querySelector(".flow-node"), {
+            scale: 1,
+            boxShadow: "0 0 20px rgba(249,115,22,0.3)",
+            duration: 0.3,
+          });
+          gsap.to(el.querySelector("h3"), { color: "#0f172a", duration: 0.3 });
+        });
+
+        // Reset connectors
+        paths.forEach((path: any) => {
+          gsap.to(path, {
+            strokeWidth: 0.5,
+            stroke: "#ea580c",
+            opacity: 1,
+            duration: 0.3,
+          });
+        });
+
+        // Reset mobile line
+        gsap.to(".animated-vertical-line", {
+          boxShadow: "none",
+          duration: 0.3,
+        });
+      });
+    });
+  };
+
+  initWorkFlow();
+  document.addEventListener("astro:page-load", initWorkFlow);
+</script>

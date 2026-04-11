@@ -1,0 +1,156 @@
+---
+import { Icon } from "astro-icon/components";
+import SectionHeading from "../../ui/SectionHeading.astro";
+import DecorativeImage from "../../ui/DecorativeImage.astro";
+
+const coreValues = [
+  {
+    title: "Chuyên nghiệp",
+    description: "Am hiểu sâu sắc nghiệp vụ.",
+    icon: "lucide:shield-check",
+    color: "text-blue-600",
+    bg: "bg-blue-50",
+  },
+  {
+    title: "Uy tín",
+    description: "Đặt lợi ích khách hàng lên đầu.",
+    icon: "lucide:award",
+    color: "text-orange-600",
+    bg: "bg-orange-50",
+  },
+  {
+    title: "Cam kết",
+    description: "Đồng hành và chịu trách nhiệm.",
+    icon: "lucide:handshake",
+    color: "text-emerald-600",
+    bg: "bg-emerald-50",
+  },
+  {
+    title: "Sáng tạo",
+    description: "Cải tiến để tối ưu hiệu quả.",
+    icon: "lucide:lightbulb",
+    color: "text-amber-600",
+    bg: "bg-amber-50",
+  },
+];
+---
+
+<section class="py-24 bg-white overflow-hidden" id="company-identity">
+  <div class="container mx-auto px-4 max-w-7xl">
+    
+    <!-- Top Section: Image & Mission/Vision Split -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center mb-24">
+      
+      <!-- Left: Decorative Image -->
+      <DecorativeImage 
+        src="/images/company-identity.png" 
+        alt="NextTax Office"
+        className="identity-image-area"
+        imageClass="skew-y-1"
+      />
+
+      <!-- Right: Mission & Vision Stack -->
+      <div class="flex flex-col gap-8 identity-content-area">
+        <SectionHeading 
+          badge="Giá trị cốt lõi"
+          title="Định Danh <span class='text-orange-600'>NextTax</span>"
+          subtitle="Chúng tôi không chỉ cung cấp dịch vụ, chúng tôi xây dựng niềm tin vững chắc cho doanh nghiệp."
+        />
+
+        <div class="space-y-6">
+          <!-- Sứ mệnh card -->
+          <div class="identity-card-item group">
+            <div class="relative rounded-md p-[1.5px] overflow-hidden bg-white shadow-lg transition-all duration-300 hover:shadow-xl">
+              <div class="absolute inset-[-100%] opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-0">
+                <div class="absolute inset-0 bg-[conic-gradient(from_0deg_at_50%_50%,transparent_0%,transparent_60%,#3b82f6_80%,#60a5fa_100%)] animate-[spin_4s_linear_infinite]"></div>
+              </div>
+              <div class="relative rounded-md bg-white z-10 p-6 flex items-start gap-6 overflow-hidden">
+                <div class="p-3 rounded-md bg-blue-50 text-blue-600 group-hover:scale-110 transition-transform">
+                  <Icon name="lucide:target" class="w-8 h-8" />
+                </div>
+                <div>
+                  <h4 class="text-xl font-bold text-slate-900 mb-2">Sứ Mệnh</h4>
+                  <p class="text-slate-500 text-sm leading-relaxed">
+                    Mang đến giải pháp kế toán, thuế toàn diện, giúp doanh nghiệp vững tâm phát triển bền vững.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tầm nhìn card -->
+          <div class="identity-card-item group">
+            <div class="relative rounded-md p-[1.5px] overflow-hidden bg-white shadow-lg transition-all duration-300 hover:shadow-xl">
+              <div class="absolute inset-[-100%] opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-0">
+                <div class="absolute inset-0 bg-[conic-gradient(from_0deg_at_50%_50%,transparent_0%,transparent_60%,#10b981_80%,#34d399_100%)] animate-[spin_4s_linear_infinite]"></div>
+              </div>
+              <div class="relative rounded-md bg-white z-10 p-6 flex items-start gap-6 overflow-hidden">
+                <div class="p-3 rounded-md bg-emerald-50 text-emerald-600 group-hover:scale-110 transition-transform">
+                  <Icon name="lucide:eye" class="w-8 h-8" />
+                </div>
+                <div>
+                  <h4 class="text-xl font-bold text-slate-900 mb-2">Tầm Nhìn</h4>
+                  <p class="text-slate-500 text-sm leading-relaxed">
+                    Trở thành đơn vị tư vấn hàng đầu, tiên phong kết hợp công nghệ và chuyên môn nghiệp vụ.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Section: Core Values Row -->
+    <div class="identity-values-row pt-16 border-t border-slate-100">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        {coreValues.map((val) => (
+          <div class="flex items-start gap-5 group">
+            <div class={`flex-shrink-0 w-12 h-12 rounded-md ${val.bg} ${val.color} flex items-center justify-center group-hover:scale-110 group-hover:rotate-6 transition-transform duration-500`}>
+              <Icon name={val.icon} class="w-6 h-6" />
+            </div>
+            <div>
+              <h5 class="font-bold text-slate-900 mb-1">{val.title}</h5>
+              <p class="text-slate-500 text-[13px] leading-snug">{val.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  import { fadeIn, staggerReveal } from "../../animations/fadeIn";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const initIdentity = () => {
+    // Entrance Animations
+    gsap.from(".identity-image-area", {
+      x: -60,
+      opacity: 0,
+      duration: 1.2,
+      ease: "power3.out",
+      scrollTrigger: { trigger: "#company-identity", start: "top 75%" }
+    });
+
+    gsap.from(".identity-content-area", {
+      x: 60,
+      opacity: 0,
+      duration: 1.2,
+      ease: "power3.out",
+      scrollTrigger: { trigger: "#company-identity", start: "top 75%" }
+    });
+
+    staggerReveal(".identity-card-item", 0.2, 0.5);
+    fadeIn(".identity-values-row", 0.8, 30);
+  };
+
+  initIdentity();
+  document.addEventListener("astro:page-load", initIdentity);
+</script>
+

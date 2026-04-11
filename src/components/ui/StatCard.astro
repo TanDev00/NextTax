@@ -1,0 +1,33 @@
+---
+interface Props {
+  number: string;
+  label: string;
+  class?: string;
+}
+
+const { number, label, class: className } = Astro.props;
+---
+
+<div class={`stat-card group relative rounded-md p-[2px] overflow-hidden bg-white shadow-[0_4px_20px_rgb(0,0,0,0.03)] transition-all duration-500 hover:shadow-[0_14px_45px_rgb(0,0,0,0.1)] hover:-translate-y-2 isolate ${className}`}>
+  
+  <!-- Animated Border on Hover (Rotating Orange Gradient) -->
+  <div class="absolute inset-[-100%] opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0 pointer-events-none">
+    <div class="absolute inset-0 bg-[conic-gradient(from_0deg_at_50%_50%,transparent_0%,transparent_60%,#ef4444_80%,#fb923c_100%)] animate-spin-slow"></div>
+  </div>
+
+  <!-- Card Body -->
+  <div class="relative w-full h-full rounded-md bg-white z-10 p-8 flex flex-col items-center justify-center text-center overflow-hidden">
+    
+    <!-- Soft Orange Background Glow on Hover -->
+    <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-0 bg-gradient-to-tr from-[#ff6b30]/10 via-white to-white"></div>
+    
+    <div class="relative z-10">
+      <h3 class="text-4xl md:text-5xl font-black text-slate-900 mb-2 tracking-tight group-hover:text-orange-600 group-hover:drop-shadow-[0_0_8px_rgba(249,89,34,0.3)] transition-all duration-500">
+        {number}
+      </h3>
+      <p class="text-slate-500 font-medium md:text-lg group-hover:text-slate-700 transition-colors duration-500">
+        {label}
+      </p>
+    </div>
+  </div>
+</div>

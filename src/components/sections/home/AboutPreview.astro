@@ -1,30 +1,31 @@
 ---
-import { Icon } from 'astro-icon/components';
-import Button from '../ui/Button.astro';
+import { Icon } from "astro-icon/components";
+import Button from "../../ui/Button.astro";
+import SectionHeading from "../../ui/SectionHeading.astro";
 
 const stats = [
-  { value: 50, suffix: '+', label: 'Chuyên gia trình độ cao phục vụ.' },
-  { value: 1034, suffix: '+', label: 'Hồ sơ quyết toán thành công trong 5 năm.' },
-  { value: 63, suffix: '', label: 'Tỉnh thành trên toàn quốc được hỗ trợ.' },
-  { value: 100, suffix: '%', label: 'Sự hài lòng từ khách hàng.' },
+  { value: 50, suffix: "+", label: "Chuyên gia trình độ cao phục vụ." },
+  {
+    value: 1034,
+    suffix: "+",
+    label: "Hồ sơ quyết toán thành công trong 5 năm.",
+  },
+  { value: 63, suffix: "", label: "Tỉnh thành trên toàn quốc được hỗ trợ." },
+  { value: 100, suffix: "%", label: "Sự hài lòng từ khách hàng." },
 ];
 ---
 
 <section class="py-16 lg:py-32 bg-white overflow-hidden" id="about-preview-section">
   <div class="container mx-auto px-4 max-w-7xl">
-    
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-24">
-      
       <!-- Left Column -->
       <div class="flex flex-col gap-16">
-        <div class="space-y-4">
-          <p class="about-label text-orange-500 font-bold tracking-wide uppercase text-sm">
-            Chiến lược toàn cầu thiết kế để giải quyết thách thức tương lai.
-          </p>
-          <h2 class="about-heading text-2xl md:text-3xl lg:text-4xl font-black text-slate-900 leading-[1.1] tracking-tight">
-            Chúng Tôi Xây Dựng Niềm Tin Và Duy Trì Mối Quan Hệ Bền Vững!
-          </h2>
-        </div>
+        <SectionHeading 
+          badge="Chiến lược toàn cầu thiết kế để giải quyết thách thức tương lai."
+          title="Chúng Tôi Xây Dựng Niềm Tin Và Duy Trì Mối Quan Hệ Bền Vững!"
+          badgeClass="about-label"
+          titleClass="about-heading text-2xl md:text-3xl lg:text-4xl"
+        />
 
         <div class="about-image relative max-w-[80%] mt-8 group h-[500px]">
           <!-- Background arrow vectors (Decorative) -->
@@ -100,7 +101,7 @@ const stats = [
 </section>
 
 <script>
-  import { fadeIn, staggerReveal, clipPathReveal } from '../animations/fadeIn';
+  import { fadeIn, staggerReveal, clipPathReveal } from '../../animations/fadeIn';
 
   const initAboutPreviewAnim = () => {
     fadeIn('.about-label', 0, -30);

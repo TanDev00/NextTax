@@ -1,0 +1,118 @@
+---
+import { Icon } from "astro-icon/components";
+import SectionHeading from "../../ui/SectionHeading.astro";
+
+const faqs = [
+  {
+    question: "Tải sao nên chọn dịch vụ của NextTax?",
+    answer: "Chúng tôi làm việc chính xác với đa dạng các loại hình khách hàng từ cá nhân, hộ kinh doanh đến các doanh nghiệp quy mô bản địa và tập đoàn đa quốc gia. Đội ngũ của chúng tôi có kinh nghiệm thực chiến trong nhiều lĩnh vực: Xây dựng, Thương mại, Sản xuất, và Công nghệ.",
+  },
+  {
+    question: "Có mất phí cho buổi gặp mặt tư vấn ban đầu không?",
+    answer: "Hoàn toàn không. Buổi tư vấn đầu tiên tại NextTax là hoàn toàn miễn phí. Chúng tôi sẽ lắng nghe nhu cầu của bạn, đánh giá tình trạng hồ sơ hiện tại và đề xuất lộ trình giải quyết tối ưu nhất trước khi bạn quyết định ký hợp đồng.",
+  },
+  {
+    question: "NextTax có làm việc cùng với kế toán và luật sư của tôi không?",
+    answer: "Có, chúng tôi rất sẵn lòng phối hợp chặt chẽ với đội ngũ hiện tại của bạn để đảm bảo sự đồng bộ trong chiến lược tài chính và pháp lý. Sự phối hợp này giúp tối ưu hóa kết quả và giảm thiểu rủi ro cho doanh nghiệp.",
+  },
+  {
+    question: "Tôi có được hỗ trợ khi có đoàn thanh tra thuế không?",
+    answer: "Đó là cam kết vàng của chúng tôi. NextTax sẽ trực tiếp đứng ra giải trình, làm việc với cơ quan thuế và bảo vệ quyền lợi hợp pháp của doanh nghiệp bạn trong suốt quá trình thanh kiểm tra.",
+  },
+  {
+    question: "Thông tin dữ liệu của công ty tôi có được bảo mật không?",
+    answer: "Bảo mật thông tin là ưu tiên cốt lõi. Chúng tôi áp dụng quy trình bảo mật nghiêm ngặt và ký cam kết bảo mật (NDA) bằng văn bản để đảm bảo mọi dữ liệu kinh doanh của bạn luôn an toàn tuyệt đối.",
+  },
+];
+---
+
+<section class="py-24 bg-white" id="faq-section">
+  <div class="container mx-auto px-4 max-w-4xl">
+    <SectionHeading 
+      badge="Giải đáp thắc mắc"
+      title="Câu Hỏi <span class='text-orange-600'>Thường Gặp</span>"
+      subtitle="Chúng tôi giải đáp những băn khoăn phổ biến nhất để bạn hoàn toàn an tâm khi đồng hành cùng NextTax."
+      centered
+      class="mb-16"
+    />
+
+    <div class="faq-list border-t border-slate-100">
+      {faqs.map((faq, index) => (
+        <div class="faq-item border-b border-slate-100 group">
+          <button 
+            class="faq-trigger w-full py-7 flex items-center justify-between text-left transition-all duration-300"
+            aria-expanded="false"
+          >
+            <span class="text-lg md:text-xl font-black text-slate-800 group-hover:text-orange-600 transition-colors duration-300 pr-8 line-title">
+              {faq.question}
+            </span>
+            <div class="faq-icon-wrapper flex-shrink-0 w-10 h-10 rounded-md bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-orange-50 group-hover:text-orange-600 transition-all duration-500">
+              <Icon name="lucide:arrow-up-right" class="w-5 h-5 transition-transform duration-500 icon-arrow" />
+            </div>
+          </button>
+          
+          <div class="faq-content overflow-hidden max-h-0 transition-all duration-500 ease-in-out">
+            <div class="pb-8 pt-0 pr-12">
+              <p class="text-slate-500 font-medium leading-[1.8] text-[17px]">
+                {faq.answer}
+              </p>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  @reference "../../../styles/global.css";
+
+  /* Custom Active States */
+  .faq-item.active .line-title {
+    @apply text-orange-600;
+  }
+
+  .faq-item.active .faq-icon-wrapper {
+    @apply bg-orange-600 text-white translate-x-1;
+  }
+
+  .faq-item.active .icon-arrow {
+    transform: rotate(135deg);
+  }
+</style>
+
+<script>
+  const initFAQ = () => {
+    const faqItems = document.querySelectorAll('.faq-item');
+
+    faqItems.forEach(item => {
+      const trigger = item.querySelector('.faq-trigger');
+      const content = item.querySelector('.faq-content') as HTMLElement;
+
+      trigger?.addEventListener('click', () => {
+        const isOpen = item.classList.contains('active');
+
+        // Close all other items
+        faqItems.forEach(i => {
+          if (i !== item) {
+            i.classList.remove('active');
+            const otherContent = i.querySelector('.faq-content') as HTMLElement;
+            if (otherContent) otherContent.style.maxHeight = '0px';
+          }
+        });
+
+        // Toggle current item
+        if (isOpen) {
+          item.classList.remove('active');
+          content.style.maxHeight = '0px';
+        } else {
+          item.classList.add('active');
+          content.style.maxHeight = content.scrollHeight + 'px';
+        }
+      });
+    });
+  };
+
+  initFAQ();
+  document.addEventListener('astro:page-load', initFAQ);
+</script>

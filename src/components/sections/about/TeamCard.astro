@@ -1,0 +1,58 @@
+---
+import { Icon } from "astro-icon/components";
+
+interface Props {
+  name: string;
+  role: string;
+  image: string;
+  isFeatured?: boolean;
+}
+
+const { name, role, image, isFeatured = false } = Astro.props;
+
+// Conditional colors/gradients based on featured state
+const socialColor = isFeatured ? "text-orange-600" : "text-slate-900";
+const overlayClass = isFeatured 
+  ? "bg-gradient-to-tr from-orange-600/20 via-transparent to-transparent opacity-60" 
+  : "bg-gradient-to-tr from-slate-900/10 via-transparent to-transparent opacity-30";
+---
+
+<div class="team-card group relative flex flex-col bg-white rounded-md overflow-hidden shadow-md transition-all duration-500 hover:-translate-y-1.5 hover:shadow-xl hover:shadow-orange-600/5 hover:border-orange-500/20 border border-transparent isolate">
+  
+  <!-- Image Container -->
+  <div class="relative aspect-[4/5] overflow-hidden">
+    <img 
+      src={image} 
+      alt={name} 
+      class="w-full h-full object-cover scale-105 group-hover:scale-100 transition-transform duration-700"
+    />
+    <!-- The gradient overlay requested -->
+    <div class={`absolute inset-0 z-10 transition-opacity duration-500 ${overlayClass}`}></div>
+  </div>
+
+  <!-- Info Area -->
+  <div class="p-8 pb-10 flex-grow relative flex flex-col gap-1">
+    <h3 class="text-2xl font-black text-slate-900 tracking-tight group-hover:text-orange-600 transition-colors">
+      {name}
+    </h3>
+    <p class="text-slate-400 font-medium text-[15px] italic">
+      {role}
+    </p>
+
+    <!-- Socials in bottom-right of text area -->
+    <div class="absolute bottom-10 right-8 flex items-center gap-3">
+      <a href="#" class={`${socialColor} opacity-70 hover:opacity-100 transition-all hover:scale-110`}>
+        <Icon name="lucide:facebook" class="w-5 h-5" />
+      </a>
+      <a href="#" class={`${socialColor} opacity-70 hover:opacity-100 transition-all hover:scale-110`}>
+        <Icon name="lucide:twitter" class="w-5 h-5" />
+      </a>
+      <a href="#" class={`${socialColor} opacity-70 hover:opacity-100 transition-all hover:scale-110`}>
+        <Icon name="lucide:youtube" class="w-5 h-5" />
+      </a>
+    </div>
+  </div>
+
+  <!-- Soft Glowing Border on Hover -->
+  <div class="absolute inset-0 rounded-md border border-orange-600/0 group-hover:border-orange-600/20 transition-all duration-500 pointer-events-none"></div>
+</div>
