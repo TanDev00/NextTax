@@ -29,6 +29,8 @@ jobs:
         run: npm run build
         env:
           WORDPRESS_API_URL: ${{ secrets.WORDPRESS_API_URL }}
+          WP_AUTH_USERNAME: ${{ secrets.WP_AUTH_USERNAME }}
+          WP_AUTH_PASSWORD: ${{ secrets.WP_AUTH_PASSWORD }}
 
       - name: 📂 Sync Files via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
