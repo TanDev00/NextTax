@@ -12,17 +12,23 @@ interface Service {
 }
 
 interface Props {
-  services: Service[];
+  title?: string;
+  badge?: string;
+  services: any[];
 }
 
-const { services } = Astro.props;
+const { 
+  services, 
+  title = "Chiến lược tư vấn hiệu quả, tập trung giải quyết chính xác các vấn đề.",
+  badge = "Tận tâm với doanh nghiệp, hướng tới kết quả vượt trội."
+} = Astro.props;
 ---
 
 <section class="section-padding bg-[#FAFAFA]" id="service-list">
   <div class="container mx-auto px-4">
     <SectionHeading 
-      badge="Tận tâm với doanh nghiệp, hướng tới kết quả vượt trội."
-      title="Chiến lược tư vấn hiệu quả, tập trung giải quyết chính xác các vấn đề."
+      badge={badge}
+      title={title}
       class="mb-16"
       badgeClass="services-label"
       titleClass="services-heading"

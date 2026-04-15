@@ -1,7 +1,27 @@
 ---
+interface Props {
+  data?: {
+    title: string;
+    sub_title: string;
+    description: string;
+    button: {
+      button_title: string;
+      button_link: string;
+    };
+    image: {
+      node: {
+        sourceUrl: string;
+      };
+    };
+  };
+}
+
+const { data } = Astro.props;
+
 import { Icon } from "astro-icon/components";
 import Button from "../../ui/Button.astro";
 import DecorativeImage from "../../ui/DecorativeImage.astro";
+import SectionHeading from "../../ui/SectionHeading.astro";
 ---
 
 <section class="py-24 bg-white relative overflow-hidden" id="about-intro">
@@ -9,27 +29,29 @@ import DecorativeImage from "../../ui/DecorativeImage.astro";
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
       <!-- Left Column -->
       <div class="about-page-text space-y-8 pr-0 lg:pr-10">
-        <h2
-          class="text-4xl md:text-5xl lg:text-[3.5rem] font-black text-slate-900 leading-[1.1] tracking-tight"
-        >
-          Bứt Phá Tăng Trưởng Cùng Các Giải Pháp Tư Vấn Tiên Phong!
-        </h2>
+        <SectionHeading
+          badge={data?.sub_title}
+          title={data?.title || ""}
+          class="mb-16"
+          badgeClass="services-label"
+          titleClass="services-heading"
+        />
         <p class="text-lg text-slate-500 leading-relaxed font-medium">
-          Chúng tôi là tổ chức tư vấn với nhiều năm kinh nghiệm thực chiến đa
-          ngành, tự hào sát cánh cùng sự phát triển tài chính của hàng ngàn
-          doanh nghiệp. Đội ngũ chuyên gia của chúng tôi mang đến định hướng
-          chiến lược, khai phóng tiềm năng, tối ưu hóa lợi nhuận và đảm bảo an
-          toàn tuyệt đối cho mọi quyết định đầu tư.
+          {
+            data?.description ||
+              "Chúng tôi là tổ chức tư vấn với nhiều năm kinh nghiệm thực chiến đa ngành, tự hào sát cánh cùng sự phát triển tài chính của hàng ngàn doanh nghiệp."
+          }
         </p>
 
         <div class="flex flex-wrap items-center gap-8 pt-4">
           <Button
             variant="primary"
             size="lg"
-            href="/contact"
+            href={data?.button?.button_link || "#"}
             className="bg-[#f36a33] hover:bg-[#e05b26] text-white px-8 py-4 font-bold border-none shadow-none"
           >
-            Đăng ký tư vấn <Icon
+            {data?.button?.button_title || ""}
+            <Icon
               name="lucide:arrow-up-right"
               class="w-4 h-4 ml-2 inline-block"
             />
@@ -39,8 +61,8 @@ import DecorativeImage from "../../ui/DecorativeImage.astro";
 
       <!-- Right Column (Reusable Decorative Image) -->
       <DecorativeImage
-        src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&q=80&w=1200"
-        alt="Business professionals walking"
+        src={data?.image?.node?.sourceUrl || ""}
+        alt={data?.title || ""}
         className="about-right-image"
         showArrow={true}
       />

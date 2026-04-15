@@ -1,8 +1,30 @@
 ---
-import FlowStep from "./FlowStep.astro";
 import SectionHeading from "../../ui/SectionHeading.astro";
+import FlowStep from "./FlowStep.astro";
 
-const steps = [
+interface Flow {
+  flowStep: {
+    number_flow: string;
+    title: string;
+    description: string;
+  };
+}
+
+interface Props {
+  data?: {
+    tittle: string;
+    description: string;
+    flows: Flow[];
+  };
+}
+
+const { data } = Astro.props;
+
+const steps = data?.flows.map((f: any) => ({
+  index: f.flow_step.number_flow,
+  title: f.flow_step.title,
+  description: f.flow_step.description,
+})) || [
   {
     index: "01",
     title: "Tiếp nhận",
@@ -24,13 +46,17 @@ const steps = [
     description: "Bàn giao và hỗ trợ sau dịch vụ",
   },
 ];
+
+const title = data?.tittle || "Quy Trình Làm Việc";
+const badge =
+  data?.description || "Quy trình chuyên nghiệp, minh bạch và hiệu quả";
 ---
 
 <section class="py-24 bg-[#f8fafc] overflow-hidden" id="work-flow-section">
   <div class="container mx-auto px-4 max-w-7xl">
     <SectionHeading
-      title="Quy Trình Làm Việc"
-      badge="Quy trình chuyên nghiệp, minh bạch và hiệu quả"
+      title={title}
+      badge={badge}
       centered
       class="mb-20"
       badgeClass="services-label"
@@ -104,7 +130,7 @@ const steps = [
 
       <!-- Steps Grid -->
       <div
-        class="grid grid-cols-1 lg:grid-cols-4 gap-16 lg:gap-0 relative z-10"
+        class={`grid grid-cols-1 lg:grid-cols-${steps.length} gap-16 lg:gap-0 relative z-10`}
       >
         {
           steps.map((step, i) => (
@@ -166,14 +192,16 @@ const steps = [
       { opacity: 1, y: 0, scale: 1, duration: 0.6 },
     );
 
-    // Sequence for steps 2, 3, 4
-    for (let i = 1; i < 4; i++) {
+    // Sequence for steps
+    for (let i = 1; i < steps.length; i++) {
       // Draw connector (Desktop)
-      tl.to(paths[i - 1], {
-        strokeDashoffset: 0,
-        duration: 0.5,
-        ease: "none",
-      });
+      if (paths[i - 1]) {
+        tl.to(paths[i - 1], {
+          strokeDashoffset: 0,
+          duration: 0.5,
+          ease: "none",
+        });
+      }
 
       // Mobile vertical line progress
       tl.to(

@@ -1,17 +1,45 @@
 ---
 import { Icon } from "astro-icon/components";
+
+interface Props {
+  data?: {
+    contact_information: {
+      title: string;
+      subTitle: string;
+      phone_number: string;
+      email: string;
+      address: string;
+    };
+    businessHours: Array<{
+      timeline: string;
+      time: string;
+    }>;
+    linkInformation: {
+      facebook: string;
+      twitter: string;
+      intargram: string;
+      linkedin: string;
+    };
+  };
+}
+
+const { data } = Astro.props;
 ---
 
 <div class="contact-info space-y-12 pr-0 lg:pr-10">
   <div class="space-y-8">
     <div class="space-y-2">
-      <h2 class="text-4xl font-black text-slate-900 tracking-tight">Thành Phố Hồ Chí Minh</h2>
-      <p class="text-slate-500 font-medium">Hãy liên hệ với chúng tôi để được tư vấn các giải pháp tối ưu nhất cho doanh nghiệp của bạn.</p>
+      <h2 class="text-4xl font-black text-slate-900 tracking-tight">
+        {data?.contact_information.title}
+      </h2>
+      <p class="text-slate-500 font-medium">
+        {data?.contact_information.subTitle}
+      </p>
     </div>
-    
+
     <div class="space-y-6">
       <a
-        href="tel:0123456789"
+        href={`tel:${data?.contact_information?.phone_number || "0123456789"}`}
         class="contact-item flex items-center gap-5 group"
       >
         <div
@@ -20,13 +48,21 @@ import { Icon } from "astro-icon/components";
           <Icon name="lucide:phone" class="w-6 h-6" />
         </div>
         <div>
-          <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Điện thoại</p>
-          <p class="text-lg font-bold text-slate-900 group-hover:text-orange-600 transition-colors">0123 456 789</p>
+          <p
+            class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1"
+          >
+            Điện thoại
+          </p>
+          <p
+            class="text-lg font-bold text-slate-900 group-hover:text-orange-600 transition-colors"
+          >
+            {data?.contact_information?.phone_number || "0123 456 789"}
+          </p>
         </div>
       </a>
 
       <a
-        href="mailto:info@tandev.com"
+        href={`mailto:${data?.contact_information?.email || "info@tandev.com"}`}
         class="contact-item flex items-center gap-5 group"
       >
         <div
@@ -35,8 +71,16 @@ import { Icon } from "astro-icon/components";
           <Icon name="lucide:mail" class="w-6 h-6" />
         </div>
         <div>
-          <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Email</p>
-          <p class="text-lg font-bold text-slate-900 group-hover:text-orange-600 transition-colors">info@tandev.com</p>
+          <p
+            class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1"
+          >
+            Email
+          </p>
+          <p
+            class="text-lg font-bold text-slate-900 group-hover:text-orange-600 transition-colors"
+          >
+            {data?.contact_information?.email || "info@tandev.com"}
+          </p>
         </div>
       </a>
 
@@ -47,8 +91,19 @@ import { Icon } from "astro-icon/components";
           <Icon name="lucide:map-pin" class="w-6 h-6" />
         </div>
         <div>
-          <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Địa chỉ</p>
-          <p class="text-lg font-bold text-slate-900 group-hover:text-orange-600 transition-colors">123 Đường Đông Du, Q.1, TP. HCM</p>
+          <p
+            class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1"
+          >
+            Địa chỉ
+          </p>
+          <p
+            class="text-lg font-bold text-slate-900 group-hover:text-orange-600 transition-colors"
+          >
+            {
+              data?.contact_information?.address ||
+                "123 Đường Đông Du, Q.1, TP. HCM"
+            }
+          </p>
         </div>
       </div>
     </div>
@@ -62,37 +117,88 @@ import { Icon } from "astro-icon/components";
       Giờ làm việc
     </h3>
     <div class="space-y-3 text-slate-500 font-medium">
-      <div class="flex justify-between items-center border-b border-slate-50 pb-2">
-        <span>Thứ 2 - Thứ 6</span>
-        <span class="text-slate-900 font-bold">08:00 - 17:30</span>
-      </div>
-      <div class="flex justify-between items-center border-b border-slate-50 pb-2">
-        <span>Thứ 7</span>
-        <span class="text-slate-900 font-bold">08:00 - 12:00</span>
-      </div>
-      <div class="flex justify-between items-center">
-        <span>Chủ nhật</span>
-        <span class="text-orange-600 font-bold px-3 py-1 bg-orange-50 rounded-full text-xs">Nghỉ</span>
-      </div>
+      {
+        data?.businessHours?.map((hour) => (
+          <div class="flex justify-between items-center border-b border-slate-50 pb-2">
+            <span>{hour.timeline}</span>
+            <span
+              class={`font-bold ${hour.time.toLowerCase() === "nghỉ" ? "text-orange-600 px-3 py-1 bg-orange-50 rounded-full text-xs" : "text-slate-900"}`}
+            >
+              {hour.time}
+            </span>
+          </div>
+        )) || (
+          <>
+            <div class="flex justify-between items-center border-b border-slate-50 pb-2">
+              <span>Thứ 2 - Thứ 6</span>
+              <span class="text-slate-900 font-bold">08:00 - 17:30</span>
+            </div>
+            <div class="flex justify-between items-center border-b border-slate-50 pb-2">
+              <span>Thứ 7</span>
+              <span class="text-slate-900 font-bold">08:00 - 12:00</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span>Chủ nhật</span>
+              <span class="text-orange-600 font-bold px-3 py-1 bg-orange-50 rounded-full text-xs">
+                Nghỉ
+              </span>
+            </div>
+          </>
+        )
+      }
     </div>
   </div>
 
   <!-- Social Media Icons (Circular Black style) -->
   <div class="pt-6 space-y-4">
-    <p class="text-sm font-bold text-slate-900 uppercase tracking-widest">Theo dõi chúng tôi</p>
+    <p class="text-sm font-bold text-slate-900 uppercase tracking-widest">
+      Theo dõi chúng tôi
+    </p>
     <div class="flex items-center gap-4">
-      <a href="#" class="w-10 h-10 rounded-full bg-slate-900 text-white flex items-center justify-center hover:bg-orange-600 hover:-translate-y-1 transition-all duration-300 shadow-lg">
-        <Icon name="lucide:facebook" class="w-5 h-5" />
-      </a>
-      <a href="#" class="w-10 h-10 rounded-full bg-slate-900 text-white flex items-center justify-center hover:bg-orange-600 hover:-translate-y-1 transition-all duration-300 shadow-lg">
-        <Icon name="lucide:twitter" class="w-5 h-5" />
-      </a>
-      <a href="#" class="w-10 h-10 rounded-full bg-slate-900 text-white flex items-center justify-center hover:bg-orange-600 hover:-translate-y-1 transition-all duration-300 shadow-lg">
-        <Icon name="lucide:instagram" class="w-5 h-5" />
-      </a>
-      <a href="#" class="w-10 h-10 rounded-full bg-slate-900 text-white flex items-center justify-center hover:bg-orange-600 hover:-translate-y-1 transition-all duration-300 shadow-lg">
-        <Icon name="lucide:linkedin" class="w-5 h-5" />
-      </a>
+      {
+        data?.linkInformation?.facebook && (
+          <a
+            href={data.linkInformation.facebook}
+            target="_blank"
+            class="w-10 h-10 rounded-full bg-slate-900 text-white flex items-center justify-center hover:bg-orange-600 hover:-translate-y-1 transition-all duration-300 shadow-lg"
+          >
+            <Icon name="lucide:facebook" class="w-5 h-5" />
+          </a>
+        )
+      }
+      {
+        data?.linkInformation?.twitter && (
+          <a
+            href={data.linkInformation.twitter}
+            target="_blank"
+            class="w-10 h-10 rounded-full bg-slate-900 text-white flex items-center justify-center hover:bg-orange-600 hover:-translate-y-1 transition-all duration-300 shadow-lg"
+          >
+            <Icon name="lucide:twitter" class="w-5 h-5" />
+          </a>
+        )
+      }
+      {
+        data?.linkInformation?.intargram && (
+          <a
+            href={data.linkInformation.intargram}
+            target="_blank"
+            class="w-10 h-10 rounded-full bg-slate-900 text-white flex items-center justify-center hover:bg-orange-600 hover:-translate-y-1 transition-all duration-300 shadow-lg"
+          >
+            <Icon name="lucide:instagram" class="w-5 h-5" />
+          </a>
+        )
+      }
+      {
+        data?.linkInformation?.linkedin && (
+          <a
+            href={data.linkInformation.linkedin}
+            target="_blank"
+            class="w-10 h-10 rounded-full bg-slate-900 text-white flex items-center justify-center hover:bg-orange-600 hover:-translate-y-1 transition-all duration-300 shadow-lg"
+          >
+            <Icon name="lucide:linkedin" class="w-5 h-5" />
+          </a>
+        )
+      }
     </div>
   </div>
 </div>

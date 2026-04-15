@@ -1,9 +1,10 @@
 import { WORDPRESS_API_URL } from '../lib/constants';
-import type { Post, Page, Service } from '../types/wordpress';
+import type { Post, Page, Service, ServicePageData, AboutPageData, ContactPageData } from '../types/wordpress';
 
 async function fetchAPI(query: string, { variables }: { variables?: any } = {}) {
   const headers: Record<string, string> = {
     'Content-Type': 'application/json',
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
   };
 
   // Cấu hình Basic Auth từ .env
@@ -11,22 +12,39 @@ async function fetchAPI(query: string, { variables }: { variables?: any } = {}) 
   const wpPassword = import.meta.env.WP_AUTH_PASSWORD;
 
   if (wpUsername && wpPassword) {
-    headers['Authorization'] = `Basic ${btoa(`${wpUsername}:${wpPassword}`)}`;
+    // Ensure no spaces in Basic Auth
+    const authString = `${wpUsername.trim()}:${wpPassword.trim()}`;
+    headers['Authorization'] = `Basic ${btoa(authString)}`;
   }
 
-  const res = await fetch(WORDPRESS_API_URL, {
-    method: 'POST',
-    headers,
-    body: JSON.stringify({
-      query,
-      variables,
-    }),
-  });
+  let retries = 3;
+  let res;
+
+  while (retries > 0) {
+    try {
+      res = await fetch(WORDPRESS_API_URL, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({
+          query,
+          variables,
+        }),
+      });
+      if (res.ok) break;
+    } catch (e) {
+      retries--;
+      if (retries === 0) throw e;
+      console.log(`Fetch failed, retrying... (${retries} left)`);
+      await new Promise(resolve => setTimeout(resolve, 2000));
+    }
+  }
+
+  if (!res) throw new Error('Failed to fetch after retries');
 
   const json = await res.json();
   if (json.errors) {
     console.error(json.errors);
-    throw new Error('Failed to fetch API');
+    throw new Error(`Failed to fetch API: ${JSON.stringify(json.errors)}`);
   }
   return json.data;
 }
@@ -163,4 +181,189 @@ export async function submitComment(postId: number, author: string, authorEmail:
     }
   });
   return data?.createComment;
+}
+
+export async function getServicePageData(): Promise<ServicePageData | null> {
+  const data = await fetchAPI(`
+    query ServicePage {
+      page(id: "/service", idType: URI) {
+        servicePage {
+          heroBanner {
+            title
+            subtitle
+            imageBanner {
+              node {
+                sourceUrl
+              }
+            }
+          }
+          service{
+            title
+            description
+            listService{
+                title
+                description
+                slug{
+                    url 
+                    title
+                    target
+                }
+                icon_name
+                price_value
+                features{
+                  feature  
+                }
+            }
+          }
+          whyChooseUs{
+            title
+            value_list{
+                number
+                sub_title
+            }
+            sub_title_1
+            sub_title_2
+            button{
+                button_title
+                buttonLink
+            }
+          }
+          workFlow{
+            tittle
+            description
+            flows{
+                flow_step{
+                    number_flow
+                    title
+                    description
+                }
+            }
+            
+          }
+        }
+      }
+    }
+  `);
+  return data?.page?.servicePage;
+}
+
+export async function getAboutPageData(): Promise<AboutPageData | null> {
+  const data = await fetchAPI(`
+    query AboutPageQuery{
+     page(id: "/about", idType: URI) {
+        aboutPage {
+          heroBanner {
+            title
+            description
+            imageBanner{
+                node {
+                sourceUrl
+              }
+            }
+          }
+          introduction{
+            title
+            sub_title
+            description
+            button{
+                button_title
+                button_link
+            }
+            image{
+               node {
+                sourceUrl
+              }  
+            }
+          }
+          core_values{
+            title
+            sub_title
+            description
+            mission
+            vision
+            button{
+                button_title
+                button_link
+            }
+            image{
+                 node {
+                sourceUrl
+              } 
+            }
+            core_values{
+                professional
+                reputation
+                commit
+                creative
+            }
+          }
+          team{
+            title
+            sub_title
+            description
+            teamList{
+                name
+                position
+                image{
+                    node {
+                        sourceUrl
+                    }
+                }
+                facebook
+                twitter
+                youtube
+            }
+          }
+          numbers{
+            number
+            description
+          }
+        }
+      }
+    }
+  `,);
+  return data?.page?.aboutPage || null;
+}
+
+export async function getContactPageData(): Promise<ContactPageData | null> {
+  const data = await fetchAPI(`
+   query ContactPageQuery{
+     page(id: "/contact", idType: URI) {
+        contactPage {
+          hero_banner {
+            title
+            description
+            imageBanner{
+                node {
+                sourceUrl
+              }
+            }
+          }
+          contact_information{
+            title
+            subTitle
+            phone_number
+            email
+            address
+          }
+          businessHours{
+            timeline
+            time
+          }
+          linkInformation{
+            facebook
+            twitter
+            intargram
+            linkedin
+          }
+          faq{
+            title
+            content
+          }
+          map
+        }
+      }
+    }
+  `,);
+  return data?.page?.contactPage || null;
 }

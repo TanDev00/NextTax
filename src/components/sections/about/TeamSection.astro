@@ -1,48 +1,53 @@
 ---
+import { fade } from "astro:transitions";
+import type { AboutPageData } from "../../../types/wordpress";
 import SectionHeading from "../../ui/SectionHeading.astro";
 import TeamCard from "./TeamCard.astro";
 
-const teamData = [
-  {
-    name: "Mike Dooley",
-    role: "Giám Đốc Điều Hành (CEO)",
-    image: "/images/team/team-1.png",
-    isFeatured: false,
-  },
-  {
-    name: "Emma Watson",
-    role: "Chuyên Gia Tư Vấn Thuế",
-    image: "/images/team/team-2.png",
-    isFeatured: true,
-  },
-  {
-    name: "John David",
-    role: "Cố Vấn Tài Chính Cao Cấp",
-    image: "/images/team/team-3.png",
-    isFeatured: false,
-  },
-];
+interface Props {
+  data?: {
+    title: string;
+    sub_title: string;
+    description: string;
+    teamList: Array<{
+      name: string;
+      position: string;
+      image: {
+        node: {
+          sourceUrl: string;
+        };
+      };
+      facebook: string;
+      twitter: string;
+      youtube: string;
+    }>;
+  };
+}
+
+const { data } = Astro.props;
 ---
 
 <section class="py-24 bg-slate-50/50" id="team-section">
   <div class="container mx-auto px-4 max-w-7xl">
-    <SectionHeading 
-      badge="Gương mặt đại diện"
-      title="Đội Ngũ Chuyên Gia <span class='text-orange-600'>Tâm Huyết</span>"
-      subtitle="Chúng tôi tập hợp những chuyên gia hàng đầu để đảm bảo sự thịnh vượng bền vững cho doanh nghiệp bạn."
+    <SectionHeading
+      badge={data?.sub_title || ""}
+      title={data?.title || ""}
+      subtitle={data?.description || ""}
       centered
       class="mb-20"
     />
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-      {teamData.map((member) => (
-        <TeamCard 
-          name={member.name}
-          role={member.role}
-          image={member.image}
-          isFeatured={member.isFeatured}
-        />
-      ))}
+      {
+        data?.teamList?.map((member) => (
+          <TeamCard
+            name={member.name}
+            role={member.position}
+            image={member.image?.node?.sourceUrl || ""}
+            isFeatured={false}
+          />
+        ))
+      }
     </div>
   </div>
 </section>

@@ -1,4 +1,16 @@
 ---
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+}
+
+const { 
+  title = "Về Chúng Tôi", 
+  description = "Xây dựng NextTax với sứ mệnh giúp các doanh nghiệp Việt Nam vượt qua rào cản về thủ tục pháp lý và tài chính phức tạp.",
+  image = "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=2000"
+} = Astro.props;
+
 import { Icon } from "astro-icon/components";
 ---
 
@@ -8,7 +20,7 @@ import { Icon } from "astro-icon/components";
 >
   <div class="absolute inset-0">
     <img
-      src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=2000"
+      src={image}
       alt="About Us Header"
       class="w-full h-full object-cover"
     />
@@ -23,13 +35,12 @@ import { Icon } from "astro-icon/components";
     <h1
       class="about-page-title text-5xl md:text-7xl font-bold text-white mb-6 tracking-tight"
     >
-      Về Chúng Tôi
+      {title}
     </h1>
     <p
       class="about-page-desc text-lg md:text-xl text-white/90 max-w-2xl mx-auto mb-8 font-medium"
     >
-      Xây dựng NextTax với sứ mệnh giúp các doanh nghiệp Việt Nam vượt qua rào
-      cản về thủ tục pháp lý và tài chính phức tạp.
+      {description}
     </p>
     <div
       class="flex items-center justify-center gap-3 text-white/90 text-sm md:text-base font-medium"

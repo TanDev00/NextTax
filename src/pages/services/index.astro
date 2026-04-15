@@ -6,91 +6,32 @@ import ServiceHero from "../../components/sections/service/ServiceHero.astro";
 import ServiceList from "../../components/sections/service/ServiceList.astro";
 import WorkFlow from "../../components/sections/service/WorkFlow.astro";
 
-const services = [
-  {
-    title: "Gói Khởi Nghiệp",
-    slug: "ke-toan-tron-goi",
-    description: "Dành cho doanh nghiệp mới thành lập",
-    iconName: "lucide:calculator",
-    priceValue: "2.000.000đ/tháng",
-    features: [
-      "Ghi sổ kế toán",
-      "Lập báo cáo tài chính",
-      "Kê khai thuế hàng tháng",
-      "Tư vấn qua điện thoại",
-    ],
-  },
-  {
-    title: "Gói Chuyên Nghiệp",
-    slug: "quyet-toan-thue",
-    description: "Giải pháp toàn diện cho doanh nghiệp đang phát triển",
-    iconName: "lucide:landmark",
-    priceValue: "5.000.000đ/tháng",
-    features: [
-      "Đại diện làm việc với thuế",
-      "Tối ưu chi phí thuế",
-      "Báo cáo quản trị hàng tháng",
-      "Hỗ trợ kiểm toán",
-    ],
-  },
-  {
-    title: "Gói Doanh Nghiệp Lớn",
-    slug: "thanh-lap-doanh-nghiep",
-    description: "Dành cho tập đoàn và quy mô nhân sự lớn",
-    iconName: "lucide:rocket",
-    priceValue: "10.000.000đ/tháng",
-    features: [
-      "Xây dựng hệ thống kế toán",
-      "Kiểm soát nội bộ rủi ro",
-      "Tư vấn M&A và đầu tư",
-      "Pháp lý doanh nghiệp cao cấp",
-    ],
-  },
-  {
-    title: "Giải Thể Doanh Nghiệp",
-    slug: "giai-the-doanh-nghiep",
-    description: "Thủ tục đóng mã số thuế và giải thể đúng luật",
-    iconName: "lucide:building-2",
-    priceValue: "Liên hệ tư vấn",
-    features: [
-      "Quyết toán thuế giải thể",
-      "Hủy hóa đơn & Chữ ký số",
-      "Trả giấy chứng nhận ĐKKD",
-      "Cam kết không phát sinh chi phí",
-    ],
-  },
-  {
-    title: "Chữ ký số & Hóa đơn",
-    slug: "chu-ky-so-hoa-don",
-    description: "Cung cấp giải pháp số hóa doanh nghiệp",
+import { getServicePageData } from "../../services/wordpress";
+
+const data = await getServicePageData();
+
+const services =
+  data?.service?.listService?.map((s: any) => ({
+    title: s.title,
+    slug: typeof s.slug === "object" ? s.slug?.url : s?.slug,
+    description: s.description,
     iconName: "lucide:pen-tool",
-    priceValue: "Giá đại lý",
-    features: [
-      "Chữ ký số (USB Token)",
-      "Hóa đơn điện tử chuẩn",
-      "Phần mềm bảo hiểm xã hội",
-      "Hỗ trợ cài đặt 24/7",
-    ],
-  },
-  {
-    title: "Thay Đổi Giấy Phép",
-    slug: "thay-doi-giay-phep",
-    description: "Cập nhật thông tin đăng ký kinh doanh nhanh chóng",
-    iconName: "lucide:clipboard-list",
-    priceValue: "Từ 1.000.000đ",
-    features: [
-      "Thay đổi người đại diện",
-      "Tăng/Giảm vốn điều lệ",
-      "Thay đổi địa chỉ kinh doanh",
-      "Thêm/Bớt ngành nghề",
-    ],
-  },
-];
+    priceValue: s.priceValue,
+    features: s.features?.map((f: any) => f.feature) || [],
+  })) || [];
 ---
 
-<MainLayout title="Dịch vụ - NextTax">
-  <ServiceHero />
-  <ServiceList services={services} />
-  <WhyChooseUs />
-  <WorkFlow />
+<MainLayout title={data?.heroBanner?.title || "Dịch vụ - NextTax"}>
+  <ServiceHero
+    title={data?.heroBanner?.title}
+    description={data?.heroBanner?.subtitle}
+    image={data?.heroBanner?.imageBanner?.node?.sourceUrl}
+  />
+  <ServiceList
+    services={services}
+    title={data?.service?.title}
+    badge={data?.service?.description}
+  />
+  <WhyChooseUs data={data?.whyChooseUs} />
+  <WorkFlow data={data?.workFlow} />
 </MainLayout>

@@ -6,12 +6,19 @@ import AboutHero from "../components/sections/about/AboutHero.astro";
 import AboutIntro from "../components/sections/about/AboutIntro.astro";
 import AboutStats from "../components/sections/about/AboutStats.astro";
 import TeamSection from "../components/sections/about/TeamSection.astro";
+
+import { getAboutPageData } from "../services/wordpress";
+const data = await getAboutPageData();
 ---
 
-<MainLayout title="Về chúng tôi - NextTax">
-  <AboutHero />
-  <AboutIntro />
-  <CompanyIdentity />
-  <TeamSection />
-  <AboutStats />
+<MainLayout title={data?.heroBanner?.title}>
+  <AboutHero
+    title={data?.heroBanner?.title}
+    description={data?.heroBanner?.description}
+    image={data?.heroBanner?.imageBanner?.node?.sourceUrl}
+  />
+  <AboutIntro data={data?.introduction} />
+  <CompanyIdentity data={data?.core_values} />
+  <TeamSection data={data?.team} />
+  <AboutStats data={data?.numbers} />
 </MainLayout>

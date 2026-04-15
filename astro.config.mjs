@@ -12,6 +12,10 @@ export default defineConfig({
   output: 'static',
   integrations: [icon()],
 
+  build: {
+    concurrency: 1
+  },
+
   vite: {
     plugins: [tailwindcss()]
   }

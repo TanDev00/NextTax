@@ -1,10 +1,20 @@
 ---
+interface Props {
+  map: string | null | undefined;
+}
+
+const { map } = Astro.props;
+
+const defaultEmbedUrl =
+  "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d119174.60574158537!2d105.79380719999999!3d21.024424699999997!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3134552defbed8e9%3A0x1584f79c805eb017!2zVHLGsOG7nW5nIMSQ4bqhaSBo4buNYyBN4buPIC0gxJDhu4thIGNo4bqldA!5e0!3m2!1svi!2s!4v1775929180700!5m2!1svi!2s";
+
+const embedUrl = map ? map : defaultEmbedUrl;
 ---
 
 <section class="pb-0" id="contact-map-section">
   <div class="w-full h-[500px] overflow-hidden shadow-inner contact-map">
     <iframe
-      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d119174.60574158537!2d105.79380719999999!3d21.024424699999997!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3134552defbed8e9%3A0x1584f79c805eb017!2zVHLGsOG7nW5nIMSQ4bqhaSBo4buNYyBN4buPIC0gxJDhu4thIGNo4bqldA!5e0!3m2!1svi!2s!4v1775929180700!5m2!1svi!2s"
+      src={embedUrl}
       width="100%"
       height="100%"
       style="border:0;"

@@ -6,20 +6,26 @@ import ContactInfo from "../components/sections/contact/ContactInfo.astro";
 import ContactForm from "../components/sections/contact/ContactForm.astro";
 import ContactMap from "../components/sections/contact/ContactMap.astro";
 import FAQ from "../components/sections/shared/FAQ.astro";
+
+import { getContactPageData } from "../services/wordpress";
+const data = await getContactPageData();
 ---
 
-<MainLayout title="Liên hệ - NextTax">
-  <ContactHero />
+<MainLayout title={data?.heroBanner?.title || "Liên hệ - NextTax"}>
+  <ContactHero
+    title={data?.heroBanner?.title}
+    description={data?.heroBanner?.description}
+    image={data?.heroBanner?.imageBanner}
+  />
 
   <section class="section-padding">
     <div class="container mx-auto px-4 max-w-7xl">
       <div class="grid grid-cols-1 lg:grid-cols-[35%_65%] gap-20 items-start">
-        <ContactInfo />
+        <ContactInfo data={data} />
         <ContactForm />
       </div>
     </div>
   </section>
-  <FAQ />
-
-  <ContactMap />
+  <FAQ faqs={data?.faq} />
+  <ContactMap map={data?.map} />
 </MainLayout>

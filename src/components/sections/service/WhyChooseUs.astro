@@ -1,28 +1,54 @@
 ---
-import StatCard from "../../ui/StatCard.astro";
 import { Icon } from "astro-icon/components";
 import SectionHeading from "../../ui/SectionHeading.astro";
+import StatCard from "../../ui/StatCard.astro";
 
-const stats = [
-  { number: "100%", label: "Tuân thủ pháp luật" },
-  { number: "24/7", label: "Hỗ trợ khách hàng" },
-  { number: "500+", label: "Khách hàng tin tưởng" },
+interface Stat {
+  number: string;
+  subTitle: string;
+}
+
+interface Props {
+  data?: {
+    title: string;
+    subTitle1: string;
+    subTitle2: string;
+    valueList: Stat[];
+    button: {
+      buttonTitle: string;
+      buttonLink: string;
+    };
+  };
+}
+
+const { data } = Astro.props;
+
+const stats = data?.valueList || [
+  { number: "100%", subTitle: "Tuân thủ pháp luật" },
+  { number: "24/7", subTitle: "Hỗ trợ khách hàng" },
+  { number: "500+", subTitle: "Khách hàng tin tưởng" },
 ];
+
+const title = data?.title || "Tại Sao Chọn Dịch Vụ Của Chúng Tôi?";
+const subTitle1 =
+  data?.subTitle1 ||
+  "Dịch vụ kế toán uy tín NextTax quy tụ những chuyên gia dày dạn kinh nghiệm nhất trong lĩnh vực tài chính và thuế. Chúng tôi tự hào mang đến giải pháp tối ưu cho doanh nghiệp, đảm bảo sự an tâm tuyệt đối về tính minh bạch và tuân thủ.";
+const subTitle2 =
+  data?.subTitle2 ||
+  "Với sứ mệnh đồng hành cùng sự phát triển của doanh nghiệp Việt, NextTax không ngừng cải tiến quy trình và áp dụng công nghệ số vào quản lý kế toán. Sự tận tâm 24/7 và cam kết kết quả vượt trội chính là những giá trị cốt lõi làm nên thương hiệu của chúng tôi trong lòng hàng trăm khách hàng.";
+const btnTitle = data?.button?.buttonTitle || "Đăng ký tư vấn miễn phí";
+const btnLink = data?.button?.buttonLink || "/contact";
 ---
 
 <section class="py-20 lg:py-32 bg-white overflow-hidden" id="why-choose-us">
   <div class="container mx-auto px-4 max-w-7xl">
-    <SectionHeading 
-      title="Tại Sao Chọn Dịch Vụ Của Chúng Tôi?" 
-      centered 
-      class="mb-16"
-    />
+    <SectionHeading title={title} centered class="mb-16" />
 
     <!-- Stats Grid -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
       {
-        stats.map((stat) => (
-          <StatCard number={stat.number} label={stat.label} />
+        stats.map((stat: any) => (
+          <StatCard number={stat.number} label={stat.subTitle} />
         ))
       }
     </div>
@@ -33,24 +59,17 @@ const stats = [
         <p
           class="text-lg md:text-xl text-slate-600 leading-relaxed font-medium"
         >
-          Dịch vụ kế toán uy tín NextTax quy tụ những chuyên gia dày dạn kinh
-          nghiệm nhất trong lĩnh vực tài chính và thuế. Chúng tôi tự hào mang
-          đến giải pháp tối ưu cho doanh nghiệp, đảm bảo sự an tâm tuyệt đối về
-          tính minh bạch và tuân thủ.
+          {subTitle1}
         </p>
         <p class="text-slate-500 leading-relaxed">
-          Với sứ mệnh đồng hành cùng sự phát triển của doanh nghiệp Việt,
-          NextTax không ngừng cải tiến quy trình và áp dụng công nghệ số vào
-          quản lý kế toán. Sự tận tâm 24/7 và cam kết kết quả vượt trội chính là
-          những giá trị cốt lõi làm nên thương hiệu của chúng tôi trong lòng
-          hàng trăm khách hàng.
+          {subTitle2}
         </p>
       </div>
 
       <!-- CTA Button -->
       <div class="flex justify-center pt-4">
         <a
-          href="/contact"
+          href={btnLink}
           class="group relative inline-flex items-center gap-3 px-8 py-4 bg-slate-900 text-white rounded-full font-bold text-lg overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-orange-900/20 hover:-translate-y-1 active:scale-95"
         >
           <!-- Background Glow Effect on Hover -->
@@ -59,7 +78,7 @@ const stats = [
           >
           </div>
 
-          Đăng ký tư vấn miễn phí
+          {btnTitle}
           <Icon
             name="lucide:arrow-right"
             class="w-6 h-6 group-hover:translate-x-1 transition-transform"

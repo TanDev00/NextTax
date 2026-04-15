@@ -1,5 +1,17 @@
 ---
 import { Icon } from "astro-icon/components";
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+}
+
+const { 
+  title = "Liên Hệ", 
+  description = "Đội ngũ chuyên gia kế toán của chúng tôi tại Hồ Chí Minh luôn sẵn sàng lắng nghe và giải đáp mọi thắc mắc của bạn.",
+  image = "https://images.unsplash.com/photo-1516387938699-a93567ec168e?auto=format&fit=crop&q=80&w=2000"
+} = Astro.props;
 ---
 
 <section
@@ -8,7 +20,7 @@ import { Icon } from "astro-icon/components";
 >
   <div class="absolute inset-0">
     <img
-      src="https://images.unsplash.com/photo-1516387938699-a93567ec168e?auto=format&fit=crop&q=80&w=2000"
+      src={image}
       alt="Contact Header"
       class="w-full h-full object-cover"
     />
@@ -23,13 +35,12 @@ import { Icon } from "astro-icon/components";
     <h1
       class="contact-title text-5xl md:text-7xl font-bold text-white mb-6 tracking-tight"
     >
-      Liên Hệ
+      {title}
     </h1>
     <p
       class="contact-desc text-lg md:text-xl text-white/90 max-w-2xl mx-auto mb-8 font-medium"
     >
-      Đội ngũ chuyên gia kế toán của chúng tôi tại Hồ Chí Minh luôn sẵn sàng
-      lắng nghe và giải đáp mọi thắc mắc của bạn.
+      {description}
     </p>
     <div
       class="flex items-center justify-center gap-3 text-white/90 text-sm md:text-base font-medium"
