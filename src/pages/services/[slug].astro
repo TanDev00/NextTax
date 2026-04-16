@@ -3,6 +3,7 @@ export const prerender = true;
 import MainLayout from "../../layouts/MainLayout.astro";
 import { getAllServices, getServiceBySlug } from "../../services/wordpress";
 import { Icon } from "astro-icon/components";
+import ServiceHero from "../../components/sections/service/ServiceHero.astro";
 
 export async function getStaticPaths() {
     const services = await getAllServices();
@@ -40,6 +41,7 @@ const serviceTitles: Record<string, string> = {
 };
 
 const title = service?.title || serviceTitles[slug as string] || "Dịch vụ";
+const description = service?.description || "Giải pháp chuyên nghiệp giúp doanh nghiệp tối ưu quy trình vận hành và tuân thủ pháp luật.";
 const content =
     service?.content ||
     `
@@ -49,40 +51,12 @@ const content =
 ---
 
 <MainLayout title={`${title} - NextTax`}>
-    <!-- Hero Section (Allianz Style) -->
-    <section
-        class="relative pt-44 pb-32 overflow-hidden bg-slate-900 border-b border-white/5"
-    >
-        <div class="absolute inset-0 z-0">
-            <img
-                src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=2000"
-                alt="Background"
-                class="w-full h-full object-cover opacity-20"
-            />
-            <div class="absolute inset-0 bg-slate-900/40"></div>
-        </div>
-        <div class="container mx-auto px-4 relative z-10 text-center">
-            <h1
-                class="text-5xl md:text-6xl font-extrabold text-white mb-8 tracking-tight animate-slide-up"
-            >
-                {title}
-            </h1>
-            <nav
-                class="flex justify-center text-slate-300 text-sm font-semibold uppercase tracking-widest items-center gap-3 animate-fade-in"
-            >
-                <a href="/" class="hover:text-orange-500 transition-colors"
-                    >Trang chủ</a
-                >
-                <span class="w-1.5 h-1.5 rounded-full bg-orange-500"></span>
-                <a
-                    href="/services"
-                    class="hover:text-orange-500 transition-colors">Dịch vụ</a
-                >
-                <span class="w-1.5 h-1.5 rounded-full bg-orange-500"></span>
-                <span class="text-orange-500">{title}</span>
-            </nav>
-        </div>
-    </section>
+    <ServiceHero 
+        title={title} 
+        description={description}
+        image={service?.featuredImage?.node?.sourceUrl}
+    />
+
     <!-- Content Section (Sidebar Left - Content Right) -->
     <section class="py-24 bg-white">
         <div class="container mx-auto px-4">
@@ -197,16 +171,6 @@ const content =
 </MainLayout>
 
 <style>
-    @keyframes slide-up {
-        from {
-            opacity: 0;
-            transform: translateY(30px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
     @keyframes slide-right {
         from {
             opacity: 0;
@@ -224,9 +188,6 @@ const content =
         to {
             opacity: 1;
         }
-    }
-    .animate-slide-up {
-        animation: slide-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
     }
     .animate-slide-right {
         animation: slide-right 1s cubic-bezier(0.16, 1, 0.3, 1) both;
