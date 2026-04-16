@@ -75,8 +75,8 @@ const isActive = (url: string) => {
     <nav class="container mx-auto px-4 py-6 flex flex-col gap-1">
       {navItems.map(item => (
         <a 
-          href={item.href} 
-          class={`mobile-nav-link block px-4 py-3.5 font-bold text-base rounded-md transition-colors ${isActive(item.href) ? 'text-[#f36a33] bg-orange-50/50' : 'text-slate-800 hover:bg-slate-50 hover:text-[#f36a33]'}`}
+          href={item.url} 
+          class={`mobile-nav-link block px-4 py-3.5 font-bold text-base rounded-md transition-colors ${isActive(item.url) ? 'text-[#f36a33] bg-orange-50/50' : 'text-slate-800 hover:bg-slate-50 hover:text-[#f36a33]'}`}
         >
           {item.label}
         </a>
