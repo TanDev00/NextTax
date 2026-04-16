@@ -5,6 +5,7 @@ import WhyChooseUs from "../../components/sections/service/WhyChooseUs.astro";
 import ServiceHero from "../../components/sections/service/ServiceHero.astro";
 import ServiceList from "../../components/sections/service/ServiceList.astro";
 import WorkFlow from "../../components/sections/service/WorkFlow.astro";
+import { getSlugFromUrl } from "../../lib/utils";
 
 import { getServicePageData } from "../../services/wordpress";
 
@@ -13,9 +14,9 @@ const data = await getServicePageData();
 const services =
   data?.service?.listService?.map((s: any) => ({
     title: s.title,
-    slug: typeof s.slug === "object" ? s.slug?.url : s?.slug,
+    slug: getSlugFromUrl(typeof s.slug === "object" ? s.slug?.url : s?.slug, s.title),
     description: s.description,
-    iconName: "lucide:pen-tool",
+    iconName: s.iconName,
     priceValue: s.priceValue,
     features: s.features?.map((f: any) => f.feature) || [],
   })) || [];

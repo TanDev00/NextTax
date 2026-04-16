@@ -14,12 +14,18 @@ interface Props {
 const {
   title,
   description,
-  iconName,
+  iconName: rawIconName,
   features = [],
   priceValue,
   class: className,
   slug,
 } = Astro.props;
+
+// Đảm bảo luôn có tiền tố, viết thường và đúng chuẩn kebab-case để tránh lỗi "Unable to locate icon"
+const formattedName = (rawIconName || 'circle-help')
+  .replace(/([a-z0-9])([A-Z])/g, '$1-$2')
+  .toLowerCase();
+const iconName = rawIconName?.includes(':') ? rawIconName.toLowerCase() : `lucide:${formattedName}`;
 ---
 
 <div

@@ -1,13 +1,17 @@
 ---
 import { Icon } from 'astro-icon/components';
-import { getHeroSlides, type HeroSlide } from '../../../lib/wordpress';
+import type { HeroSlide } from '../../../services/wordpress';
 
-const heroSlides = await getHeroSlides();
+interface Props {
+  slides: HeroSlide[];
+}
 
-const slides = heroSlides.map((slide: HeroSlide) => ({
+const { slides: heroSlides } = Astro.props;
+
+const slides = (heroSlides || []).map((slide: HeroSlide) => ({
   title: slide.title,
   subtitle: slide.subtitle,
-  image: slide.image.node.sourceUrl,
+  image: slide.image?.node?.sourceUrl || '',
 }));
 ---
 

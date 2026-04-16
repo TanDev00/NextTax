@@ -2,31 +2,22 @@
 import ServiceCard from "../../ui/ServiceCard.astro";
 import SectionHeading from "../../ui/SectionHeading.astro";
 
-interface Service {
-  title: string;
-  slug: string;
-  description: string;
-  iconName: string;
-  priceValue: string;
-  features: string[];
-}
-
 interface Props {
   title?: string;
   badge?: string;
   services: any[];
 }
 
-const { 
-  services, 
+const {
+  services,
   title = "Chiến lược tư vấn hiệu quả, tập trung giải quyết chính xác các vấn đề.",
-  badge = "Tận tâm với doanh nghiệp, hướng tới kết quả vượt trội."
+  badge = "Tận tâm với doanh nghiệp, hướng tới kết quả vượt trội.",
 } = Astro.props;
 ---
 
 <section class="section-padding bg-[#FAFAFA]" id="service-list">
   <div class="container mx-auto px-4">
-    <SectionHeading 
+    <SectionHeading
       badge={badge}
       title={title}
       class="mb-16"

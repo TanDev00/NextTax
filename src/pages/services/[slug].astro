@@ -1,62 +1,237 @@
 ---
 export const prerender = true;
-import MainLayout from '../../layouts/MainLayout.astro';
-import Button from '../../components/ui/Button.astro';
+import MainLayout from "../../layouts/MainLayout.astro";
+import { getAllServices, getServiceBySlug } from "../../services/wordpress";
+import { Icon } from "astro-icon/components";
 
-export function getStaticPaths() {
-  return [
-    { params: { slug: 'ke-toan-tron-goi' } },
-    { params: { slug: 'quyet-toan-thue' } },
-    { params: { slug: 'thanh-lap-doanh-nghiep' } },
-    { params: { slug: 'thay-doi-giay-phep' } },
-    { params: { slug: 'giai-the-doanh-nghiep' } },
-    { params: { slug: 'chu-ky-so-hoa-don' } },
-  ];
+export async function getStaticPaths() {
+    const services = await getAllServices();
+
+    const defaultSlugs = [
+        "ke-toan-tron-goi",
+        "quyet-toan-thue",
+        "thanh-lap-doanh-nghiep",
+        "thay-doi-giay-phep",
+        "giai-the-doanh-nghiep",
+        "chu-ky-so-hoa-don",
+    ];
+
+    const paths =
+        services.length > 0
+            ? services.map((service) => ({
+                  params: { slug: service.slug },
+              }))
+            : defaultSlugs.map((slug) => ({ params: { slug } }));
+
+    return paths;
 }
 
 const { slug } = Astro.params;
+const service = await getServiceBySlug(slug);
+const allServices = await getAllServices();
 
-const serviceTitles = {
-  'ke-toan-tron-goi': 'Kế toán trọn gói',
-  'quyet-toan-thue': 'Quyết toán thuế',
-  'thanh-lap-doanh-nghiep': 'Thành lập doanh nghiệp',
-  'thay-doi-giay-phep': 'Thay đổi giấy phép',
-  'giai-the-doanh-nghiep': 'Giải thể doanh nghiệp',
-  'chu-ky-so-hoa-don': 'Chữ ký số & Hóa đơn',
+const serviceTitles: Record<string, string> = {
+    "ke-toan-tron-goi": "Kế toán trọn gói",
+    "quyet-toan-thue": "Quyết toán thuế",
+    "thanh-lap-doanh-nghiep": "Thành lập doanh nghiệp",
+    "thay-doi-giay-phep": "Thay đổi giấy phép",
+    "giai-the-doanh-nghiep": "Giải thể doanh nghiệp",
+    "chu-ky-so-hoa-don": "Chữ ký số & Hóa đơn",
 };
 
-const title = serviceTitles[slug as keyof typeof serviceTitles] || 'Dịch vụ';
+const title = service?.title || serviceTitles[slug as string] || "Dịch vụ";
+const content =
+    service?.content ||
+    `
+  <p class="text-xl font-medium text-slate-800 mb-6">NextTax cung cấp giải pháp ${title.toLowerCase()} chuyên nghiệp, giúp doanh nghiệp tối ưu hóa quy trình vận hành và tuân thủ đầy đủ các quy định pháp luật hiện hành.</p>
+  <p class="mb-6">Với đội ngũ chuyên gia giàu kinh nghiệm, chúng tôi cam kết mang lại giá trị bền vững và sự an tâm tuyệt đối cho khách hàng thông qua các dịch vụ tư vấn tận tâm và hiệu quả.</p>
+`;
 ---
 
 <MainLayout title={`${title} - NextTax`}>
-  <section class="pt-32 pb-20 bg-slate-50">
-    <div class="container mx-auto px-4">
-      <div class="max-w-4xl mx-auto space-y-8">
-        <a href="/services" class="text-orange-600 font-bold flex items-center gap-2 hover:translate-x-[-4px] transition-transform w-fit">
-          &larr; Quay lại danh sách
-        </a>
-        <h1 class="text-4xl md:text-6xl">{title}</h1>
-        <div class="prose porange-lg porange-orange max-w-none text-slate-600 leading-relaxed space-y-6">
-          <p class="text-xl font-medium text-slate-800">
-            Nội dung chi tiết về dịch vụ {title.toLowerCase()} đang được cập nhật...
-          </p>
-          <p>
-            Chúng tôi cam kết mang đến giải pháp tối ưu nhất cho doanh nghiệp của bạn. Với đội ngũ chuyên gia giàu kinh nghiệm, NextTax sẽ giúp bạn giải quyết mọi vấn đề về pháp lý và sổ sách kế toán một cách nhanh chóng, hiệu quả và đúng quy định pháp luật.
-          </p>
-          <div class="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm space-y-4">
-            <h3 class="text-2xl font-bold text-slate-800">Tại sao chọn NextTax?</h3>
-            <ul class="list-disc list-inside space-y-2">
-              <li>Tiết kiệm chi phí vận hành</li>
-              <li>Đảm bảo tính chính xác và kịp thời</li>
-              <li>Hỗ trợ tư vấn pháp lý 24/7</li>
-              <li>Chịu trách nhiệm hoàn toàn trước cơ quan thuế</li>
-            </ul>
-          </div>
+    <!-- Hero Section (Allianz Style) -->
+    <section
+        class="relative pt-44 pb-32 overflow-hidden bg-slate-900 border-b border-white/5"
+    >
+        <div class="absolute inset-0 z-0">
+            <img
+                src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=2000"
+                alt="Background"
+                class="w-full h-full object-cover opacity-20"
+            />
+            <div class="absolute inset-0 bg-slate-900/40"></div>
         </div>
-        <div class="pt-8">
-          <Button variant="primary" size="lg" href="/contact">Yêu cầu tư vấn ngay</Button>
+        <div class="container mx-auto px-4 relative z-10 text-center">
+            <h1
+                class="text-5xl md:text-6xl font-extrabold text-white mb-8 tracking-tight animate-slide-up"
+            >
+                {title}
+            </h1>
+            <nav
+                class="flex justify-center text-slate-300 text-sm font-semibold uppercase tracking-widest items-center gap-3 animate-fade-in"
+            >
+                <a href="/" class="hover:text-orange-500 transition-colors"
+                    >Trang chủ</a
+                >
+                <span class="w-1.5 h-1.5 rounded-full bg-orange-500"></span>
+                <a
+                    href="/services"
+                    class="hover:text-orange-500 transition-colors">Dịch vụ</a
+                >
+                <span class="w-1.5 h-1.5 rounded-full bg-orange-500"></span>
+                <span class="text-orange-500">{title}</span>
+            </nav>
         </div>
-      </div>
-    </div>
-  </section>
+    </section>
+    <!-- Content Section (Sidebar Left - Content Right) -->
+    <section class="py-24 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col lg:flex-row gap-16">
+                <!-- Sidebar Column (Left - 1/3) -->
+                <aside class="lg:w-1/3 space-y-12 animate-fade-in">
+                    <!-- Vertical Service Menu -->
+                    <div
+                        class="bg-slate-50 border border-slate-200 rounded-md overflow-hidden shadow-sm"
+                    >
+                        <h4
+                            class="px-8 pt-8 pb-4 text-xs font-black text-slate-400 uppercase tracking-[0.2em]"
+                        >
+                            Danh mục dịch vụ
+                        </h4>
+                        <ul class="p-4 space-y-2">
+                            {
+                                allServices.length > 0
+                                    ? allServices.map((item) => (
+                                          <li>
+                                              <a
+                                                  href={`/services/${item.slug}`}
+                                                  class={`flex items-center justify-between px-6 py-4 rounded-md font-bold transition-all duration-300 ${
+                                                      item.slug === slug
+                                                          ? "bg-orange-600 text-white shadow-lg shadow-orange-200 translate-x-1"
+                                                          : "bg-white text-slate-900 hover:bg-slate-900 hover:text-white border border-slate-100"
+                                                  }`}
+                                              >
+                                                  <span>{item.title}</span>
+                                                  <Icon
+                                                      name="lucide:arrow-right"
+                                                      class={`w-5 h-5 transition-transform ${item.slug === slug ? "translate-x-1" : "opacity-20"}`}
+                                                  />
+                                              </a>
+                                          </li>
+                                      ))
+                                    : Object.entries(serviceTitles).map(
+                                          ([s, t]) => (
+                                              <li>
+                                                  <a
+                                                      href={`/services/${s}`}
+                                                      class={`flex items-center justify-between px-6 py-4 rounded-md font-bold transition-all duration-300 ${
+                                                          s === slug
+                                                              ? "bg-orange-600 text-white shadow-lg shadow-orange-200 translate-x-1"
+                                                              : "bg-white text-slate-900 hover:bg-slate-900 hover:text-white border border-slate-100"
+                                                      }`}
+                                                  >
+                                                      <span>{t}</span>
+                                                      <Icon
+                                                          name="lucide:arrow-right"
+                                                          class={`w-5 h-5 transition-transform ${s === slug ? "translate-x-1" : "opacity-20"}`}
+                                                      />
+                                                  </a>
+                                              </li>
+                                          ),
+                                      )
+                            }
+                        </ul>
+                    </div>
+                    <!-- Contact Support Box (Orange) -->
+                    <div
+                        class="relative bg-orange-600 p-10 rounded-md text-white overflow-hidden shadow-xl shadow-orange-200 group"
+                    >
+                        <div
+                            class="absolute -top-12 -right-12 w-48 h-48 bg-white/10 rounded-md blur-3xl group-hover:bg-white/20 transition-all duration-500"
+                        >
+                        </div>
+                        <div class="relative z-10">
+                            <Icon
+                                name="lucide:headphones"
+                                class="w-14 h-14 mb-8 text-white/40 group-hover:scale-110 transition-transform"
+                            />
+                            <h4
+                                class="text-3xl text-orange-100 font-black leading-tight mb-4"
+                            >
+                                Giải pháp tối ưu cho doanh nghiệp
+                            </h4>
+                            <p
+                                class="text-orange-100 mb-10 text-lg leading-relaxed"
+                            >
+                                Hãy liên hệ với chúng tôi để nhận lộ trình tư
+                                vấn chuyên sâu và báo giá chi tiết.
+                            </p>
+                            <a
+                                href="/contact"
+                                class="flex items-center justify-center p-5 bg-white text-orange-600 font-black hover:bg-slate-900 hover:text-white transition-all shadow-lg group"
+                            >
+                                Yêu cầu tư vấn ngay
+                                <Icon
+                                    name="lucide:chevron-right"
+                                    class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform"
+                                />
+                            </a>
+                        </div>
+                    </div>
+                </aside>
+                <!-- Main Content Column (Right - 2/3) -->
+                <div class="lg:w-2/3 space-y-16 animate-slide-right">
+                    <!-- Description & Details -->
+                    <div class="space-y-8">
+                        <div
+                            class="prose prose-slate prose-orange max-w-none
+                prose-p:text-slate-600 prose-p:leading-relaxed prose-p:text-xl
+                prose-strong:text-slate-900 prose-strong:font-black"
+                            set:html={content}
+                        />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 </MainLayout>
+
+<style>
+    @keyframes slide-up {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    @keyframes slide-right {
+        from {
+            opacity: 0;
+            transform: translateX(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+    @keyframes fade-in {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+    .animate-slide-up {
+        animation: slide-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+    .animate-slide-right {
+        animation: slide-right 1s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+    .animate-fade-in {
+        animation: fade-in 1.2s ease both;
+    }
+</style>

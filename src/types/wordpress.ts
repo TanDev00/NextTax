@@ -212,3 +212,89 @@ export interface ContactPageData {
   }>;
   map: string | null | undefined
 }
+
+/* ───────── Home Page Interfaces ───────── */
+
+export interface HeroSlide {
+  title: string;
+  subtitle: string;
+  image: {
+    node: {
+      sourceUrl: string;
+    };
+  };
+}
+
+export interface Partner {
+  name: string;
+  logo: {
+    node: {
+      sourceUrl: string;
+    } | null;
+  } | null;
+}
+
+export interface ServiceItem {
+  title: string;
+  description: string;
+  iconName: string;
+  tags: string;
+}
+
+export interface StatItem {
+  value: number;
+  suffix: string;
+  label: string;
+}
+
+export interface TestimonialItem {
+  quote: string;
+  author: string;
+  company: string;
+  image: {
+    node: {
+      sourceUrl: string;
+    };
+  };
+}
+
+export interface HomePageData {
+  heroSlides: HeroSlide[];
+  partnersList: Partner[];
+  servicesSection: {
+    badge: string;
+    title: string;
+    list: ServiceItem[];
+  };
+  aboutSection: {
+    badge: string;
+    title: string;
+    image: {
+      node: {
+        sourceUrl: string;
+      };
+    };
+    heading: string;
+    content: string;
+    signature: {
+      node: {
+        sourceUrl: string;
+      } | null;
+    } | null;
+    stats: StatItem[];
+  };
+  ctaSection: {
+    heading: string;
+    description: string;
+    background: {
+      node: {
+        sourceUrl: string;
+      };
+    };
+  };
+  testimonialSection: {
+    badge: string;
+    title: string;
+    list: TestimonialItem[];
+  };
+}

@@ -1,5 +1,5 @@
 import { WORDPRESS_API_URL } from '../lib/constants';
-import type { Post, Page, Service, ServicePageData, AboutPageData, ContactPageData } from '../types/wordpress';
+export type { Post, Page, Service, ServicePageData, AboutPageData, ContactPageData, HomePageData, HeroSlide, Partner, ServiceItem, StatItem, TestimonialItem } from '../types/wordpress';
 
 async function fetchAPI(query: string, { variables }: { variables?: any } = {}) {
   const headers: Record<string, string> = {
@@ -129,26 +129,34 @@ export async function getPostBySlug(slug: string): Promise<Post> {
 }
 
 export async function getAllServices(): Promise<Service[]> {
-  // Assuming services are a custom post type or a category of posts
-  // For now, let's fetch from a specific category named 'services'
   const data = await fetchAPI(`
     query AllServices {
-      posts(where: { categoryName: "services" }) {
+      services(first: 100) {
         nodes {
           id
           title
           slug
-          content
-          featuredImage {
-            node {
-              sourceUrl
-            }
-          }
         }
       }
     }
   `);
-  return data?.posts?.nodes || [];
+  return data?.services?.nodes || [];
+}
+
+export async function getServiceBySlug(slug: string): Promise<Service> {
+  const data = await fetchAPI(`
+    query ServiceBySlug($id: ID!, $idType: ServiceIdType!) {
+      service(id: $id, idType: $idType) {
+        id
+        title
+        slug
+        content
+      }
+    }
+  `, {
+    variables: { id: slug, idType: 'SLUG' },
+  });
+  return data?.service;
 }
 
 export async function submitComment(postId: number, author: string, authorEmail: string, content: string) {
@@ -208,7 +216,7 @@ export async function getServicePageData(): Promise<ServicePageData | null> {
                     title
                     target
                 }
-                icon_name
+                iconName
                 price_value
                 features{
                   feature  
@@ -325,6 +333,7 @@ export async function getAboutPageData(): Promise<AboutPageData | null> {
   return data?.page?.aboutPage || null;
 }
 
+
 export async function getContactPageData(): Promise<ContactPageData | null> {
   const data = await fetchAPI(`
    query ContactPageQuery{
@@ -366,4 +375,91 @@ export async function getContactPageData(): Promise<ContactPageData | null> {
     }
   `,);
   return data?.page?.contactPage || null;
+}
+
+/* ───────── Home Page Data ───────── */
+
+const HOME_QUERY = `
+  query GetHomePage {
+    page(id: "/", idType: URI) {
+      homePageData {
+        heroSlides {
+          title
+          subtitle
+          image {
+            node {
+              sourceUrl
+            }
+          }
+        }
+        partnersList {
+          name
+          logo {
+            node {
+              sourceUrl
+            }
+          }
+        }
+        servicesSection {
+          badge
+          title
+          list {
+            title
+            description
+            iconName
+            tags
+          }
+        }
+        aboutSection {
+          badge
+          title
+          image {
+            node {
+              sourceUrl
+            }
+          }
+          heading
+          content
+          signature {
+            node {
+              sourceUrl
+            }
+          }
+          stats {
+            value
+            suffix
+            label
+          }
+        }
+        ctaSection {
+          heading
+          description
+          background {
+            node {
+              sourceUrl
+            }
+          }
+        }
+        testimonialSection {
+          badge
+          title
+          list {
+            quote
+            author
+            company
+            image {
+              node {
+                sourceUrl
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+export async function getHomePageData(): Promise<HomePageData> {
+  const data = await fetchAPI(HOME_QUERY);
+  return data?.page?.homePageData;
 }
