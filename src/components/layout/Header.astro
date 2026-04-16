@@ -1,22 +1,32 @@
 ---
 import { Icon } from 'astro-icon/components';
 import Button from '../ui/Button.astro';
+import { getHeaderData } from '../../services/wordpress';
 
-const navItems = [
-  { label: 'Trang chủ', href: '/' },
-  { label: 'Dịch vụ', href: '/services' },
-  { label: 'Về chúng tôi', href: '/about' },
-  { label: 'Tin tức', href: '/blog' },
-  { label: 'Liên hệ', href: '/contact' },
+const headerData = await getHeaderData();
+
+const navItems = headerData?.navItems || [
+  { label: 'Trang chủ', url: '/' },
+  { label: 'Dịch vụ', url: '/services' },
+  { label: 'Về chúng tôi', url: '/about' },
+  { label: 'Tin tức', url: '/blog' },
+  { label: 'Liên hệ', url: '/contact' },
 ];
+
+const logoText = headerData?.logoText || 'NextTax';
+const logoIconText = headerData?.logoIconText || 'N';
+const ctaButton = headerData?.ctaButton || { label: 'Tư vấn ngay', url: '/contact' };
 
 const currentPath = Astro.url.pathname;
 const isHome = currentPath === '/' || currentPath === '';
 
-const isActive = (href: string) => {
-  if (href === '/') return currentPath === '/';
+const isActive = (url: string) => {
+  if (!url) return false;
+  if (url === '/') return currentPath === '/';
   // Check exact match or starts with path + trailing slash for nested routes (like /blog/slug)
-  return currentPath.replace(/\/$/, '') === href.replace(/\/$/, '') || currentPath.startsWith(href + '/');
+  const normalizedPath = currentPath.replace(/\/$/, '');
+  const normalizedUrl = url.replace(/\/$/, '');
+  return normalizedPath === normalizedUrl || currentPath.startsWith(url + '/');
 };
 ---
 
@@ -24,16 +34,16 @@ const isActive = (href: string) => {
   <div class="container mx-auto px-4 h-24 flex items-center justify-between">
     <a href="/" class="flex items-center gap-2 group">
       <div class="w-10 h-10 bg-orange-600 rounded-md flex items-center justify-center group-hover:rotate-6 transition-transform logo-icon">
-        <span class="text-white font-black text-xl leading-none">N</span>
+        <span class="text-white font-black text-xl leading-none">{logoIconText}</span>
       </div>
-      <span class="text-2xl font-black tracking-tight" id="header-logo-text">Next<span class="text-orange-600 border-none px-0">Tax</span></span>
+      <span class="text-2xl font-black tracking-tight" id="header-logo-text">{logoText.includes('Tax') ? <>{logoText.replace('Tax', '')}<span class="text-orange-600 border-none px-0">Tax</span></> : logoText}</span>
     </a>
 
     <nav class="hidden md:flex items-center gap-8">
       {navItems.map(item => (
         <a 
-          href={item.href} 
-          class={`font-bold transition-all ${isActive(item.href) ? 'text-[#f36a33]' : 'hover:text-[#f36a33]'}`}
+          href={item.url} 
+          class={`font-bold transition-all ${isActive(item.url) ? 'text-[#f36a33]' : 'hover:text-[#f36a33]'}`}
         >
           {item.label}
         </a>
@@ -47,8 +57,8 @@ const isActive = (href: string) => {
         </button>
       </div>
       <div class="hidden lg:block">
-        <Button variant="primary" size="sm" href="/contact" className="get-quote-btn shadow-none">
-          Tư vấn ngay <Icon name="lucide:arrow-up-right" class="w-4 h-4 ml-1 inline-block" />
+        <Button variant="primary" size="sm" href={ctaButton.url} className="get-quote-btn shadow-none">
+          {ctaButton.label} <Icon name="lucide:arrow-up-right" class="w-4 h-4 ml-1 inline-block" />
         </Button>
       </div>
 
@@ -72,8 +82,8 @@ const isActive = (href: string) => {
         </a>
       ))}
       <div class="mt-4 px-4">
-        <Button variant="primary" size="md" href="/contact" className="w-full justify-center shadow-none">
-          Tư vấn ngay <Icon name="lucide:arrow-up-right" class="w-4 h-4 ml-1 inline-block" />
+        <Button variant="primary" size="md" href={ctaButton.url} className="w-full justify-center shadow-none">
+          {ctaButton.label} <Icon name="lucide:arrow-up-right" class="w-4 h-4 ml-1 inline-block" />
         </Button>
       </div>
     </nav>

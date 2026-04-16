@@ -53,6 +53,7 @@ export interface Page {
 export interface Service {
   id: string;
   title: string;
+  description: string;
   slug: string;
   content: string;
   featuredImage?: {
@@ -183,8 +184,6 @@ export interface AboutPageData {
   }
 }
 
-
-
 export interface ContactPageData {
   heroBanner: {
     title: string;
@@ -297,4 +296,50 @@ export interface HomePageData {
     title: string;
     list: TestimonialItem[];
   };
+}
+/* ───────── Shared Interfaces ───────── */
+
+export interface Link {
+  label: string;
+  url: string;
+}
+
+/* ───────── Header Interfaces ───────── */
+
+export interface HeaderData {
+  logoText: string;
+  logoIconText: string;
+  navItems: Link[];
+  ctaButton: {
+    label: string;
+    url: string;
+  };
+}
+
+/* ───────── Footer Interfaces ───────── */
+
+export interface FooterData {
+  newsletter: {
+    title: string;
+    buttonText: string;
+    buttonUrl: string;
+  };
+  columns: Array<{
+    title: string;
+    links: Link[];
+  }>;
+  contacts: {
+    email: string;
+    phone: string;
+    socials: Array<{
+      platform: string;
+      url: string;
+    }>;
+  };
+  banner: {
+    text: string;
+    url: string;
+  };
+  copyright: string;
+  legalLinks: Link[];
 }

@@ -1,134 +1,196 @@
 ---
-import { Icon } from 'astro-icon/components';
+import { Icon } from "astro-icon/components";
+import { getFooterData } from "../../services/wordpress";
 
 const currentYear = new Date().getFullYear();
+const footerData = await getFooterData();
 
-const company = [
-  { label: 'Giới thiệu', href: '/about' },
-  { label: 'Tầm nhìn & Sứ mệnh', href: '/about' },
-  { label: 'Đội ngũ chuyên gia', href: '/about' },
-  { label: 'Tin tức & Blog', href: '/blog' },
-  { label: 'Tuyển dụng', href: '/careers' },
+// Fallback data if WordPress ACF is not set up yet
+const newsletter = footerData?.newsletter || {
+  title:
+    "Đăng ký nhận bản tin, cập nhật chính sách thuế mới nhất, góc nhìn chiến lược và nội dung chuyên sâu từ NextTax.",
+  buttonText: "Đăng ký",
+  buttonUrl: "/contact",
+};
+
+const navigationColumns = footerData?.columns || [
+  {
+    title: "Công ty",
+    links: [
+      { label: "Giới thiệu", url: "/about" },
+      { label: "Tầm nhìn & Sứ mệnh", url: "/about" },
+      { label: "Đội ngũ chuyên gia", url: "/about" },
+      { label: "Tin tức & Blog", url: "/blog" },
+      { label: "Tuyển dụng", url: "/careers" },
+    ],
+  },
+  {
+    title: "Dịch vụ",
+    links: [
+      { label: "Kế toán trọn gói", url: "/services" },
+      { label: "Quyết toán thuế", url: "/services" },
+      { label: "Tư vấn doanh nghiệp", url: "/services" },
+      { label: "Thay đổi giấy phép", url: "/services" },
+      { label: "Kiểm toán nội bộ", url: "/services" },
+    ],
+  },
+  {
+    title: "Ngành nghề",
+    links: [
+      { label: "Ngân hàng & Tài chính", url: "#" },
+      { label: "Công nghệ & Phần mềm", url: "#" },
+      { label: "Sản xuất & Thương mại", url: "#" },
+      { label: "Giáo dục & Đào tạo", url: "#" },
+      { label: "Y tế & Dược phẩm", url: "#" },
+    ],
+  },
 ];
 
-const services = [
-  { label: 'Kế toán trọn gói', href: '/services' },
-  { label: 'Quyết toán thuế', href: '/services' },
-  { label: 'Tư vấn doanh nghiệp', href: '/services' },
-  { label: 'Thay đổi giấy phép', href: '/services' },
-  { label: 'Kiểm toán nội bộ', href: '/services' },
-  { label: 'Quản lý rủi ro', href: '/services' },
-];
+const contacts = footerData?.contacts || {
+  email: "contact@nexttax.vn",
+  phone: "0123 456 789",
+  socials: [
+    { platform: "facebook", url: "#" },
+    { platform: "twitter", url: "#" },
+    { platform: "youtube", url: "#" },
+  ],
+};
 
-const industries = [
-  { label: 'Ngân hàng & Tài chính', href: '#' },
-  { label: 'Công nghệ & Phần mềm', href: '#' },
-  { label: 'Sản xuất & Thương mại', href: '#' },
-  { label: 'Giáo dục & Đào tạo', href: '#' },
-  { label: 'Y tế & Dược phẩm', href: '#' },
-  { label: 'Bất động sản', href: '#' },
+const banner = footerData?.banner || {
+  text: "Liên Hệ Ngay",
+  url: "/contact",
+};
+
+const copyright = (
+  footerData?.copyright ||
+  "© {year} NextTax, All Rights Reserved. With ❤️ by NextTax Team."
+).replace("{year}", currentYear.toString());
+
+const legalLinks = footerData?.legalLinks || [
+  { label: "Điều khoản", url: "/terms" },
+  { label: "Chính sách bảo mật", url: "/privacy" },
+  { label: "Site Map", url: "/sitemap" },
 ];
 ---
 
 <footer class="bg-slate-950 text-slate-400" id="site-footer">
-  
   <!-- Top Links Section -->
   <div class="container mx-auto px-4 max-w-7xl pt-12 md:pt-20 pb-12 md:pb-16">
-    
-    <!-- Newsletter / CTA Text (full width on mobile, separate row) -->
+    <!-- Newsletter Section -->
     <div class="footer-col space-y-6 mb-10 md:mb-0 md:hidden">
       <p class="text-white/90 text-[15px] leading-relaxed font-medium">
-        Đăng ký nhận bản tin, cập nhật chính sách thuế mới nhất, góc nhìn chiến lược và nội dung chuyên sâu từ NextTax.
+        {newsletter.title}
       </p>
-      <a href="/contact" class="inline-flex items-center gap-2 px-6 py-3 border border-white/30 text-white text-xs font-bold uppercase tracking-widest hover:bg-white hover:text-slate-900 transition-all duration-300">
-        Đăng ký
+      <a
+        href={newsletter.buttonUrl}
+        class="inline-flex items-center gap-2 px-6 py-3 border border-white/30 text-white text-xs font-bold uppercase tracking-widest hover:bg-white hover:text-slate-900 transition-all duration-300"
+      >
+        {newsletter.buttonText}
         <Icon name="lucide:arrow-up-right" class="w-3.5 h-3.5" />
       </a>
     </div>
 
-    <div class="footer-columns grid grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr_1fr] gap-y-10 gap-x-6 lg:gap-8">
-      
-      <!-- Newsletter / CTA Text (desktop only) -->
+    <div
+      class="footer-columns grid grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr_1fr] gap-y-10 gap-x-6 lg:gap-8"
+    >
+      <!-- Newsletter (desktop only) -->
       <div class="footer-col space-y-6 pr-6 hidden md:block">
         <p class="text-white/90 text-[15px] leading-relaxed font-medium">
-          Đăng ký nhận bản tin, cập nhật chính sách thuế mới nhất, góc nhìn chiến lược và nội dung chuyên sâu từ NextTax.
+          {newsletter.title}
         </p>
-        <a href="/contact" class="inline-flex items-center gap-2 px-6 py-3 border border-white/30 text-white text-xs font-bold uppercase tracking-widest hover:bg-white hover:text-slate-900 transition-all duration-300">
-          Đăng ký
+        <a
+          href={newsletter.buttonUrl}
+          class="inline-flex items-center gap-2 px-6 py-3 border border-white/30 text-white text-xs font-bold uppercase tracking-widest hover:bg-white hover:text-slate-900 transition-all duration-300"
+        >
+          {newsletter.buttonText}
           <Icon name="lucide:arrow-up-right" class="w-3.5 h-3.5" />
         </a>
       </div>
 
-      <!-- Company -->
-      <div class="footer-col">
-        <h4 class="text-white font-bold text-sm uppercase tracking-wider mb-4 md:mb-6">Công ty</h4>
-        <ul class="space-y-3 text-sm">
-          {company.map(link => (
-            <li><a href={link.href} class="hover:text-white transition-colors duration-200">{link.label}</a></li>
-          ))}
-        </ul>
-      </div>
-
-      <!-- Services -->
-      <div class="footer-col">
-        <h4 class="text-white font-bold text-sm uppercase tracking-wider mb-4 md:mb-6">Dịch vụ</h4>
-        <ul class="space-y-3 text-sm">
-          {services.map(link => (
-            <li><a href={link.href} class="hover:text-white transition-colors duration-200">{link.label}</a></li>
-          ))}
-        </ul>
-      </div>
-
-      <!-- Industries -->
-      <div class="footer-col">
-        <h4 class="text-white font-bold text-sm uppercase tracking-wider mb-4 md:mb-6">Ngành nghề</h4>
-        <ul class="space-y-3 text-sm">
-          {industries.map(link => (
-            <li><a href={link.href} class="hover:text-white transition-colors duration-200">{link.label}</a></li>
-          ))}
-        </ul>
-      </div>
+      <!-- Dynamic Navigation Columns -->
+      {
+        navigationColumns.map((col: any) => (
+          <div class="footer-col">
+            <h4 class="text-white font-bold text-sm uppercase tracking-wider mb-4 md:mb-6">
+              {col.title}
+            </h4>
+            <ul class="space-y-3 text-sm">
+              {col.links.map((link: any) => (
+                <li>
+                  <a
+                    href={link.url}
+                    class="hover:text-white transition-colors duration-200"
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
 
       <!-- Quick Contacts -->
       <div class="footer-col">
-        <h4 class="text-white font-bold text-sm uppercase tracking-wider mb-4 md:mb-6">Liên hệ nhanh</h4>
+        <h4
+          class="text-white font-bold text-sm uppercase tracking-wider mb-4 md:mb-6"
+        >
+          Liên hệ nhanh
+        </h4>
         <ul class="space-y-4 text-sm">
           <li>
-            <a href="mailto:contact@nexttax.vn" class="hover:text-white transition-colors break-all">
-              contact@nexttax.vn
+            <a
+              href={`mailto:${contacts.email}`}
+              class="hover:text-white transition-colors break-all"
+            >
+              {contacts.email}
             </a>
           </li>
           <li>
-            <a href="tel:0123456789" class="hover:text-white transition-colors">
-              0123 456 789
+            <a
+              href={`tel:${contacts.phone.replace(/\s/g, "")}`}
+              class="hover:text-white transition-colors"
+            >
+              {contacts.phone}
             </a>
           </li>
         </ul>
         <div class="flex items-center gap-3 mt-6">
-          <a href="#" class="w-9 h-9 rounded-full bg-white flex items-center justify-center text-slate-900 hover:bg-orange-500 hover:text-white transition-colors" aria-label="Facebook">
-            <Icon name="lucide:facebook" class="w-4 h-4" />
-          </a>
-          <a href="#" class="w-9 h-9 rounded-full bg-white flex items-center justify-center text-slate-900 hover:bg-orange-500 hover:text-white transition-colors" aria-label="Twitter">
-            <Icon name="lucide:twitter" class="w-4 h-4" />
-          </a>
-          <a href="#" class="w-9 h-9 rounded-full bg-white flex items-center justify-center text-slate-900 hover:bg-orange-500 hover:text-white transition-colors" aria-label="YouTube">
-            <Icon name="lucide:youtube" class="w-4 h-4" />
-          </a>
+          {
+            contacts.socials.map((social: any) => (
+              <a
+                href={social.url}
+                class="w-9 h-9 rounded-full bg-white flex items-center justify-center text-slate-900 hover:bg-orange-500 hover:text-white transition-colors"
+                aria-label={social.platform}
+              >
+                <Icon
+                  name={`lucide:${social.platform.toLowerCase()}`}
+                  class="w-4 h-4"
+                />
+              </a>
+            ))
+          }
         </div>
       </div>
-
     </div>
   </div>
 
   <!-- "Get In Touch" Large Banner -->
   <div class="border-t border-white/10">
-    <div class="container mx-auto px-4 max-w-7xl py-10 md:py-12 flex items-end md:items-center justify-between gap-6">
-      <a href="/contact" class="group">
-        <h2 class="footer-big-text text-4xl md:text-5xl lg:text-6xl font-black text-white italic tracking-tight hover:text-orange-500 transition-colors duration-300 leading-[1.1]">
-          Liên Hệ Ngay
+    <div
+      class="container mx-auto px-4 max-w-7xl py-10 md:py-12 flex items-end md:items-center justify-between gap-6"
+    >
+      <a href={banner.url} class="group">
+        <h2
+          class="footer-big-text text-4xl md:text-5xl lg:text-6xl font-black text-white italic tracking-tight hover:text-orange-500 transition-colors duration-300 leading-[1.1]"
+        >
+          {banner.text}
         </h2>
       </a>
-      <a href="/contact" class="footer-big-arrow w-14 h-14 md:w-20 md:h-20 border border-white/30 flex items-center justify-center text-white hover:bg-orange-500 hover:border-orange-500 transition-all duration-300 shrink-0">
+      <a
+        href={banner.url}
+        class="footer-big-arrow w-14 h-14 md:w-20 md:h-20 border border-white/30 flex items-center justify-center text-white hover:bg-orange-500 hover:border-orange-500 transition-all duration-300 shrink-0"
+      >
         <Icon name="lucide:arrow-up-right" class="w-7 h-7 md:w-9 md:h-9" />
       </a>
     </div>
@@ -136,38 +198,55 @@ const industries = [
 
   <!-- Bottom Bar -->
   <div class="border-t border-white/10">
-    <div class="container mx-auto px-4 max-w-7xl py-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 text-xs text-slate-500">
-      <p>&copy; {currentYear} NextTax, All Rights Reserved. With ❤️ by NextTax Team.</p>
+    <div
+      class="container mx-auto px-4 max-w-7xl py-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 text-xs text-slate-500"
+    >
+      <p>{copyright}</p>
       <div class="flex items-center gap-4 md:gap-6 flex-wrap">
-        <a href="/terms" class="hover:text-white transition-colors">Điều khoản</a>
-        <span class="text-white/20">–</span>
-        <a href="/privacy" class="hover:text-white transition-colors">Chính sách bảo mật</a>
-        <span class="text-white/20">–</span>
-        <a href="/sitemap" class="hover:text-white transition-colors">Site Map</a>
+        {
+          legalLinks.map((link: any, index: number) => (
+            <>
+              <a href={link.url} class="hover:text-white transition-colors">
+                {link.label}
+              </a>
+              {index < legalLinks.length - 1 && (
+                <span class="text-white/20">–</span>
+              )}
+            </>
+          ))
+        }
       </div>
     </div>
   </div>
-  
 </footer>
 
 <script>
-  import { gsap } from 'gsap';
-  import { fadeIn, staggerReveal } from '../animations/fadeIn';
+  import { gsap } from "gsap";
+  import { fadeIn, staggerReveal } from "../animations/fadeIn";
 
   const initFooterAnim = () => {
-    staggerReveal('.footer-col', 0.1);
-    fadeIn('.footer-big-text', 0.3, -80);
-    
+    staggerReveal(".footer-col", 0.1);
+    fadeIn(".footer-big-text", 0.3, -80);
+
     // Specialized arrow animation
-    gsap.fromTo('.footer-big-arrow',
+    gsap.fromTo(
+      ".footer-big-arrow",
       { opacity: 0, rotate: -90, scale: 0.5 },
       {
-        opacity: 1, rotate: 0, scale: 1, duration: 0.8, ease: 'back.out(2)',
-        scrollTrigger: { trigger: '.footer-big-arrow', start: 'top 90%', toggleActions: 'play none none none' }
-      }
+        opacity: 1,
+        rotate: 0,
+        scale: 1,
+        duration: 0.8,
+        ease: "back.out(2)",
+        scrollTrigger: {
+          trigger: ".footer-big-arrow",
+          start: "top 90%",
+          toggleActions: "play none none none",
+        },
+      },
     );
   };
 
   initFooterAnim();
-  document.addEventListener('astro:page-load', initFooterAnim);
+  document.addEventListener("astro:page-load", initFooterAnim);
 </script>

@@ -1,5 +1,5 @@
 import { WORDPRESS_API_URL } from '../lib/constants';
-export type { Post, Page, Service, ServicePageData, AboutPageData, ContactPageData, HomePageData, HeroSlide, Partner, ServiceItem, StatItem, TestimonialItem } from '../types/wordpress';
+import { Post, Service, ServicePageData, AboutPageData, ContactPageData, HomePageData, FooterData, HeaderData } from '../types/wordpress';
 
 async function fetchAPI(query: string, { variables }: { variables?: any } = {}) {
   const headers: Record<string, string> = {
@@ -459,7 +459,84 @@ const HOME_QUERY = `
   }
 `;
 
+
 export async function getHomePageData(): Promise<HomePageData> {
   const data = await fetchAPI(HOME_QUERY);
   return data?.page?.homePageData;
+}
+
+/* ───────── Header Data ───────── */
+
+export async function getHeaderData(): Promise<HeaderData | null> {
+  try {
+    const data = await fetchAPI(`
+      query GetHeader {
+        headerSettings {
+          logoText
+          logoIconText
+          navItems {
+            label
+            url
+          }
+          ctaButton {
+            label
+            url
+          }
+        }
+      }
+    `);
+    
+    // Fallback if data is missing
+    if (!data?.headerSettings) return null;
+
+    return data.headerSettings;
+  } catch (error) {
+    console.error('Error fetching header data:', error);
+    return null;
+  }
+}
+
+/* ───────── Footer Data ───────── */
+
+export async function getFooterData(): Promise<FooterData | null> {
+  try {
+    const data = await fetchAPI(`
+      query GetFooter {
+         footerSettings {
+            newsletter {
+              title
+              buttonText
+              buttonUrl
+            }
+            columns {
+              title
+              links {
+                label
+                url
+              }
+            }
+            contacts {
+              email
+              phone
+              socials {
+                platform
+                url
+              }
+            }
+            banner {
+              text
+              url
+            }
+            copyright
+            legalLinks {
+              label
+              url
+            }
+          }
+      }
+    `);
+    return data?.footerSettings || null;
+  } catch (error) {
+    return null;
+  }
 }

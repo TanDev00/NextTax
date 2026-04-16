@@ -41,7 +41,9 @@ const serviceTitles: Record<string, string> = {
 };
 
 const title = service?.title || serviceTitles[slug as string] || "Dịch vụ";
-const description = service?.description || "Giải pháp chuyên nghiệp giúp doanh nghiệp tối ưu quy trình vận hành và tuân thủ pháp luật.";
+const description =
+    service?.description ||
+    "Giải pháp chuyên nghiệp giúp doanh nghiệp tối ưu quy trình vận hành và tuân thủ pháp luật.";
 const content =
     service?.content ||
     `
@@ -51,8 +53,8 @@ const content =
 ---
 
 <MainLayout title={`${title} - NextTax`}>
-    <ServiceHero 
-        title={title} 
+    <ServiceHero
+        title={title}
         description={description}
         image={service?.featuredImage?.node?.sourceUrl}
     />
