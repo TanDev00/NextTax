@@ -11,17 +11,17 @@ import { getContactPageData } from "../services/wordpress";
 const data = await getContactPageData();
 ---
 
-<MainLayout title={data?.heroBanner?.title || "Liên hệ - NextTax"}>
+<MainLayout title={data?.hero_banner?.title || "Liên hệ - NextTax"}>
   <ContactHero
-    title={data?.heroBanner?.title}
-    description={data?.heroBanner?.description}
-    image={data?.heroBanner?.imageBanner}
+    title={data?.hero_banner?.title}
+    description={data?.hero_banner?.description}
+    image={data?.hero_banner?.imageBanner?.node?.sourceUrl}
   />
 
   <section class="section-padding">
     <div class="container mx-auto px-4 max-w-7xl">
       <div class="grid grid-cols-1 lg:grid-cols-[35%_65%] gap-20 items-start">
-        <ContactInfo data={data} />
+        <ContactInfo data={data || undefined} />
         <ContactForm />
       </div>
     </div>

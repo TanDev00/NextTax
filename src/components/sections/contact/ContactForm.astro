@@ -13,92 +13,275 @@ import Card from "../../ui/Card.astro";
   <Card
     className="relative z-10 p-8 md:p-12 border-none bg-white rounded-md h-full"
   >
-    <div class="mb-10">
+    <!-- Form Header -->
+    <div class="mb-10" id="contact-form-header">
       <h2 class="text-3xl font-black text-slate-900 tracking-tight">
         Gửi Yêu Cầu Tư Vấn
       </h2>
       <div class="w-12 h-1 bg-orange-600 mt-4 rounded-full"></div>
     </div>
 
-    <form class="space-y-6">
+    <!-- Error Message -->
+    <div id="form-error" class="hidden mb-6 p-4 bg-red-50 border border-red-200 rounded-md text-red-700 text-sm font-medium">
+    </div>
+
+    <!-- Contact Form -->
+    <form id="contact-form" class="space-y-6">
       <div class="space-y-2">
-        <label class="text-sm font-bold text-slate-700">Họ và tên <span class="text-orange-600">*</span></label>
+        <label for="cf-name" class="text-sm font-bold text-slate-700">Họ và tên <span class="text-orange-600">*</span></label>
         <input
           type="text"
+          id="cf-name"
+          name="name"
           placeholder="Nhập họ và tên"
+          required
           class="w-full px-5 py-4 rounded-md border-none bg-slate-50 focus:bg-white focus:ring-2 focus:ring-orange-600/20 outline-none transition-all"
         />
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div class="space-y-2">
-          <label class="text-sm font-bold text-slate-700">Email</label>
+          <label for="cf-email" class="text-sm font-bold text-slate-700">Email</label>
           <input
             type="email"
+            id="cf-email"
+            name="email"
             placeholder="example@email.com"
             class="w-full px-5 py-4 rounded-md border-none bg-slate-50 focus:bg-white focus:ring-2 focus:ring-orange-600/20 outline-none transition-all"
           />
         </div>
         <div class="space-y-2">
-          <label class="text-sm font-bold text-slate-700">Số điện thoại <span class="text-orange-600">*</span></label>
+          <label for="cf-phone" class="text-sm font-bold text-slate-700">Số điện thoại <span class="text-orange-600">*</span></label>
           <input
             type="tel"
+            id="cf-phone"
+            name="phone"
             placeholder="0123456789"
+            required
             class="w-full px-5 py-4 rounded-md border-none bg-slate-50 focus:bg-white focus:ring-2 focus:ring-orange-600/20 outline-none transition-all"
           />
         </div>
       </div>
 
       <div class="space-y-2">
-        <label class="text-sm font-bold text-slate-700">Tên công ty</label>
+        <label for="cf-company" class="text-sm font-bold text-slate-700">Tên công ty</label>
         <input
           type="text"
+          id="cf-company"
+          name="company"
           placeholder="Nhập tên công ty"
           class="w-full px-5 py-4 rounded-md border-none bg-slate-50 focus:bg-white focus:ring-2 focus:ring-orange-600/20 outline-none transition-all"
         />
       </div>
 
       <div class="space-y-2">
-        <label class="text-sm font-bold text-slate-700">Dịch vụ quan tâm <span class="text-orange-600">*</span></label>
+        <label for="cf-service" class="text-sm font-bold text-slate-700">Dịch vụ quan tâm <span class="text-orange-600">*</span></label>
         <div class="relative">
           <select
+            id="cf-service"
+            name="service"
+            required
             class="w-full px-5 py-4 rounded-md border-none bg-slate-50 focus:bg-white focus:ring-2 focus:ring-orange-600/20 outline-none transition-all appearance-none cursor-pointer"
           >
-            <option disabled selected>Chọn dịch vụ</option>
-            <option>Kế toán trọn gói</option>
-            <option>Quyết toán thuế</option>
-            <option>Thành lập doanh nghiệp</option>
-            <option>Khác</option>
+            <option value="" disabled selected>Đang tải dịch vụ...</option>
           </select>
           <Icon name="lucide:chevron-down" class="absolute right-5 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 pointer-events-none" />
         </div>
       </div>
 
       <div class="space-y-2">
-        <label class="text-sm font-bold text-slate-700">Nội dung</label>
+        <label for="cf-message" class="text-sm font-bold text-slate-700">Nội dung</label>
         <textarea
           rows="4"
+          id="cf-message"
+          name="message"
           placeholder="Nhập nội dung cần tư vấn..."
           class="w-full px-5 py-4 rounded-md border-none bg-slate-50 focus:bg-white focus:ring-2 focus:ring-orange-600/20 outline-none transition-all resize-none"
         ></textarea>
       </div>
 
       <div class="pt-4">
-        <Button variant="secondary" size="lg" className="w-full group/btn shadow-xl hover:shadow-orange-600/20">
-          Gửi yêu cầu <Icon name="lucide:send" class="w-5 h-5 ml-2 transition-transform group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1" />
-        </Button>
+        <button
+          type="submit"
+          id="cf-submit-btn"
+          class="w-full flex items-center justify-center gap-2 px-8 py-5 bg-orange-600 text-white font-bold rounded-md hover:bg-orange-700 transition-all shadow-xl hover:shadow-orange-600/20 active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed"
+        >
+          <span id="cf-btn-text">Gửi yêu cầu</span>
+          <Icon name="lucide:send" class="w-5 h-5 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" id="cf-btn-icon" />
+          <div id="cf-btn-spinner" class="hidden w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+        </button>
       </div>
     </form>
+
+    <!-- Success State (hidden by default) -->
+    <div id="contact-success" class="hidden text-center py-10">
+      <div class="w-20 h-20 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-6">
+        <Icon name="lucide:check-circle" class="w-10 h-10 text-green-500" />
+      </div>
+      <h3 class="text-2xl font-black text-slate-900 mb-3">Gửi thành công!</h3>
+      <p class="text-slate-500 text-lg mb-8 max-w-md mx-auto" id="success-message">
+        Cảm ơn bạn! Chúng tôi sẽ liên hệ lại trong thời gian sớm nhất.
+      </p>
+      <button
+        id="cf-reset-btn"
+        type="button"
+        class="inline-flex items-center gap-2 px-8 py-4 bg-slate-100 text-slate-700 font-bold rounded-md hover:bg-slate-200 transition-all"
+      >
+        <Icon name="lucide:plus" class="w-5 h-5" />
+        Gửi yêu cầu khác
+      </button>
+    </div>
   </Card>
 </div>
 
 <script>
+  import { gsap } from "gsap";
   import { fadeIn } from "../../animations/fadeIn";
 
+  const API_BASE = "https://backend.nexttax.vn/wp-json/nexttax/v1";
+
+  // Load services from WordPress settings
+  const loadServices = async () => {
+    const select = document.getElementById("cf-service") as HTMLSelectElement | null;
+    if (!select) return;
+
+    try {
+      const res = await fetch(`${API_BASE}/contact/services`);
+      const data = await res.json();
+
+      if (data.success && Array.isArray(data.services)) {
+        select.innerHTML = '<option value="" disabled selected>Chọn dịch vụ</option>';
+        data.services.forEach((svc: string) => {
+          const opt = document.createElement("option");
+          opt.value = svc;
+          opt.textContent = svc;
+          select.appendChild(opt);
+        });
+      }
+    } catch {
+      // Fallback to defaults if API fails
+      const defaults = ["Kế toán trọn gói", "Quyết toán thuế", "Thành lập doanh nghiệp", "Thay đổi giấy phép", "Giải thể doanh nghiệp", "Chữ ký số & Hóa đơn", "Khác"];
+      select.innerHTML = '<option value="" disabled selected>Chọn dịch vụ</option>';
+      defaults.forEach((svc) => {
+        const opt = document.createElement("option");
+        opt.value = svc;
+        opt.textContent = svc;
+        select.appendChild(opt);
+      });
+    }
+  };
+
+  const initContactForm = () => {
+    const form = document.getElementById("contact-form") as HTMLFormElement | null;
+    const errorEl = document.getElementById("form-error");
+    const successEl = document.getElementById("contact-success");
+    const headerEl = document.getElementById("contact-form-header");
+    const submitBtn = document.getElementById("cf-submit-btn") as HTMLButtonElement | null;
+    const btnText = document.getElementById("cf-btn-text");
+    const btnIcon = document.getElementById("cf-btn-icon");
+    const btnSpinner = document.getElementById("cf-btn-spinner");
+    const resetBtn = document.getElementById("cf-reset-btn");
+    const successMsg = document.getElementById("success-message");
+
+    if (!form || !submitBtn) return;
+
+    const setLoading = (loading: boolean) => {
+      submitBtn.disabled = loading;
+      if (btnText) btnText.textContent = loading ? "Đang gửi..." : "Gửi yêu cầu";
+      if (btnIcon) btnIcon.classList.toggle("hidden", loading);
+      if (btnSpinner) btnSpinner.classList.toggle("hidden", !loading);
+    };
+
+    const showError = (msg: string) => {
+      if (!errorEl) return;
+      errorEl.textContent = msg;
+      errorEl.classList.remove("hidden");
+      gsap.fromTo(errorEl, { opacity: 0, y: -10 }, { opacity: 1, y: 0, duration: 0.3 });
+    };
+
+    const hideError = () => {
+      if (errorEl) errorEl.classList.add("hidden");
+    };
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      hideError();
+
+      const name = (document.getElementById("cf-name") as HTMLInputElement).value.trim();
+      const email = (document.getElementById("cf-email") as HTMLInputElement).value.trim();
+      const phone = (document.getElementById("cf-phone") as HTMLInputElement).value.trim();
+      const company = (document.getElementById("cf-company") as HTMLInputElement).value.trim();
+      const service = (document.getElementById("cf-service") as HTMLSelectElement).value;
+      const message = (document.getElementById("cf-message") as HTMLTextAreaElement).value.trim();
+
+      // Client-side validation
+      if (!name) { showError("Vui lòng nhập họ và tên."); return; }
+      if (!phone) { showError("Vui lòng nhập số điện thoại."); return; }
+      if (!service) { showError("Vui lòng chọn dịch vụ quan tâm."); return; }
+
+      setLoading(true);
+
+      try {
+        const res = await fetch(`${API_BASE}/contact`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, email, phone, company, service, message }),
+        });
+
+        const data = await res.json();
+
+        if (!res.ok || !data.success) {
+          throw new Error(data.message || "Đã xảy ra lỗi. Vui lòng thử lại.");
+        }
+
+        // Show success
+        if (successMsg) successMsg.textContent = data.message;
+
+        gsap.to(form, {
+          opacity: 0, y: -20, duration: 0.4,
+          onComplete: () => {
+            form.classList.add("hidden");
+            if (headerEl) headerEl.classList.add("hidden");
+            if (successEl) {
+              successEl.classList.remove("hidden");
+              gsap.fromTo(successEl, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" });
+            }
+          }
+        });
+      } catch (err: any) {
+        showError(err.message || "Không thể kết nối đến máy chủ. Vui lòng thử lại sau.");
+      } finally {
+        setLoading(false);
+      }
+    });
+
+    // Reset button
+    resetBtn?.addEventListener("click", () => {
+      gsap.to(successEl, {
+        opacity: 0, y: -20, duration: 0.3,
+        onComplete: () => {
+          if (successEl) successEl.classList.add("hidden");
+          form.reset();
+          form.classList.remove("hidden");
+          if (headerEl) headerEl.classList.remove("hidden");
+          gsap.fromTo(form, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5 });
+          gsap.fromTo(headerEl, { opacity: 0 }, { opacity: 1, duration: 0.5 });
+        }
+      });
+    });
+  };
+
+  // Entrance animation
   const initContactFormAnim = () => {
     fadeIn(".contact-form-card-wrapper", 0.5, 50);
   };
 
+  loadServices();
+  initContactForm();
   initContactFormAnim();
-  document.addEventListener("astro:page-load", initContactFormAnim);
+  document.addEventListener("astro:page-load", () => {
+    loadServices();
+    initContactForm();
+    initContactFormAnim();
+  });
 </script>

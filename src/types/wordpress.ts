@@ -185,13 +185,15 @@ export interface AboutPageData {
 }
 
 export interface ContactPageData {
-  heroBanner: {
+  hero_banner: {
     title: string;
     description: string;
-    imageBanner: string;
+    imageBanner: { node: { sourceUrl: string } };
   };
-  contactInformation: {
-    phoneNumber: string;
+  contact_information: {
+    title: string;
+    subTitle: string;
+    phone_number: string;
     email: string;
     address: string;
   };
