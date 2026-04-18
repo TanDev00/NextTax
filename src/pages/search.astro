@@ -11,7 +11,7 @@ const title = "Kết quả tìm kiếm";
     <div class="container mx-auto px-6">
       <!-- Breadcrumbs -->
       <nav class="flex mb-6 text-sm text-slate-500 gap-2 items-center">
-        <a href="/" class="hover:text-blue-600 transition-colors font-medium"
+        <a href="/" class="hover:text-orange-600 transition-colors font-medium"
           >Trang chủ</a
         >
         <Icon name="lucide:chevron-right" class="w-4 h-4" />
@@ -36,7 +36,7 @@ const title = "Kết quả tìm kiếm";
         class="flex flex-col items-center justify-center py-20 space-y-4"
       >
         <div
-          class="w-12 h-12 border-4 border-blue-600/20 border-t-blue-600 rounded-full animate-spin"
+          class="w-12 h-12 border-4 border-orange-600/20 border-t-orange-600 rounded-full animate-spin"
         >
         </div>
         <span class="text-slate-500 font-medium"
@@ -71,7 +71,7 @@ const title = "Kết quả tìm kiếm";
         </p>
         <button
           onclick="window.dispatchEvent(new CustomEvent('toggle-search'))"
-          class="inline-flex items-center justify-center px-10 py-5 bg-blue-600 text-white font-bold rounded-2xl hover:bg-blue-700 transition-all shadow-xl shadow-blue-200 active:scale-95"
+          class="inline-flex items-center justify-center px-10 py-5 bg-orange-600 text-white font-bold rounded-2xl hover:bg-orange-700 transition-all shadow-xl shadow-orange-200 active:scale-95"
         >
           <Icon name="lucide:search" class="w-5 h-5 mr-3" /> Thử tìm kiếm lại
         </button>
@@ -99,7 +99,7 @@ const title = "Kết quả tìm kiếm";
       return;
     }
 
-    titleEl.innerHTML = `Kết quả cho: <span class="text-blue-600">"${query}"</span>`;
+    titleEl.innerHTML = `Kết quả cho: <span class="text-orange-600">"${query}"</span>`;
 
     try {
       console.log("Starting search for:", query);
@@ -184,7 +184,7 @@ const title = "Kết quả tìm kiếm";
       emptyEl.innerHTML = `
         <div class="text-red-500 font-bold mb-4">Lỗi kết nối API WordPress</div>
         <p class="text-slate-500 mb-6">${error.message}</p>
-        <button onclick="location.reload()" class="bg-blue-600 text-white px-6 py-2 rounded-lg font-bold">Thử lại</button>
+        <button onclick="location.reload()" class="bg-orange-600 text-white px-6 py-2 rounded-lg font-bold">Thử lại</button>
       `;
       emptyEl.classList.remove("hidden");
     }
@@ -205,7 +205,7 @@ const title = "Kết quả tìm kiếm";
     const category = post.isService
       ? "Dịch vụ"
       : post.categories?.nodes?.[0]?.name || "Tin tức";
-    const categoryColor = post.isService ? "bg-orange-600" : "bg-blue-600";
+    const categoryColor = post.isService ? "bg-orange-600" : "bg-orange-600";
     const link = post.isService ? `/${post.slug}` : `/blog/${post.slug}`;
 
     div.innerHTML = `
@@ -227,11 +227,11 @@ const title = "Kết quả tìm kiếm";
       </a>
       <div class="p-8 flex-1 flex flex-col">
         ${!post.isService ? `<time class="text-slate-400 text-sm font-medium mb-3 block">${date}</time>` : ""}
-        <h2 class="text-xl font-bold text-slate-900 mb-4 group-hover:text-blue-600 transition-colors line-clamp-2">
+        <h2 class="text-xl font-bold text-slate-900 mb-4 group-hover:text-orange-600 transition-colors line-clamp-2">
           <a href="${link}">${post.title}</a>
         </h2>
         <div class="text-slate-500 text-sm line-clamp-3 mb-6 flex-1">${post.excerpt}</div>
-        <a href="${link}" class="inline-flex items-center text-blue-600 font-bold hover:gap-2 transition-all">
+        <a href="${link}" class="inline-flex items-center text-orange-600 font-bold hover:gap-2 transition-all">
           Xem chi tiết <svg class="w-4 h-4 ml-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
         </a>
       </div>
