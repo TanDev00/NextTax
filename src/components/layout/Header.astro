@@ -1,6 +1,7 @@
 ---
 import { Icon } from 'astro-icon/components';
 import Button from '../ui/Button.astro';
+import SearchModal from '../ui/SearchModal.astro';
 import { getHeaderData } from '../../services/wordpress';
 
 const headerData = await getHeaderData();
@@ -52,7 +53,7 @@ const isActive = (url: string) => {
 
     <div class="flex items-center gap-4">
       <div class="hidden md:block">
-        <button class="w-10 h-10 flex items-center justify-center hover:opacity-70 transition-opacity">
+        <button id="search-btn" class="w-10 h-10 flex items-center justify-center hover:opacity-70 transition-opacity" aria-label="Search">
           <Icon name="lucide:search" class="w-5 h-5" />
         </button>
       </div>
@@ -81,7 +82,10 @@ const isActive = (url: string) => {
           {item.label}
         </a>
       ))}
-      <div class="mt-4 px-4">
+      <div class="mt-4 px-4 flex flex-col gap-3">
+        <button id="mobile-search-btn" class="flex items-center gap-3 px-4 py-3.5 font-bold text-slate-800 hover:bg-slate-50 rounded-md transition-colors">
+          <Icon name="lucide:search" class="w-5 h-5" /> Tìm kiếm
+        </button>
         <Button variant="primary" size="md" href={ctaButton.url} className="w-full justify-center shadow-none">
           {ctaButton.label} <Icon name="lucide:arrow-up-right" class="w-4 h-4 ml-1 inline-block" />
         </Button>
@@ -90,6 +94,8 @@ const isActive = (url: string) => {
   </div>
 </header>
 
+<SearchModal />
+
 {!isHome && <div class="h-24"></div>}
 
 <script>
@@ -97,7 +103,26 @@ const isActive = (url: string) => {
     const header = document.getElementById('main-header');
     const toggleBtn = document.getElementById('mobile-menu-toggle');
     const mobileMenu = document.getElementById('mobile-menu');
+    const searchBtn = document.getElementById('search-btn');
+    const mobileSearchBtn = document.getElementById('mobile-search-btn');
+    
     if (!header || !toggleBtn || !mobileMenu) return;
+
+    // Search Toggle Logic
+    const toggleSearch = () => {
+      window.dispatchEvent(new CustomEvent('toggle-search'));
+    };
+
+    searchBtn?.addEventListener('click', toggleSearch);
+    mobileSearchBtn?.addEventListener('click', () => {
+      // Close mobile menu first
+      const isMenuOpen = mobileMenu.style.maxHeight !== '0px';
+      if (isMenuOpen) {
+        // We'll let the existing logic handle closure if we trigger a click on toggleBtn
+        toggleBtn.click();
+      }
+      setTimeout(toggleSearch, 300);
+    });
 
     const isHome = header.dataset.ishome === 'true';
     let isMenuOpen = false;

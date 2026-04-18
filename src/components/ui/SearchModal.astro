@@ -1,0 +1,131 @@
+---
+import { Icon } from 'astro-icon/components';
+---
+
+<div id="search-modal" class="fixed inset-0 z-[100] hidden overflow-hidden">
+  <!-- Backdrop -->
+  <div class="absolute inset-0 bg-slate-900/40 backdrop-blur-xl transition-opacity duration-300 opacity-0 modal-backdrop"></div>
+  
+  <!-- Content -->
+  <div class="relative container mx-auto px-6 h-full flex items-center justify-center">
+    <div class="w-full max-w-4xl modal-content translate-y-10 opacity-0">
+      <!-- Search Input Container -->
+      <div class="relative group">
+        <label for="search-input" class="sr-only">Tìm kiếm</label>
+        <div class="absolute inset-y-0 left-6 flex items-center pointer-events-none">
+          <Icon name="lucide:search" class="w-8 h-8 text-white/40 group-focus-within:text-blue-400 transition-colors duration-300" />
+        </div>
+        
+        <input 
+          type="text" 
+          id="search-input" 
+          placeholder="Bạn đang tìm gì?..." 
+          class="w-full bg-white/10 border-2 border-white/20 text-white text-2xl md:text-4xl px-20 py-8 rounded-3xl outline-none focus:border-blue-400 focus:bg-white/15 transition-all duration-300 placeholder:text-white/30 font-medium shadow-2xl backdrop-blur-md"
+          autocomplete="off"
+        />
+        
+        <div class="absolute inset-y-0 right-6 flex items-center">
+          <button id="close-search-btn" class="p-2 rounded-full hover:bg-white/10 text-white/50 hover:text-white transition-all duration-300">
+            <Icon name="lucide:x" class="w-10 h-10" />
+            <span class="sr-only">Đóng</span>
+          </button>
+        </div>
+      </div>
+      
+      <!-- Quick Info / Hints -->
+      <div class="mt-8 flex flex-wrap items-center justify-center gap-6 text-white/60 text-sm md:text-base">
+        <span class="flex items-center gap-2">
+          <kbd class="px-2 py-1 bg-white/10 rounded border border-white/20 font-mono text-xs">ESC</kbd> để đóng
+        </span>
+        <span class="w-1 h-1 bg-white/20 rounded-full"></span>
+        <span class="flex items-center gap-2">
+          <kbd class="px-2 py-1 bg-white/10 rounded border border-white/20 font-mono text-xs">ENTER</kbd> để tìm kiếm
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  import { gsap } from 'gsap';
+
+  const modal = document.getElementById('search-modal');
+  const backdrop = modal?.querySelector('.modal-backdrop');
+  const content = modal?.querySelector('.modal-content');
+  const input = document.getElementById('search-input') as HTMLInputElement;
+  const closeBtn = document.getElementById('close-search-btn');
+
+  let isOpen = false;
+
+  const openModal = () => {
+    if (isOpen || !modal) return;
+    isOpen = true;
+    
+    modal.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+
+    const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+    
+    tl.to(backdrop, { opacity: 1, duration: 0.5 })
+      .to(content, { opacity: 1, y: 0, duration: 0.6 }, '-=0.3')
+      .add(() => {
+        input?.focus();
+      });
+  };
+
+  const closeModal = () => {
+    if (!isOpen || !modal) return;
+    isOpen = false;
+
+    const tl = gsap.timeline({ 
+      defaults: { ease: 'power3.inOut' },
+      onComplete: () => {
+        modal.classList.add('hidden');
+        document.body.style.overflow = '';
+      }
+    });
+
+    tl.to(content, { opacity: 0, y: 40, duration: 0.4 })
+      .to(backdrop, { opacity: 0, duration: 0.4 }, '-=0.2');
+  };
+
+  // Handle Search Submission
+  input?.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && input.value.trim()) {
+      window.location.href = `/search?q=${encodeURIComponent(input.value.trim())}`;
+    }
+    if (e.key === 'Escape') {
+      closeModal();
+    }
+  });
+
+  closeBtn?.addEventListener('click', closeModal);
+  backdrop?.addEventListener('click', closeModal);
+
+  // Listen for custom toggle event from Header
+  window.addEventListener('toggle-search', () => {
+    openModal();
+  });
+
+  // Global key listener
+  document.addEventListener('keydown', (e) => {
+    if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+      e.preventDefault();
+      openModal();
+    }
+    if (e.key === 'Escape' && isOpen) {
+      closeModal();
+    }
+  });
+</script>
+
+<style>
+  /* Optional: Custom cursor or subtle effects */
+  #search-modal {
+    perspective: 1000px;
+  }
+  
+  .modal-content {
+    will-change: transform, opacity;
+  }
+</style>

@@ -78,6 +78,40 @@ export async function getAllPosts(): Promise<Post[]> {
   return data?.posts?.nodes || [];
 }
 
+export async function searchPosts(query: string): Promise<Post[]> {
+  const searchTerm = query.trim();
+  if (!searchTerm) return [];
+
+  const data = await fetchAPI(`
+    query SearchPosts($search: String!) {
+      posts(first: 20, where: { search: $search }) {
+        nodes {
+          id
+          title
+          slug
+          date
+          excerpt
+          featuredImage {
+            node {
+              sourceUrl
+              altText
+            }
+          }
+          categories {
+            nodes {
+              name
+              slug
+            }
+          }
+        }
+      }
+    }
+  `, {
+    variables: { search: searchTerm }
+  });
+  return data?.posts?.nodes || [];
+}
+
 export async function getPostBySlug(slug: string): Promise<Post> {
   const data = await fetchAPI(`
     query PostBySlug($id: ID!, $idType: PostIdType!) {
