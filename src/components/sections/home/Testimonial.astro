@@ -1,7 +1,7 @@
 ---
 import { Icon } from "astro-icon/components";
 import SectionHeading from "../../ui/SectionHeading.astro";
-import type { TestimonialItem } from "../../../services/wordpress";
+import { TestimonialItem } from "../../../types/wordpress";
 
 interface Props {
   badge: string;
@@ -48,7 +48,7 @@ const firstImage = safeTestimonials[0]?.image?.node?.sourceUrl || '';
               {safeTestimonials.map((t) => (
                 <div class="swiper-slide cursor-grab active:cursor-grabbing">
                   <div class="flex flex-col justify-between h-full space-y-8">
-                    <h3 class="testimonial-quote text-xl md:text-2xl lg:text-3xl font-extrabold text-slate-900 leading-[1.4] tracking-tight min-h-[150px] md:min-h-[120px]">
+                    <h3 class="testimonial-quote text-xl md:text-2xl lg:text-3xl font-extrabold text-slate-800 leading-[1.4] tracking-tight min-h-[150px] md:min-h-[120px]">
                       "{t.quote}"
                     </h3>
 

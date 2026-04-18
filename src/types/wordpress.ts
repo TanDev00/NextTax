@@ -222,6 +222,8 @@ export interface HeroSlide {
       sourceUrl: string;
     };
   };
+  title2: string;
+  subtitle2: string;
 }
 
 export interface Partner {

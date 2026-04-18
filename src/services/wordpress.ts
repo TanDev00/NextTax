@@ -391,6 +391,8 @@ const HOME_QUERY = `
               sourceUrl
             }
           }
+          title2
+          subtitle2
         }
         partnersList {
           name

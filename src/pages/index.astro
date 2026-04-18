@@ -11,19 +11,19 @@ import { getHomePageData } from "../services/wordpress";
 const data = await getHomePageData();
 
 if (!data) {
-  return Astro.redirect('/404'); // Hoặc hiển thị thông báo lỗi
+  return Astro.redirect("/404"); // Hoặc hiển thị thông báo lỗi
 }
 ---
 
 <MainLayout title="NextTax - Kế toán & Thuế thông minh">
   <Hero slides={data.heroSlides || []} />
-  <Partners partners={data.partnersList || []} />
-  <Services 
-    badge={data.servicesSection?.badge} 
-    title={data.servicesSection?.title} 
-    services={data.servicesSection?.list || []} 
+  {data.partnersList ? <Partners partners={data.partnersList || []} /> : null}
+  <Services
+    badge={data.servicesSection?.badge}
+    title={data.servicesSection?.title}
+    services={data.servicesSection?.list || []}
   />
-  <AboutPreview 
+  <AboutPreview
     badge={data.aboutSection?.badge}
     title={data.aboutSection?.title}
     image={data.aboutSection?.image?.node?.sourceUrl}
@@ -32,12 +32,12 @@ if (!data) {
     signature={data.aboutSection?.signature?.node?.sourceUrl}
     stats={data.aboutSection?.stats || []}
   />
-  <CTA 
+  <CTA
     heading={data.ctaSection?.heading}
     description={data.ctaSection?.description}
     background={data.ctaSection?.background?.node?.sourceUrl}
   />
-  <Testimonial 
+  <Testimonial
     badge={data.testimonialSection?.badge}
     title={data.testimonialSection?.title}
     testimonials={data.testimonialSection?.list || []}
