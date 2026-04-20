@@ -32,55 +32,55 @@ const jobs = await getJobListings();
               return (
                 <a 
                   href={`/careers/${job.slug}`}
-                  class="group block bg-white p-8 md:p-10 rounded-md border border-slate-100 shadow-sm hover:shadow-2xl hover:shadow-slate-200/50 hover:border-orange-200 transition-all duration-500 relative overflow-hidden"
+                  class="group block bg-white p-6 md:p-10 rounded-md border border-slate-100 shadow-sm hover:shadow-2xl hover:shadow-slate-200/50 hover:border-orange-200 transition-all duration-500 relative overflow-hidden"
                 >
                   <!-- Decorative element -->
                   <div class="absolute top-0 right-0 w-32 h-32 bg-orange-50 rounded-bl-[100%] translate-x-16 -translate-y-16 group-hover:translate-x-8 group-hover:-translate-y-8 transition-transform duration-500"></div>
                   
-                  <div class="flex flex-col md:flex-row md:items-center justify-between gap-8 relative z-10">
-                    <div class="flex-grow space-y-4">
-                      <div class="flex items-center gap-4">
+                  <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 md:gap-8 relative z-10">
+                    <div class="flex-grow space-y-3 md:space-y-4">
+                      <div class="flex flex-wrap items-center gap-3 md:gap-4">
                         <span class="px-3 py-1 bg-orange-100 text-orange-700 text-[10px] font-black rounded-full uppercase tracking-widest">
                           {jobType}
                         </span>
-                        <span class="text-slate-300 text-sm font-medium">
+                        <span class="text-slate-400 text-xs md:text-sm font-medium">
                           Hạn nộp: {job.jobMeta.expires 
                             ? new Date(job.jobMeta.expires).toLocaleDateString('vi-VN') 
                             : "Thỏa thuận"}
                         </span>
                       </div>
                       
-                      <h3 class="text-2xl md:text-3xl font-black text-slate-900 group-hover:text-orange-600 transition-colors duration-300">
+                      <h3 class="text-xl md:text-3xl font-black text-slate-900 group-hover:text-orange-600 transition-colors duration-300 leading-tight">
                         {job.title}
                       </h3>
                       
-                      <div class="flex flex-wrap gap-y-3 gap-x-8 pt-2">
-                        <div class="flex items-center gap-2.5 text-slate-500 group-hover:text-slate-700 transition-colors">
-                          <div class="w-8 h-8 rounded-lg bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-orange-50 group-hover:text-orange-600 transition-all">
-                            <Icon name="lucide:map-pin" class="w-4 h-4" />
+                      <div class="flex flex-wrap gap-y-3 gap-x-6 md:gap-x-8 pt-1 md:pt-2">
+                        <div class="flex items-center gap-2 md:gap-2.5 text-slate-500 group-hover:text-slate-700 transition-colors">
+                          <div class="w-7 h-7 md:w-8 md:h-8 rounded-lg bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-orange-50 group-hover:text-orange-600 transition-all">
+                            <Icon name="lucide:map-pin" class="w-3.5 h-3.5 md:w-4 md:h-4" />
                           </div>
-                          <span class="text-sm font-bold">{job.jobMeta?.location || "Hồ Chí Minh"}</span>
+                          <span class="text-xs md:text-sm font-bold">{job.jobMeta?.location || "Hồ Chí Minh"}</span>
                         </div>
                         
-                        <div class="flex items-center gap-2.5 text-slate-500 group-hover:text-slate-700 transition-colors">
-                          <div class="w-8 h-8 rounded-lg bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-orange-50 group-hover:text-orange-600 transition-all">
-                            <Icon name="lucide:banknote" class="w-4 h-4" />
+                        <div class="flex items-center gap-2 md:gap-2.5 text-slate-500 group-hover:text-slate-700 transition-colors">
+                          <div class="w-7 h-7 md:w-8 md:h-8 rounded-lg bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-orange-50 group-hover:text-orange-600 transition-all">
+                            <Icon name="lucide:banknote" class="w-3.5 h-3.5 md:w-4 md:h-4" />
                           </div>
-                          <span class="text-sm font-bold">{job.jobMeta?.salary || "Thỏa thuận"}</span>
+                          <span class="text-xs md:text-sm font-bold">{job.jobMeta?.salary || "Thỏa thuận"}</span>
                         </div>
 
-                        <div class="flex items-center gap-2.5 text-slate-500 group-hover:text-slate-700 transition-colors">
-                          <div class="w-8 h-8 rounded-lg bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-orange-50 group-hover:text-orange-600 transition-all">
-                            <Icon name="lucide:building-2" class="w-4 h-4" />
+                        <div class="flex items-center gap-2 md:gap-2.5 text-slate-500 group-hover:text-slate-700 transition-colors">
+                          <div class="w-7 h-7 md:w-8 md:h-8 rounded-lg bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-orange-50 group-hover:text-orange-600 transition-all">
+                            <Icon name="lucide:building-2" class="w-3.5 h-3.5 md:w-4 md:h-4" />
                           </div>
-                          <span class="text-sm font-bold">{job.jobMeta?.company || "NextTax"}</span>
+                          <span class="text-xs md:text-sm font-bold">{job.jobMeta?.company || "NextTax"}</span>
                         </div>
                       </div>
                     </div>
                     
-                    <div class="shrink-0">
-                      <div class="w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-slate-900 text-white flex items-center justify-center group-hover:bg-orange-600 group-hover:rotate-6 transition-all duration-300 shadow-lg shadow-slate-900/20 group-hover:shadow-orange-600/30">
-                        <Icon name="lucide:chevron-right" class="w-6 h-6 md:w-8 md:h-8" />
+                    <div class="shrink-0 flex justify-end md:block pt-2 md:pt-0">
+                      <div class="w-12 h-12 md:w-16 md:h-16 rounded-xl md:rounded-md bg-slate-900 text-white flex items-center justify-center group-hover:bg-orange-600 group-hover:rotate-6 transition-all duration-300 shadow-lg shadow-slate-900/20 group-hover:shadow-orange-600/30">
+                        <Icon name="lucide:chevron-right" class="w-5 h-5 md:w-8 md:h-8" />
                       </div>
                     </div>
                   </div>
@@ -89,12 +89,12 @@ const jobs = await getJobListings();
             })}
           </div>
         ) : (
-          <div class="bg-slate-50 p-16 rounded-md border border-dashed border-slate-200 text-center">
-            <div class="w-24 h-24 bg-white rounded-md shadow-sm flex items-center justify-center mx-auto mb-8 border border-slate-100">
+          <div class="bg-slate-50 p-10 md:p-16 rounded-md border border-dashed border-slate-200 text-center">
+            <div class="w-20 h-20 md:w-24 md:h-24 bg-white rounded-md shadow-sm flex items-center justify-center mx-auto mb-8 border border-slate-100">
               <Icon name="lucide:briefcase" class="w-10 h-10 text-slate-300" />
             </div>
-            <h3 class="text-2xl font-black text-slate-900 mb-3">Chưa có vị trí mới</h3>
-            <p class="text-slate-500 max-w-sm mx-auto leading-relaxed">Đội ngũ HR đang chuẩn bị cho những đợt tuyển dụng sắp tới. Hãy quay lại sau hoặc gửi CV trực tiếp cho chúng tôi.</p>
+            <h3 class="text-xl md:text-2xl font-black text-slate-900 mb-3">Chưa có vị trí mới</h3>
+            <p class="text-slate-500 max-w-sm mx-auto leading-relaxed text-sm md:text-base">Đội ngũ HR đang chuẩn bị cho những đợt tuyển dụng sắp tới. Hãy quay lại sau hoặc gửi CV trực tiếp cho chúng tôi.</p>
           </div>
         )}
       </div>
