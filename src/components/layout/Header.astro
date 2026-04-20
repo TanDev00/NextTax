@@ -6,28 +6,51 @@ import { getHeaderData } from '../../services/wordpress';
 
 const headerData = await getHeaderData();
 
-const navItems = headerData?.navItems || [
-  { label: 'Trang chủ', url: '/' },
-  { label: 'Dịch vụ', url: '/services' },
-  { label: 'Về chúng tôi', url: '/about' },
-  { label: 'Tin tức', url: '/blog' },
-  { label: 'Liên hệ', url: '/contact' },
+// Fallback sử dụng cấu trúc NavItem mới: url là object { url, title, target }
+const navItems = headerData?.navItems?.length ? headerData.navItems : [
+  { label: 'Trang chủ', url: { url: '/', title: '', target: '' }, subitem: [] },
+  { label: 'Dịch vụ',   url: { url: '/services', title: '', target: '' }, subitem: [] },
+  { label: 'Về chúng tôi', url: { url: '/about', title: '', target: '' }, subitem: [] },
+  { label: 'Tin tức',   url: { url: '/blog', title: '', target: '' }, subitem: [] },
+  { label: 'Liên hệ',  url: { url: '/contact', title: '', target: '' }, subitem: [] },
 ];
 
-const logoText = headerData?.logoText || 'NextTax';
+const logoText    = headerData?.logoText    || 'NextTax';
 const logoIconText = headerData?.logoIconText || 'N';
-const ctaButton = headerData?.ctaButton || { label: 'Tư vấn ngay', url: '/contact' };
+const ctaButton   = headerData?.ctaButton   || { label: 'Tư vấn ngay', url: '/contact' };
 
 const currentPath = Astro.url.pathname;
 const isHome = currentPath === '/' || currentPath === '';
 
-const isActive = (url: string) => {
-  if (!url) return false;
-  if (url === '/') return currentPath === '/';
-  // Check exact match or starts with path + trailing slash for nested routes (like /blog/slug)
+// Format WP URL sang relative URL của Astro
+const formatUrl = (url: any) => {
+  if (!url) return '#';
+  // Nếu url vẫn là một object (do GraphQL backend chưa update) thì tách lấy url string
+  let urlStr = url;
+  if (typeof url === 'object' && url.url) {
+    urlStr = url.url;
+  }
+  if (typeof urlStr !== 'string') return '#';
+
+  try {
+    const formattedUrl = new URL(urlStr);
+    // Nếu URL dẫn tới backend WordPress, ta trả về relative path
+    if (formattedUrl.hostname.includes('backend.nexttax.vn') || formattedUrl.hostname.includes('nexttax.vn')) {
+      return formattedUrl.pathname;
+    }
+  } catch (e) {
+    // Không parse được (đã là relative path vd: /about)
+  }
+  return urlStr;
+};
+
+const isActive = (url: string | null | undefined) => {
+  const formattedUrl = formatUrl(url);
+  if (!formattedUrl || formattedUrl === '#') return false;
+  if (formattedUrl === '/') return currentPath === '/';
   const normalizedPath = currentPath.replace(/\/$/, '');
-  const normalizedUrl = url.replace(/\/$/, '');
-  return normalizedPath === normalizedUrl || currentPath.startsWith(url + '/');
+  const normalizedUrlStr  = formattedUrl.replace(/\/$/, '');
+  return normalizedPath === normalizedUrlStr || currentPath.startsWith(formattedUrl + '/');
 };
 ---
 
@@ -40,15 +63,38 @@ const isActive = (url: string) => {
       <span class="text-2xl font-black tracking-tight" id="header-logo-text">{logoText.includes('Tax') ? <>{logoText.replace('Tax', '')}<span class="text-orange-600 border-none px-0">Tax</span></> : logoText}</span>
     </a>
 
+    <!-- Desktop Nav -->
     <nav class="hidden md:flex items-center gap-8">
-      {navItems.map(item => (
-        <a 
-          href={item.url} 
-          class={`font-bold transition-all ${isActive(item.url) ? 'text-[#f36a33]' : 'hover:text-[#f36a33]'}`}
-        >
-          {item.label}
-        </a>
-      ))}
+      {navItems.map(item => {
+        const href       = formatUrl(item.url);
+        const hasSubmenu = item.subitem && item.subitem.length > 0;
+        return (
+          <div class="relative group h-full py-4">
+            <a
+              href={href}
+              target="_self"
+              class={`font-bold transition-all flex items-center gap-1 ${isActive(href) ? 'text-[#f36a33]' : 'hover:text-[#f36a33] group-hover:text-[#f36a33] opacity-90 hover:opacity-100'}`}
+            >
+              {item.label}
+              {hasSubmenu && <Icon name="lucide:chevron-down" class="w-4 h-4 transition-transform group-hover:rotate-180" />}
+            </a>
+
+            {hasSubmenu && (
+              <div class="absolute top-full left-0 min-w-[220px] bg-white rounded-xl shadow-xl border border-slate-100 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-200 py-2 z-50 border-t-2 border-t-[#f36a33] translate-y-2 group-hover:translate-y-0">
+                {item.subitem!.map(sub => (
+                  <a
+                    href={formatUrl(sub.url?.url)}
+                    target={sub.url?.target || '_self'}
+                    class="block px-4 py-2.5 text-sm font-semibold text-slate-700 hover:text-[#f36a33] hover:bg-orange-50 transition-colors"
+                  >
+                    {sub.label}
+                  </a>
+                ))}
+              </div>
+            )}
+          </div>
+        );
+      })}
     </nav>
 
     <div class="flex items-center gap-4">
@@ -58,7 +104,7 @@ const isActive = (url: string) => {
         </button>
       </div>
       <div class="hidden lg:block">
-        <Button variant="primary" size="sm" href={ctaButton.url} className="get-quote-btn shadow-none">
+        <Button variant="primary" size="sm" href={formatUrl(ctaButton.url)} className="get-quote-btn shadow-none">
           {ctaButton.label} <Icon name="lucide:arrow-up-right" class="w-4 h-4 ml-1 inline-block" />
         </Button>
       </div>
@@ -74,19 +120,43 @@ const isActive = (url: string) => {
   <!-- Mobile Slide-Down Menu -->
   <div id="mobile-menu" class="md:hidden overflow-hidden max-h-0 transition-all duration-500 ease-in-out bg-white border-t border-slate-100 shadow-xl">
     <nav class="container mx-auto px-4 py-6 flex flex-col gap-1">
-      {navItems.map(item => (
-        <a 
-          href={item.url} 
-          class={`mobile-nav-link block px-4 py-3.5 font-bold text-base rounded-md transition-colors ${isActive(item.url) ? 'text-[#f36a33] bg-orange-50/50' : 'text-slate-800 hover:bg-slate-50 hover:text-[#f36a33]'}`}
-        >
-          {item.label}
-        </a>
-      ))}
+      {navItems.map((item, idx) => {
+        const href       = formatUrl(item.url);
+        const hasSubmenu = item.subitem && item.subitem.length > 0;
+        return (
+          <div>
+            <a
+              href={hasSubmenu ? '#' : href}
+              target="_self"
+              data-accordion-toggle={hasSubmenu ? `submenu-${idx}` : undefined}
+              class={`mobile-nav-link flex items-center justify-between px-4 py-3.5 font-bold text-base rounded-md transition-colors ${isActive(href) ? 'text-[#f36a33] bg-orange-50/50' : 'text-slate-800 hover:bg-slate-50 hover:text-[#f36a33]'}`}
+            >
+              {item.label}
+              {hasSubmenu && <Icon name="lucide:chevron-down" class={`w-4 h-4 transition-transform accordion-icon-${idx}`} />}
+            </a>
+
+            {hasSubmenu && (
+              <div id={`submenu-${idx}`} class="overflow-hidden max-h-0 transition-all duration-300 pl-4">
+                {item.subitem!.map(sub => (
+                  <a
+                    href={formatUrl(sub.url?.url)}
+                    target={sub.url?.target || '_self'}
+                    class="mobile-nav-link block px-4 py-2.5 text-sm font-semibold text-slate-600 hover:text-[#f36a33] hover:bg-orange-50/50 rounded-md transition-colors"
+                  >
+                    {sub.label}
+                  </a>
+                ))}
+              </div>
+            )}
+          </div>
+        );
+      })}
+
       <div class="mt-4 px-4 flex flex-col gap-3">
         <button id="mobile-search-btn" class="flex items-center gap-3 px-4 py-3.5 font-bold text-slate-800 hover:bg-slate-50 rounded-md transition-colors">
           <Icon name="lucide:search" class="w-5 h-5" /> Tìm kiếm
         </button>
-        <Button variant="primary" size="md" href={ctaButton.url} className="w-full justify-center shadow-none">
+        <Button variant="primary" size="md" href={formatUrl(ctaButton.url)} className="w-full justify-center shadow-none">
           {ctaButton.label} <Icon name="lucide:arrow-up-right" class="w-4 h-4 ml-1 inline-block" />
         </Button>
       </div>
@@ -100,44 +170,62 @@ const isActive = (url: string) => {
 
 <script>
   const initHeader = () => {
-    const header = document.getElementById('main-header');
+    const header    = document.getElementById('main-header');
     const toggleBtn = document.getElementById('mobile-menu-toggle');
     const mobileMenu = document.getElementById('mobile-menu');
-    const searchBtn = document.getElementById('search-btn');
+    const searchBtn  = document.getElementById('search-btn');
     const mobileSearchBtn = document.getElementById('mobile-search-btn');
-    
+
     if (!header || !toggleBtn || !mobileMenu) return;
 
-    // Search Toggle Logic
-    const toggleSearch = () => {
-      window.dispatchEvent(new CustomEvent('toggle-search'));
-    };
-
+    // Search Toggle
+    const toggleSearch = () => window.dispatchEvent(new CustomEvent('toggle-search'));
     searchBtn?.addEventListener('click', toggleSearch);
     mobileSearchBtn?.addEventListener('click', () => {
-      // Close mobile menu first
       const isMenuOpen = mobileMenu.style.maxHeight !== '0px';
-      if (isMenuOpen) {
-        // We'll let the existing logic handle closure if we trigger a click on toggleBtn
-        toggleBtn.click();
-      }
+      if (isMenuOpen) toggleBtn.click();
       setTimeout(toggleSearch, 300);
+    });
+
+    // Mobile accordion for subitems
+    mobileMenu.querySelectorAll('[data-accordion-toggle]').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const targetId = (btn as HTMLElement).dataset.accordionToggle!;
+        const submenu  = document.getElementById(targetId);
+        if (!submenu) return;
+        const isOpen = submenu.style.maxHeight && submenu.style.maxHeight !== '0px';
+        
+        // Close all submenus
+        mobileMenu.querySelectorAll('[data-accordion-toggle]').forEach(b => {
+          const sid = (b as HTMLElement).dataset.accordionToggle!;
+          const sm  = document.getElementById(sid);
+          if (sm) sm.style.maxHeight = '0px';
+        });
+
+        // Toggle current
+        if (!isOpen) {
+          submenu.style.maxHeight = submenu.scrollHeight + 'px';
+          // Ensure parent wrapper can fit the new expanded content
+          mobileMenu.style.maxHeight = (mobileMenu.scrollHeight + submenu.scrollHeight) + 'px';
+        } else {
+          // Keep parent menu open but re-adjust its internal height safely
+          mobileMenu.style.maxHeight = mobileMenu.scrollHeight + 'px';
+        }
+      });
     });
 
     const isHome = header.dataset.ishome === 'true';
     let isMenuOpen = false;
 
-    const iconOpen = toggleBtn.querySelector('.menu-icon-open') as HTMLElement;
+    const iconOpen  = toggleBtn.querySelector('.menu-icon-open')  as HTMLElement;
     const iconClose = toggleBtn.querySelector('.menu-icon-close') as HTMLElement;
 
     const openMenu = () => {
       isMenuOpen = true;
-      mobileMenu.style.maxHeight = mobileMenu.scrollHeight + 'px';
-
-      // Force white background when menu is open
+      mobileMenu.style.maxHeight = '2000px'; // Bỏ giới hạn để accordion tự do đẩy
       header.classList.remove('bg-transparent', 'text-white', 'border-white/20');
       header.classList.add('bg-white', 'backdrop-blur-md', 'border-slate-100', 'text-slate-800', 'shadow-sm');
-
       iconOpen?.classList.add('hidden');
       iconClose?.classList.remove('hidden');
     };
@@ -145,39 +233,25 @@ const isActive = (url: string) => {
     const closeMenu = () => {
       isMenuOpen = false;
       mobileMenu.style.maxHeight = '0px';
-
       iconOpen?.classList.remove('hidden');
       iconClose?.classList.add('hidden');
-
-      // Remove all header style classes first (including bg-white from openMenu)
       header.classList.remove('bg-white', 'bg-white/95', 'backdrop-blur-md', 'border-slate-100', 'text-slate-800', 'shadow-sm', 'bg-transparent', 'text-white', 'border-white/20');
-
-      // Restore header style based on scroll position
       if (isHome) {
         handleScroll();
       } else {
-        // Non-home pages: always white bg
         header.classList.add('bg-white/90', 'backdrop-blur-md', 'border-slate-100', 'text-slate-800', 'shadow-sm');
       }
     };
 
-    toggleBtn.addEventListener('click', () => {
-      if (isMenuOpen) {
-        closeMenu();
-      } else {
-        openMenu();
-      }
-    });
+    toggleBtn.addEventListener('click', () => isMenuOpen ? closeMenu() : openMenu());
 
-    // Close menu when clicking a nav link
-    mobileMenu.querySelectorAll('a').forEach(link => {
+    // Close menu on regular link click (not accordion toggles)
+    mobileMenu.querySelectorAll('a:not([data-accordion-toggle])').forEach(link => {
       link.addEventListener('click', () => closeMenu());
     });
 
-    // Scroll handler for homepage
     const handleScroll = () => {
-      if (isMenuOpen) return; // Don't change styles while menu is open
-
+      if (isMenuOpen) return;
       if (window.scrollY > 50) {
         header.classList.remove('bg-transparent', 'text-white', 'border-white/20');
         header.classList.add('bg-white/95', 'backdrop-blur-md', 'border-slate-100', 'text-slate-800', 'shadow-sm');

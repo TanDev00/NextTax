@@ -1,5 +1,5 @@
 import { WORDPRESS_API_URL } from '../lib/constants';
-import { Post, Service, ServicePageData, AboutPageData, ContactPageData, HomePageData, FooterData, HeaderData } from '../types/wordpress';
+import { Post, Service, ServicePageData, AboutPageData, ContactPageData, HomePageData, FooterData, HeaderData, Category } from '../types/wordpress';
 
 async function fetchAPI(query: string, { variables }: { variables?: any } = {}) {
   const headers: Record<string, string> = {
@@ -108,6 +108,51 @@ export async function searchPosts(query: string): Promise<Post[]> {
     }
   `, {
     variables: { search: searchTerm }
+  });
+  return data?.posts?.nodes || [];
+}
+
+export async function getAllCategories(): Promise<Category[]> {
+  const data = await fetchAPI(`
+    query AllCategories {
+      categories {
+        nodes {
+          name
+          slug
+        }
+      }
+    }
+  `);
+  return data?.categories?.nodes || [];
+}
+
+export async function getPostsByCategory(categorySlug: string): Promise<Post[]> {
+  const data = await fetchAPI(`
+    query PostsByCategory($categoryName: String!) {
+      posts(first: 20, where: { categoryName: $categoryName, orderby: { field: DATE, order: DESC } }) {
+        nodes {
+          id
+          title
+          slug
+          date
+          excerpt
+          featuredImage {
+            node {
+              sourceUrl
+              altText
+            }
+          }
+          categories {
+            nodes {
+              name
+              slug
+            }
+          }
+        }
+      }
+    }
+  `, {
+    variables: { categoryName: categorySlug }
   });
   return data?.posts?.nodes || [];
 }
@@ -513,6 +558,14 @@ export async function getHeaderData(): Promise<HeaderData | null> {
           navItems {
             label
             url
+            subitem {
+              label
+              url {
+                target
+                title
+                url
+              }
+            }
           }
           ctaButton {
             label

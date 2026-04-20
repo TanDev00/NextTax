@@ -1,0 +1,99 @@
+---
+export const prerender = true;
+
+// Set caching headers for Vercel Edge Network
+Astro.response.headers.set(
+  "Cache-Control",
+  "s-maxage=60, stale-while-revalidate=300",
+);
+
+import { Icon } from "astro-icon/components";
+import MainLayout from "../../../layouts/MainLayout.astro";
+import BlogCard from "../../../components/blog/BlogCard.astro";
+
+import { getAllCategories, getPostsByCategory } from "../../../services/wordpress";
+
+export async function getStaticPaths() {
+  const categories = await getAllCategories();
+  return categories.map((category) => ({
+    params: { slug: category.slug },
+    props: { category },
+  }));
+}
+
+const { slug } = Astro.params;
+const { category } = Astro.props;
+
+const wpPosts = await getPostsByCategory(slug as string);
+const posts = wpPosts.map((post) => ({
+  title: post.title,
+  slug: post.slug,
+  excerpt: post.excerpt?.replace(/<[^>]+>/g, "") || "", // Strip HTML tags
+  date: post.date,
+  category: post.categories?.nodes?.[0]?.name || category.name || "Tin tức",
+  image:
+    post.featuredImage?.node?.sourceUrl ||
+    "https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&q=80&w=800",
+}));
+---
+
+<MainLayout title={`Tin bài chuyên mục ${category.name} - NextTax`}>
+  <!-- Blog Category Hero Section -->
+  <section
+    class="relative w-full h-[50vh] min-h-[400px] flex items-center justify-center bg-slate-900"
+  >
+    <!-- Background Image with Gradient Overlay -->
+    <div class="absolute inset-0">
+      <img
+        src="https://images.unsplash.com/photo-1512486130939-2c4f79935e4f?auto=format&fit=crop&q=80&w=2000"
+        alt={`Chuyên mục ${category.name}`}
+        class="w-full h-full object-cover"
+      />
+      <div
+        class="absolute inset-0 bg-gradient-to-r from-slate-900/95 via-slate-900/80 to-[#f36a33]/60 mix-blend-multiply"
+      >
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="relative z-10 text-center px-4 mt-20">
+      <h1 class="text-4xl md:text-6xl font-bold text-white mb-6 tracking-tight">
+        {category.name}
+      </h1>
+      <div
+        class="flex items-center justify-center gap-3 text-white/90 text-sm md:text-base font-medium flex-wrap"
+      >
+        <a href="/" class="hover:text-white transition-colors">Trang chủ</a>
+        <Icon name="lucide:chevron-right" class="w-4 h-4 opacity-70" />
+        <a href="/blog" class="hover:text-white transition-colors">Blog</a>
+        <Icon name="lucide:chevron-right" class="w-4 h-4 opacity-70" />
+        <span class="font-bold text-[#f36a33]">{category.name}</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Posts Grid -->
+  <section class="section-padding bg-slate-50 min-h-screen">
+    <div class="container mx-auto px-4">
+      {posts.length > 0 ? (
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {posts.map((post) => <BlogCard post={post} />)}
+        </div>
+      ) : (
+        <div class="flex flex-col items-center justify-center min-h-[40vh] text-center">
+          <div class="w-24 h-24 bg-white rounded-full flex items-center justify-center shadow-sm mb-6">
+            <Icon name="lucide:file-question" class="w-10 h-10 text-slate-300" />
+          </div>
+          <h2 class="text-2xl font-bold text-slate-800 mb-2">Chưa có bài viết</h2>
+          <p class="text-slate-500 max-w-md mx-auto">
+            Hiện tại chưa có bài viết nào thuộc chuyên mục "{category.name}". Bạn vui lòng quay lại sau nhé.
+          </p>
+          <a href="/blog" class="mt-8 font-bold text-[#f36a33] hover:text-orange-700 flex items-center gap-2 group">
+            <Icon name="lucide:arrow-left" class="w-4 h-4 transition-transform group-hover:-translate-x-1" />
+            Xem tất cả bài viết
+          </a>
+        </div>
+      )}
+    </div>
+  </section>
+</MainLayout>

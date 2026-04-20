@@ -43,6 +43,11 @@ export interface Post {
   };
 }
 
+export interface Category {
+  name: string;
+  slug: string;
+}
+
 export interface Page {
   id: string;
   title: string;
@@ -310,10 +315,28 @@ export interface Link {
 
 /* ───────── Header Interfaces ───────── */
 
+/** ACF link field object (returned by get_field on a Link field) */
+export interface NavLinkField {
+  target: string;
+  title: string;
+  url: string;
+}
+
+export interface NavSubItem {
+  label: string;
+  url: NavLinkField;
+}
+
+export interface NavItem {
+  label: string;
+  url: string; // Top level URL is string (from simple ACF field)
+  subitem?: NavSubItem[];
+}
+
 export interface HeaderData {
   logoText: string;
   logoIconText: string;
-  navItems: Link[];
+  navItems: NavItem[];
   ctaButton: {
     label: string;
     url: string;
