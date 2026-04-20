@@ -1,0 +1,292 @@
+---
+import MainLayout from "../../layouts/MainLayout.astro";
+import JobHero from "../../components/sections/careers/JobHero.astro";
+import { getJobBySlug, getJobListings } from "../../services/wordpress";
+import { Icon } from "astro-icon/components";
+
+export async function getStaticPaths() {
+  const jobs = await getJobListings();
+  return jobs.map((job) => ({
+    params: { slug: job.slug },
+  }));
+}
+
+const { slug } = Astro.params;
+const job = await getJobBySlug(slug!);
+
+if (!job) {
+  return Astro.redirect("/404");
+}
+
+const jobType = job.jobTypes?.nodes[0]?.name || "Full-time";
+const applyValue = job.jobMeta?.application || "hr@nexttax.vn";
+const applyLink =
+  applyValue.includes("@") && !applyValue.startsWith("mailto:")
+    ? `mailto:${applyValue}`
+    : applyValue;
+---
+
+<MainLayout title={`${job.title} - Tuyển dụng NextTax`}>
+  <JobHero
+    title={job.title}
+    subtitle={`Cơ hội nghề nghiệp hấp dẫn tại NextTax`}
+  />
+
+  <section class="pb-32 bg-slate-50 mt-12 relative z-20">
+    <div class="container mx-auto px-6">
+      <div class="max-w-6xl mx-auto">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+          <!-- Content Main -->
+          <div class="lg:col-span-2 space-y-8">
+            <div
+              class="bg-white rounded-md shadow-xl shadow-slate-200/50 border border-slate-100 overflow-hidden"
+            >
+              <!-- Quick Info Bar -->
+              <div
+                class="grid grid-cols-2 md:grid-cols-4 gap-4 p-6 md:p-8 border-b border-slate-100 bg-slate-50/30"
+              >
+                <div class="space-y-1">
+                  <p
+                    class="text-slate-400 text-[10px] uppercase font-bold tracking-widest"
+                  >
+                    Địa điểm
+                  </p>
+                  <p
+                    class="text-slate-900 font-bold text-sm flex items-center gap-2"
+                  >
+                    <Icon
+                      name="lucide:map-pin"
+                      class="w-4 h-4 text-orange-600"
+                    />
+                    {job.jobMeta?.location || "Hồ Chí Minh"}
+                  </p>
+                </div>
+                <div class="space-y-1">
+                  <p
+                    class="text-slate-400 text-[10px] uppercase font-bold tracking-widest"
+                  >
+                    Loại hình
+                  </p>
+                  <p
+                    class="text-slate-900 font-bold text-sm flex items-center gap-2"
+                  >
+                    <Icon name="lucide:clock" class="w-4 h-4 text-orange-600" />
+                    {jobType}
+                  </p>
+                </div>
+                <div class="space-y-1">
+                  <p
+                    class="text-slate-400 text-[10px] uppercase font-bold tracking-widest"
+                  >
+                    Mức lương
+                  </p>
+                  <p
+                    class="text-slate-900 font-bold text-sm flex items-center gap-2"
+                  >
+                    <Icon
+                      name="lucide:banknote"
+                      class="w-4 h-4 text-orange-600"
+                    />
+                    {job.jobMeta?.salary || "Thỏa thuận"}
+                  </p>
+                </div>
+                <div class="space-y-1">
+                  <p
+                    class="text-slate-400 text-[10px] uppercase font-bold tracking-widest"
+                  >
+                    Hạn nộp
+                  </p>
+                  <p
+                    class="text-slate-900 font-bold text-sm flex items-center gap-2"
+                  >
+                    <Icon
+                      name="lucide:calendar"
+                      class="w-4 h-4 text-orange-600"
+                    />
+                    {
+                      job.jobMeta.expires
+                        ? new Date(job.jobMeta.expires).toLocaleDateString(
+                            "vi-VN",
+                          )
+                        : "Thỏa thuận"
+                    }
+                  </p>
+                </div>
+              </div>
+
+              <div class="p-8 md:p-12">
+                <div
+                  class="prose prose-lg prose-slate max-w-none
+                  prose-headings:text-slate-900
+                  prose-headings:font-bold
+                  prose-strong:text-slate-900
+                  prose-a:text-orange-600
+                  prose-li:marker:text-orange-500
+                  job-content"
+                  set:html={job.content}
+                />
+              </div>
+            </div>
+
+            <!-- Recruitment Process -->
+            <div
+              class="bg-white rounded-2xl p-8 md:p-10 border border-slate-100 shadow-lg shadow-slate-200/40"
+            >
+              <h3 class="text-xl font-black text-slate-900 mb-8">
+                Quy trình tuyển dụng
+              </h3>
+              <div class="relative">
+                <div
+                  class="absolute left-[15px] top-4 bottom-4 w-0.5 bg-slate-100"
+                >
+                </div>
+                <div class="space-y-10">
+                  <div class="relative pl-12 flex gap-4">
+                    <div
+                      class="absolute left-0 w-8 h-8 rounded-full bg-orange-600 text-white flex items-center justify-center font-bold text-sm shrink-0 z-10 shadow-lg shadow-orange-600/30"
+                    >
+                      1
+                    </div>
+                    <div>
+                      <h4 class="font-bold text-slate-900 text-lg">
+                        Nộp hồ sơ
+                      </h4>
+                      <p class="text-slate-500 text-sm md:text-base">
+                        Gửi CV cập nhật mới nhất của bạn qua nút ứng tuyển hoặc
+                        email.
+                      </p>
+                    </div>
+                  </div>
+                  <div class="relative pl-12 flex gap-4">
+                    <div
+                      class="absolute left-0 w-8 h-8 rounded-full bg-white border-2 border-orange-600 text-orange-600 flex items-center justify-center font-bold text-sm shrink-0 z-10 shadow-sm"
+                    >
+                      2
+                    </div>
+                    <div>
+                      <h4 class="font-bold text-slate-900 text-lg">
+                        Phỏng vấn
+                      </h4>
+                      <p class="text-slate-500 text-sm md:text-base">
+                        Trao đổi trực tiếp về kinh nghiệm và định hướng nghề
+                        nghiệp cùng HR & Manager.
+                      </p>
+                    </div>
+                  </div>
+                  <div class="relative pl-12 flex gap-4">
+                    <div
+                      class="absolute left-0 w-8 h-8 rounded-full bg-white border-2 border-orange-600 text-orange-600 flex items-center justify-center font-bold text-sm shrink-0 z-10 shadow-sm"
+                    >
+                      3
+    </div>
+                    <div>
+                      <h4 class="font-bold text-slate-900 text-lg">
+                        Nhận Offer
+                      </h4>
+                      <p class="text-slate-500 text-sm md:text-base">
+                        Gia nhập đội ngũ NextTax và bắt đầu hành trình mới cùng
+                        chúng tôi.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sidebar -->
+          <div class="lg:col-span-1 space-y-6">
+            <!-- Apply Card -->
+            <div
+              class="bg-slate-900 rounded-md p-8 text-white sticky top-28 shadow-2xl shadow-slate-900/20"
+            >
+              <h3 class="text-xl font-bold mb-6 text-slate-600">
+                Ứng tuyển ngay
+              </h3>
+              <p class="text-slate-400 text-sm mb-8 leading-relaxed">
+                Bạn thấy mình phù hợp với vị trí này? Hãy gửi hồ sơ cho chúng
+                tôi ngay hôm nay!
+              </p>
+              <div class="space-y-4">
+                <a
+                  href={applyLink}
+                  class="flex items-center justify-center gap-3 w-full py-4 bg-orange-600 hover:bg-orange-700 text-white font-bold rounded-xl transition-all shadow-lg shadow-orange-600/20"
+                >
+                  <Icon name="lucide:mail" class="w-5 h-5" />
+                  Gửi hồ sơ ngay
+                </a>
+                {
+                  job.jobMeta?.website && (
+                    <a
+                      href={job.jobMeta.website}
+                      target="_blank"
+                      class="flex items-center justify-center gap-3 w-full py-4 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl transition-all border border-white/10"
+                    >
+                      <Icon name="lucide:globe" class="w-5 h-5 text-blue-400" />
+                      Website công ty
+                    </a>
+                  )
+                }
+              </div>
+            </div>
+
+            <!-- Tips Card -->
+            <div class="bg-orange-50 rounded-2xl p-8 border border-orange-100">
+              <div
+                class="w-12 h-12 bg-orange-600 rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-orange-600/20"
+              >
+                <Icon name="lucide:lightbulb" class="w-6 h-6 text-white" />
+              </div>
+              <h3 class="text-lg font-bold text-slate-900 mb-3">
+                Mẹo nhỏ ứng tuyển
+              </h3>
+              <p class="text-slate-600 text-sm italic leading-relaxed">
+                "Hãy làm nổi bật các chứng chỉ hành nghề hoặc kinh nghiệm làm
+                việc với các phần mềm kế toán phổ biến để tăng cơ hội trúng
+                tuyển."
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</MainLayout>
+
+<style is:global>
+  .job-content h2,
+  .job-content h3 {
+    margin-top: 2rem;
+    margin-bottom: 1.5rem;
+    color: #0f172a;
+    font-weight: 800;
+    font-size: 1.5rem;
+  }
+  .job-content ul {
+    list-style-type: none;
+    padding-left: 0;
+    margin-bottom: 2.5rem;
+  }
+  .job-content li {
+    position: relative;
+    padding-left: 1.75rem;
+    margin-bottom: 0.75rem;
+    color: #475569;
+    line-height: 1.6;
+  }
+  .job-content li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.6rem;
+    width: 0.5rem;
+    height: 0.5rem;
+    background-color: #f36a33;
+    border-radius: 50%;
+  }
+  .job-content p {
+    margin-bottom: 1.5rem;
+    line-height: 1.8;
+    color: #475569;
+  }
+</style>

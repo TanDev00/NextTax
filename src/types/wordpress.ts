@@ -55,6 +55,28 @@ export interface Page {
   content: string;
 }
 
+export interface JobListing {
+  id: string;
+  title: string;
+  slug: string;
+  content: string;
+  date: string;
+  jobTypes: {
+    nodes: {
+      name: string;
+    }[];
+  };
+  jobMeta: {
+    location: string;
+    salary: string;
+    company: string;
+    website: string;
+    application: string;
+    expires: string;
+    logo: string;
+  };
+}
+
 export interface Service {
   id: string;
   title: string;

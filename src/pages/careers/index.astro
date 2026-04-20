@@ -1,0 +1,103 @@
+---
+import MainLayout from "../../layouts/MainLayout.astro";
+import JobHero from "../../components/sections/careers/JobHero.astro";
+import { getJobListings } from "../../services/wordpress";
+import { Icon } from "astro-icon/components";
+import SectionHeading from "../../components/ui/SectionHeading.astro";
+
+const jobs = await getJobListings();
+---
+
+<MainLayout title="Tuyển dụng - NextTax">
+  <JobHero 
+    title="Cơ hội nghề nghiệp" 
+    subtitle="Gia nhập đội ngũ NextTax để cùng xây dựng những giá trị mới trong ngành kế toán & thuế."
+  />
+
+  <section class="py-32 bg-white relative z-10">
+    <div class="container mx-auto px-6">
+      <SectionHeading
+        badge="Join Our Team"
+        title="Vị trí <span class='text-orange-600'>đang tuyển</span>"
+        subtitle="Chúng tôi tìm kiếm những cộng sự tài năng, nhiệt huyết để cùng đồng hành trong hành trình chinh phục thị trường."
+        centered
+        class="mb-24"
+      />
+
+      <div class="max-w-5xl mx-auto">
+        {jobs.length > 0 ? (
+          <div class="grid grid-cols-1 gap-6">
+            {jobs.map((job) => {
+              const jobType = job.jobTypes?.nodes[0]?.name || "Full-time";
+              return (
+                <a 
+                  href={`/careers/${job.slug}`}
+                  class="group block bg-white p-8 md:p-10 rounded-md border border-slate-100 shadow-sm hover:shadow-2xl hover:shadow-slate-200/50 hover:border-orange-200 transition-all duration-500 relative overflow-hidden"
+                >
+                  <!-- Decorative element -->
+                  <div class="absolute top-0 right-0 w-32 h-32 bg-orange-50 rounded-bl-[100%] translate-x-16 -translate-y-16 group-hover:translate-x-8 group-hover:-translate-y-8 transition-transform duration-500"></div>
+                  
+                  <div class="flex flex-col md:flex-row md:items-center justify-between gap-8 relative z-10">
+                    <div class="flex-grow space-y-4">
+                      <div class="flex items-center gap-4">
+                        <span class="px-3 py-1 bg-orange-100 text-orange-700 text-[10px] font-black rounded-full uppercase tracking-widest">
+                          {jobType}
+                        </span>
+                        <span class="text-slate-300 text-sm font-medium">
+                          Hạn nộp: {job.jobMeta.expires 
+                            ? new Date(job.jobMeta.expires).toLocaleDateString('vi-VN') 
+                            : "Thỏa thuận"}
+                        </span>
+                      </div>
+                      
+                      <h3 class="text-2xl md:text-3xl font-black text-slate-900 group-hover:text-orange-600 transition-colors duration-300">
+                        {job.title}
+                      </h3>
+                      
+                      <div class="flex flex-wrap gap-y-3 gap-x-8 pt-2">
+                        <div class="flex items-center gap-2.5 text-slate-500 group-hover:text-slate-700 transition-colors">
+                          <div class="w-8 h-8 rounded-lg bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-orange-50 group-hover:text-orange-600 transition-all">
+                            <Icon name="lucide:map-pin" class="w-4 h-4" />
+                          </div>
+                          <span class="text-sm font-bold">{job.jobMeta?.location || "Hồ Chí Minh"}</span>
+                        </div>
+                        
+                        <div class="flex items-center gap-2.5 text-slate-500 group-hover:text-slate-700 transition-colors">
+                          <div class="w-8 h-8 rounded-lg bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-orange-50 group-hover:text-orange-600 transition-all">
+                            <Icon name="lucide:banknote" class="w-4 h-4" />
+                          </div>
+                          <span class="text-sm font-bold">{job.jobMeta?.salary || "Thỏa thuận"}</span>
+                        </div>
+
+                        <div class="flex items-center gap-2.5 text-slate-500 group-hover:text-slate-700 transition-colors">
+                          <div class="w-8 h-8 rounded-lg bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-orange-50 group-hover:text-orange-600 transition-all">
+                            <Icon name="lucide:building-2" class="w-4 h-4" />
+                          </div>
+                          <span class="text-sm font-bold">{job.jobMeta?.company || "NextTax"}</span>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="shrink-0">
+                      <div class="w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-slate-900 text-white flex items-center justify-center group-hover:bg-orange-600 group-hover:rotate-6 transition-all duration-300 shadow-lg shadow-slate-900/20 group-hover:shadow-orange-600/30">
+                        <Icon name="lucide:chevron-right" class="w-6 h-6 md:w-8 md:h-8" />
+                      </div>
+                    </div>
+                  </div>
+                </a>
+              );
+            })}
+          </div>
+        ) : (
+          <div class="bg-slate-50 p-16 rounded-md border border-dashed border-slate-200 text-center">
+            <div class="w-24 h-24 bg-white rounded-md shadow-sm flex items-center justify-center mx-auto mb-8 border border-slate-100">
+              <Icon name="lucide:briefcase" class="w-10 h-10 text-slate-300" />
+            </div>
+            <h3 class="text-2xl font-black text-slate-900 mb-3">Chưa có vị trí mới</h3>
+            <p class="text-slate-500 max-w-sm mx-auto leading-relaxed">Đội ngũ HR đang chuẩn bị cho những đợt tuyển dụng sắp tới. Hãy quay lại sau hoặc gửi CV trực tiếp cho chúng tôi.</p>
+          </div>
+        )}
+      </div>
+    </div>
+  </section>
+</MainLayout>

@@ -1,0 +1,42 @@
+---
+import MainLayout from "../../layouts/MainLayout.astro";
+import { getJobListings } from "../../services/wordpress";
+
+const jobs = await getJobListings();
+---
+
+<MainLayout title="Debug Careers">
+  <div class="container mx-auto py-20 px-6">
+    <h1 class="text-3xl font-black mb-8">Debug Careers Data</h1>
+    <div class="bg-white rounded-2xl p-8 border border-slate-100 shadow-xl overflow-auto">
+      <table class="w-full text-left">
+        <thead>
+          <tr class="border-b border-slate-100">
+            <th class="py-4 font-bold">Title</th>
+            <th class="py-4 font-bold">Slug</th>
+            <th class="py-4 font-bold">Link</th>
+          </tr>
+        </thead>
+        <tbody>
+          {jobs.map(job => (
+            <tr class="border-b border-slate-100 last:border-0">
+              <td class="py-4 whitespace-nowrap">{job.title}</td>
+              <td class="py-4 font-mono text-xs">{job.slug}</td>
+              <td class="py-4">
+                <a href={`/careers/${job.slug}`} class="text-orange-600 hover:underline">
+                  View Detail
+                </a>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      
+      {jobs.length === 0 && (
+        <div class="py-20 text-center text-slate-400">
+          No jobs found. Check GraphQL connection.
+        </div>
+      )}
+    </div>
+  </div>
+</MainLayout>

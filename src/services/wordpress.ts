@@ -1,5 +1,5 @@
 import { WORDPRESS_API_URL } from '../lib/constants';
-import { Post, Service, ServicePageData, AboutPageData, ContactPageData, HomePageData, FooterData, HeaderData, Category } from '../types/wordpress';
+import { Post, Service, ServicePageData, AboutPageData, ContactPageData, HomePageData, FooterData, HeaderData, Category, JobListing } from '../types/wordpress';
 
 async function fetchAPI(query: string, { variables }: { variables?: any } = {}) {
   const headers: Record<string, string> = {
@@ -43,9 +43,10 @@ async function fetchAPI(query: string, { variables }: { variables?: any } = {}) 
 
   const json = await res.json();
   if (json.errors) {
-    console.error(json.errors);
+    console.error("GRAPHQL ERRORS:", JSON.stringify(json.errors, null, 2));
     throw new Error(`Failed to fetch API: ${JSON.stringify(json.errors)}`);
   }
+  console.log("FETCH API SUCCESS:", query.trim().split('\n')[1].trim());
   return json.data;
 }
 
@@ -628,4 +629,66 @@ export async function getFooterData(): Promise<FooterData | null> {
   } catch (error) {
     return null;
   }
+}
+
+/* ───────── Job Listings Data ───────── */
+
+export async function getJobListings(): Promise<JobListing[]> {
+  const data = await fetchAPI(`
+    query GetJobListings {
+      jobListings(first: 100, where: { orderby: { field: DATE, order: DESC } }) {
+        nodes {
+          id
+          title
+          slug
+          date
+          content
+          jobTypes {
+            nodes {
+              name
+            }
+          }
+          jobMeta {
+            location
+            salary
+            company
+            website
+            application
+            expires
+            logo
+          }
+        }
+      }
+    }
+  `);
+  return data?.jobListings?.nodes || [];
+}
+
+export async function getJobBySlug(slug: string): Promise<JobListing | null> {
+  const data = await fetchAPI(`
+    query GetJobBySlug($id: ID!) {
+      jobListing(id: $id, idType: SLUG) {
+        id
+        title
+        slug
+        date
+        content
+        jobTypes {
+          nodes {
+            name
+          }
+        }
+        jobMeta {
+          location
+          salary
+          company
+          website
+          application
+          expires
+          logo
+        }
+      }
+    }
+  `, { variables: { id: slug } });
+  return data?.jobListing || null;
 }
