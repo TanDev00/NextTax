@@ -38,6 +38,7 @@ const safeServices = services || [];
                 ? service.tags.split(",").map((tag: any) => tag.trim())
                 : []
             }
+            backgroundImage={service.backgroundImage?.node?.sourceUrl}
             slug={
               service.slug?.url ? getSlugFromUrl(service.slug?.url, "/") : "/"
             }

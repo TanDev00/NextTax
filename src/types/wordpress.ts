@@ -253,6 +253,13 @@ export interface HeroSlide {
   };
   title2: string;
   subtitle2: string;
+  address?: string;
+  hotline?: string;
+  website?: string;
+  button1Text?: string;
+  button1Link?: string;
+  button2Text?: string;
+  button2Link?: string;
 }
 
 export interface Partner {
@@ -269,6 +276,11 @@ export interface ServiceItem {
   description: string;
   iconName: string;
   tags: string;
+  backgroundImage?: {
+    node: {
+      sourceUrl: string;
+    };
+  };
 }
 
 export interface StatItem {

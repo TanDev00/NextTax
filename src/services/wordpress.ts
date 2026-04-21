@@ -46,7 +46,6 @@ async function fetchAPI(query: string, { variables }: { variables?: any } = {}) 
     console.error("GRAPHQL ERRORS:", JSON.stringify(json.errors, null, 2));
     throw new Error(`Failed to fetch API: ${JSON.stringify(json.errors)}`);
   }
-  console.log("FETCH API SUCCESS:", query.trim().split('\n')[1].trim());
   return json.data;
 }
 
@@ -463,7 +462,7 @@ const HOME_QUERY = `
   query GetHomePage {
     page(id: "/", idType: URI) {
       homePageData {
-        heroSlides {
+        heroslides {
           title
           subtitle
           image {
@@ -473,6 +472,13 @@ const HOME_QUERY = `
           }
           title2
           subtitle2
+          address
+          hotline
+          website
+          button1Text
+          button1Link
+          button2Text
+          button2Link
         }
         partnersList {
           name
@@ -490,6 +496,16 @@ const HOME_QUERY = `
             description
             iconName
             tags
+            backgroundImage {
+              node {
+                sourceUrl
+              }
+            }
+            slug {
+              url
+              title
+              target
+            }
           }
         }
         aboutSection {
@@ -542,9 +558,15 @@ const HOME_QUERY = `
 `;
 
 
-export async function getHomePageData(): Promise<HomePageData> {
+export async function getHomePageData(): Promise<HomePageData | null> {
   const data = await fetchAPI(HOME_QUERY);
-  return data?.page?.homePageData;
+  const homeData = data?.page?.homePageData;
+  if (!homeData) return null;
+
+  return {
+    ...homeData,
+    heroSlides: homeData.heroslides || []
+  };
 }
 
 /* ───────── Header Data ───────── */

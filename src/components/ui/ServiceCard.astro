@@ -9,6 +9,7 @@ interface Props {
   priceValue?: string;
   class?: string;
   slug?: string;
+  backgroundImage?: string;
 }
 
 const {
@@ -19,6 +20,7 @@ const {
   priceValue,
   class: className,
   slug,
+  backgroundImage,
 } = Astro.props;
 
 // Đảm bảo luôn có tiền tố, viết thường và đúng chuẩn kebab-case để tránh lỗi "Unable to locate icon"
@@ -45,15 +47,25 @@ const iconName = rawIconName?.includes(':') ? rawIconName.toLowerCase() : `lucid
   <div
     class="relative w-full h-full rounded-md bg-white z-10 p-8 lg:p-10 flex flex-col overflow-hidden"
   >
+    {backgroundImage && (
+      <div class="absolute inset-0 z-0 overflow-hidden">
+        <img 
+          src={backgroundImage} 
+          alt={title} 
+          class="w-full h-full object-cover opacity-60 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700 ease-out"
+        />
+        <div class="absolute inset-0 bg-black/60 group-hover:bg-black/30 transition-all duration-700"></div>
+      </div>
+    )}
     <!-- Original Orange Gradient Glow -->
     <div
-      class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-0 bg-gradient-to-tr from-[#ff6b30]/80 via-[#ffaf8f]/40 to-white/0 to-75%"
+      class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-0 bg-gradient-to-tr from-[#ff6b30]/30 via-transparent to-transparent"
     >
     </div>
 
     <!-- Icon (Original Style: On Top) -->
     <div
-      class="mb-8 text-black opacity-90 relative z-10 transition-transform duration-500 group-hover:-translate-y-2"
+      class={`mb-8 ${backgroundImage ? 'text-white' : 'text-black'} opacity-90 relative z-10 transition-transform duration-500 group-hover:-translate-y-2`}
     >
       <Icon name={iconName} class="w-14 h-14" stroke-width="1.25" />
     </div>
@@ -61,12 +73,12 @@ const iconName = rawIconName?.includes(':') ? rawIconName.toLowerCase() : `lucid
     <!-- Content Area -->
     <div class="relative z-10 flex-grow">
       <h3
-        class="text-xl lg:text-2xl font-bold text-slate-900 mb-4 tracking-tight group-hover:text-orange-700 transition-colors"
+        class={`text-xl lg:text-2xl font-bold ${backgroundImage ? 'text-white' : 'text-slate-900'} mb-4 tracking-tight group-hover:text-orange-400 transition-colors`}
       >
         {title}
       </h3>
       <p
-        class="text-slate-500 text-[15px] leading-relaxed font-[400] mb-8 group-hover:text-slate-700 transition-colors duration-500"
+        class={`text-[15px] leading-relaxed font-[400] mb-8 ${backgroundImage ? 'text-slate-200' : 'text-slate-500'} group-hover:text-white transition-colors duration-500`}
       >
         {description}
       </p>
@@ -76,8 +88,8 @@ const iconName = rawIconName?.includes(':') ? rawIconName.toLowerCase() : `lucid
         features.length > 0 && (
           <ul class="space-y-3 mb-8">
             {features.map((feature) => (
-              <li class="flex items-start gap-2.5 text-slate-600">
-                <div class="mt-1 text-orange-600 bg-orange-50 rounded-full p-0.5">
+              <li class={`flex items-start gap-2.5 ${backgroundImage ? 'text-slate-200' : 'text-slate-600'}`}>
+                <div class={`mt-1 ${backgroundImage ? 'text-white bg-white/20' : 'text-orange-600 bg-orange-50'} rounded-full p-0.5`}>
                   <Icon
                     name="lucide:check"
                     class="w-3.5 h-3.5"
@@ -95,15 +107,15 @@ const iconName = rawIconName?.includes(':') ? rawIconName.toLowerCase() : `lucid
     </div>
 
     <!-- Bottom Section: Price & Interaction -->
-    <div class="relative z-10 mt-auto pt-6 border-t border-slate-50">
+    <div class={`relative z-10 mt-auto pt-6 border-t ${backgroundImage ? 'border-white/10' : 'border-slate-50'}`}>
       <div class="flex items-center justify-between gap-4">
         {
           priceValue && (
             <div class="flex flex-col">
-              <span class="text-[10px] uppercase tracking-wider text-slate-400 font-bold">
+              <span class={`text-[10px] uppercase tracking-wider ${backgroundImage ? 'text-slate-300' : 'text-slate-400'} font-bold`}>
                 Giá dịch vụ
               </span>
-              <span class="text-lg font-black text-slate-900">
+              <span class={`text-lg font-black ${backgroundImage ? 'text-white' : 'text-slate-900'}`}>
                 {priceValue}
               </span>
             </div>
@@ -112,7 +124,7 @@ const iconName = rawIconName?.includes(':') ? rawIconName.toLowerCase() : `lucid
 
         <a
           href={slug ? `/services/${slug}` : "#"}
-          class="flex items-center gap-2 text-orange-600 font-bold text-sm hover:translate-x-1 transition-transform"
+          class={`flex items-center gap-2 ${backgroundImage ? 'text-orange-400 group-hover:text-white' : 'text-orange-600'} font-bold text-sm hover:translate-x-1 transition-all`}
         >
           Chi tiết
           <Icon name="lucide:arrow-right" class="w-5 h-5" />

@@ -14,6 +14,13 @@ const slides = (heroSlides || []).map((slide: HeroSlide) => ({
   image: slide.image?.node?.sourceUrl || '',
   title2: slide.title2,
   subtitle2: slide.subtitle2,
+  address: slide.address,
+  hotline: slide.hotline,
+  website: slide.website,
+  button1Text: slide.button1Text,
+  button1Link: slide.button1Link,
+  button2Text: slide.button2Text,
+  button2Link: slide.button2Link,
 }));
 ---
 
@@ -43,14 +50,39 @@ const slides = (heroSlides || []).map((slide: HeroSlide) => ({
               <p class="hero-subtitle text-white/80 font-semibold tracking-wider uppercase text-sm md:text-base">
                 {slide.subtitle}
               </p>
-              <h1 class="hero-title text-4xl md:text-5xl lg:text-6xl font-black text-white leading-[1.2] md:leading-[1.1] tracking-tight">
+              <h1 class="hero-title text-4xl md:text-5xl lg:text-7xl font-black text-[#FFB300] leading-[1.2] md:leading-[1.1] tracking-tight uppercase">
                 {slide.title}
               </h1>
               
-              <div class="pt-6 md:pt-8 flex items-center hero-cta">
-                <!-- Round arrow button style -->
-                <a href="/contact" class="w-16 h-16 md:w-20 md:h-20 rounded-full border border-white/50 flex items-center justify-center text-white hover:bg-white hover:text-slate-900 transition-colors group/btn">
-                  <Icon name="lucide:arrow-up-right" class="w-6 h-6 md:w-8 md:h-8 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform" />
+              <!-- Info List -->
+              <div class="hero-info-list space-y-3 md:space-y-4 max-w-2xl pt-2">
+                <div class="flex items-center gap-3 pb-3 border-b border-white/10">
+                  <Icon name="lucide:check" class="text-[#8BC34A] w-5 h-5 flex-shrink-0" />
+                  <p class="text-white text-sm md:text-lg">
+                    <span class="font-bold">Địa chỉ:</span> {slide.address}
+                  </p>
+                </div>
+                <div class="flex items-center gap-3 pb-3 border-b border-white/10">
+                  <Icon name="lucide:check" class="text-[#8BC34A] w-5 h-5 flex-shrink-0" />
+                  <p class="text-white text-sm md:text-lg">
+                    <span class="font-bold">Hotline:</span> {slide.hotline}
+                  </p>
+                </div>
+                <div class="flex items-center gap-3 pb-3 border-b border-white/10">
+                  <Icon name="lucide:check" class="text-[#8BC34A] w-5 h-5 flex-shrink-0" />
+                  <p class="text-white text-sm md:text-lg">
+                    <span class="font-bold">Website:</span> {slide.website}
+                  </p>
+                </div>
+              </div>
+
+              <!-- Action Buttons -->
+              <div class="pt-8 flex flex-wrap gap-4 hero-btns">
+                <a href={slide.button1Link || "/lien-he"} class="px-8 py-3 bg-white text-slate-900 font-bold rounded-sm hover:bg-slate-200 transition-all uppercase tracking-wide text-sm md:text-base btn-hover-effect">
+                  {slide.button1Text || "LIÊN HỆ"}
+                </a>
+                <a href={slide.button2Link || "tel:0916871212"} class="px-8 py-3 border-2 border-white text-white font-bold rounded-sm hover:bg-white/10 transition-all uppercase tracking-wide text-sm md:text-base btn-hover-effect">
+                  {slide.button2Text || "GỌI NGAY"}
                 </a>
               </div>
             </div>
@@ -96,12 +128,14 @@ const slides = (heroSlides || []).map((slide: HeroSlide) => ({
     // Initial states (hidden)
     gsap.set('.hero-subtitle', { opacity: 0, y: 40 });
     gsap.set('.hero-title', { opacity: 0, y: 60, clipPath: 'inset(0 0 100% 0)' });
-    gsap.set('.hero-cta', { opacity: 0, y: 30, scale: 0.8 });
+    gsap.set('.hero-info-list', { opacity: 0, y: 30 });
+    gsap.set('.hero-btns', { opacity: 0, y: 30 });
     gsap.set('.hero-bottom-bar', { opacity: 0, y: 30 });
 
     tl.to('.hero-subtitle', { opacity: 1, y: 0, duration: 0.8, delay: 0.3 })
       .to('.hero-title', { opacity: 1, y: 0, clipPath: 'inset(0 0 0% 0)', duration: 1.2 }, '-=0.5')
-      .to('.hero-cta', { opacity: 1, y: 0, scale: 1, duration: 0.8 }, '-=0.6')
+      .to('.hero-info-list', { opacity: 1, y: 0, duration: 0.8 }, '-=0.7')
+      .to('.hero-btns', { opacity: 1, y: 0, duration: 0.8 }, '-=0.6')
       .to('.hero-bottom-bar', { opacity: 1, y: 0, duration: 0.8 }, '-=0.5');
 
     // Subtle parallax on hero background
@@ -145,9 +179,13 @@ const slides = (heroSlides || []).map((slide: HeroSlide) => ({
             { opacity: 0, y: 50, clipPath: 'inset(0 0 100% 0)' }, 
             { opacity: 1, y: 0, clipPath: 'inset(0 0 0% 0)', duration: 1, ease: 'power2.out', delay: 0.3 }
           );
-          gsap.fromTo('.swiper-slide-active .hero-cta', 
-            { opacity: 0, scale: 0.8 }, 
-            { opacity: 1, scale: 1, duration: 0.7, ease: 'back.out(1.4)', delay: 0.6 }
+          gsap.fromTo('.swiper-slide-active .hero-info-list', 
+            { opacity: 0, y: 30 }, 
+            { opacity: 1, y: 0, duration: 0.7, ease: 'power2.out', delay: 0.5 }
+          );
+          gsap.fromTo('.swiper-slide-active .hero-btns', 
+            { opacity: 0, y: 30 }, 
+            { opacity: 1, y: 0, duration: 0.7, ease: 'power2.out', delay: 0.6 }
           );
         }
       }

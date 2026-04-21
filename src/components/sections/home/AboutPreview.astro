@@ -30,7 +30,7 @@ const safeStats = stats || [];
           titleClass="about-heading text-2xl md:text-3xl lg:text-4xl"
         />
 
-        <div class="about-image relative max-w-[80%] mt-8 group h-[500px]">
+        <div class="about-image relative max-w-[80%] mt-8 group">
           <!-- Background arrow vectors (Decorative) -->
           <div class="absolute -right-20 top-1/2 -translate-y-1/2 w-48 h-48 opacity-5 -z-10 text-slate-900">
             <Icon name="lucide:arrow-up" class="w-full h-full" />
@@ -42,7 +42,7 @@ const safeStats = stats || [];
           <img 
             src={image} 
             alt={title} 
-            class="w-full h-full object-cover grayscale-[20%] hover:grayscale-0 transition-all duration-700"
+            class="w-full h-auto object-contain grayscale-[20%] hover:grayscale-0 transition-all duration-700"
             width="800"
             height="1000"
             loading="lazy"
