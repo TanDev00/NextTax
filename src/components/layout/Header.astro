@@ -36,12 +36,12 @@ const formatUrl = (url: any) => {
     const formattedUrl = new URL(urlStr);
     // Nếu URL dẫn tới backend WordPress, ta trả về relative path
     if (formattedUrl.hostname.includes('backend.nexttax.vn') || formattedUrl.hostname.includes('nexttax.vn')) {
-      return formattedUrl.pathname;
+      return formattedUrl.pathname.toLowerCase();
     }
   } catch (e) {
     // Không parse được (đã là relative path vd: /about)
   }
-  return urlStr;
+  return urlStr.toLowerCase();
 };
 
 const isActive = (url: string | null | undefined) => {

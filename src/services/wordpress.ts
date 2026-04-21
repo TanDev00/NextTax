@@ -599,7 +599,7 @@ export async function getHeaderData(): Promise<HeaderData | null> {
     `);
     
     // Fallback if data is missing
-    if (!data?.headerSettings) return null;
+    if (!data.headerSettings) return null;
 
     return data.headerSettings;
   } catch (error) {
