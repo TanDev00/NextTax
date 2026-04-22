@@ -656,46 +656,10 @@ export async function getFooterData(): Promise<FooterData | null> {
 /* ───────── Job Listings Data ───────── */
 
 export async function getJobListings(): Promise<JobListing[]> {
-  try {
-    const data = await fetchAPI(`
-      query GetJobListings {
-        jobListings(first: 100, where: { orderby: { field: DATE, order: DESC } }) {
-          nodes {
-            id
-            title
-            slug
-            date
-            content
-            jobTypes {
-              nodes {
-                name
-              }
-            }
-            jobMeta {
-              location
-              salary
-              company
-              website
-              application
-              expires
-              logo
-            }
-          }
-        }
-      }
-    `);
-    return data?.jobListings?.nodes || [];
-  } catch (error) {
-    console.error("Error fetching job listings:", error);
-    return [];
-  }
-}
-
-export async function getJobBySlug(slug: string): Promise<JobListing | null> {
-  try {
-    const data = await fetchAPI(`
-      query GetJobBySlug($id: ID!) {
-        jobListing(id: $id, idType: SLUG) {
+  const data = await fetchAPI(`
+    query GetJobListings {
+      jobListings(first: 100, where: { orderby: { field: DATE, order: DESC } }) {
+        nodes {
           id
           title
           slug
@@ -717,10 +681,36 @@ export async function getJobBySlug(slug: string): Promise<JobListing | null> {
           }
         }
       }
-    `, { variables: { id: slug } });
-    return data?.jobListing || null;
-  } catch (error) {
-    console.error(`Error fetching job by slug (${slug}):`, error);
-    return null;
-  }
+    }
+  `);
+  return data?.jobListings?.nodes || [];
+}
+
+export async function getJobBySlug(slug: string): Promise<JobListing | null> {
+  const data = await fetchAPI(`
+    query GetJobBySlug($id: ID!) {
+      jobListing(id: $id, idType: SLUG) {
+        id
+        title
+        slug
+        date
+        content
+        jobTypes {
+          nodes {
+            name
+          }
+        }
+        jobMeta {
+          location
+          salary
+          company
+          website
+          application
+          expires
+          logo
+        }
+      }
+    }
+  `, { variables: { id: slug } });
+  return data?.jobListing || null;
 }
