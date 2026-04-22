@@ -9,6 +9,9 @@ on:
     types: [wordpress_update]
   workflow_dispatch:
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
