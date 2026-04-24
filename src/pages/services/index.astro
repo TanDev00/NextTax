@@ -14,11 +14,15 @@ const data = await getServicePageData();
 const services =
   data?.service?.listService?.map((s: any) => ({
     title: s.title,
-    slug: getSlugFromUrl(typeof s.slug === "object" ? s.slug?.url : s?.slug, s.title),
+    slug: getSlugFromUrl(
+      typeof s.slug === "object" ? s.slug?.url : s?.slug,
+      s.title,
+    ),
     description: s.description,
     iconName: s.iconName,
     priceValue: s.priceValue,
     features: s.features?.map((f: any) => f.feature) || [],
+    backgroundImage: s.backgroundImage?.node?.sourceUrl || "",
   })) || [];
 ---
 

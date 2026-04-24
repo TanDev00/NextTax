@@ -300,6 +300,11 @@ export async function getServicePageData(): Promise<ServicePageData | null> {
                 features{
                   feature  
                 }
+                backgroundImage {
+                node {
+                    sourceUrl
+                }
+            }
             }
           }
           whyChooseUs{
