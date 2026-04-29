@@ -62,7 +62,7 @@ const btnLink = data?.button?.buttonLink || "/contact";
             class="group relative rounded-xl p-[2px] overflow-hidden bg-white shadow-[0_4px_20px_rgb(0,0,0,0.06)] transition-all duration-500 hover:shadow-[0_14px_45px_rgb(0,0,0,0.1)] hover:-translate-y-1 isolate"
           >
             <div
-              class="absolute inset-[-100%] opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0 pointer-events-none"
+              class="absolute -inset-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0 pointer-events-none"
               aria-hidden="true"
             >
               <div class="absolute inset-0 bg-[conic-gradient(from_0deg_at_50%_50%,transparent_0%,transparent_60%,#ef4444_80%,#fb923c_100%)] animate-spin-slow" />
@@ -71,11 +71,11 @@ const btnLink = data?.button?.buttonLink || "/contact";
               class="relative z-10 h-full rounded-[10px] bg-white p-6 md:p-8 flex flex-col items-center justify-center text-center gap-4 min-h-[140px] md:min-h-[160px]"
             >
               <div
-                class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 bg-gradient-to-tr from-[#ff6b30]/10 via-white to-white rounded-[10px]"
+                class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 bg-linear-to-tr from-[#ff6b30]/10 via-white to-white rounded-[10px]"
                 aria-hidden="true"
               />
               <div
-                class="relative z-10 flex h-14 w-14 md:h-16 md:w-16 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-orange-500/15 to-orange-600/5 text-orange-600 ring-1 ring-orange-500/20 transition-transform duration-300 group-hover:scale-105 group-hover:text-orange-700"
+                class="relative z-10 flex h-14 w-14 md:h-16 md:w-16 shrink-0 items-center justify-center rounded-2xl bg-linear-to-br from-orange-500/15 to-orange-600/5 text-orange-600 ring-1 ring-orange-500/20 transition-transform duration-300 group-hover:scale-105 group-hover:text-orange-700"
                 aria-hidden="true"
               >
                 <Icon
@@ -101,7 +101,7 @@ const btnLink = data?.button?.buttonLink || "/contact";
           class="group relative inline-flex items-center gap-3 px-8 py-4 bg-slate-900 text-white rounded-full font-bold text-lg overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-orange-900/20 hover:-translate-y-1 active:scale-95"
         >
           <div
-            class="absolute inset-0 bg-gradient-to-r from-orange-600 to-orange-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10"
+            class="absolute inset-0 bg-linear-to-r from-orange-600 to-orange-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10"
             aria-hidden="true"
           />
           {btnTitle}

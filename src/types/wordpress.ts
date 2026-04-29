@@ -200,10 +200,11 @@ export interface AboutPageData {
       youtube: string
     }>
   };
-  numbers: {
+  /** Repeater / list of stat blocks from About page. */
+  numbers?: Array<{
     number: string;
     description: string;
-  }
+  }>;
 }
 
 export interface ContactPageData {
