@@ -37,6 +37,7 @@ const coreValues = [
     icon: "lucide:shield-check",
     color: "text-blue-600",
     bg: "bg-blue-50",
+    border: "border-blue-100/80",
   },
   {
     title: "Uy tín",
@@ -44,6 +45,7 @@ const coreValues = [
     icon: "lucide:award",
     color: "text-orange-600",
     bg: "bg-orange-50",
+    border: "border-orange-100/80",
   },
   {
     title: "Cam kết",
@@ -51,6 +53,7 @@ const coreValues = [
     icon: "lucide:handshake",
     color: "text-emerald-600",
     bg: "bg-emerald-50",
+    border: "border-emerald-100/80",
   },
   {
     title: "Sáng tạo",
@@ -58,6 +61,7 @@ const coreValues = [
     icon: "lucide:lightbulb",
     color: "text-amber-600",
     bg: "bg-amber-50",
+    border: "border-amber-100/80",
   },
 ];
 ---
@@ -68,17 +72,22 @@ const coreValues = [
       <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
         {
           coreValues.map((val) => (
-            <div class="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-4 md:gap-5 p-4 rounded-md bg-slate-50/50 border border-slate-100/50 hover:bg-white hover:shadow-md hover:border-orange-100 transition-all duration-300 group">
+            <div
+              class={`flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-4 md:gap-5 p-4 rounded-md border shadow-sm hover:shadow-md transition-all duration-300 group min-w-0 ${val.bg} ${val.border}`}
+            >
               <div
-                class={`flex-shrink-0 w-12 h-12 rounded-md ${val.bg} ${val.color} flex items-center justify-center group-hover:scale-110 group-hover:rotate-6 transition-transform duration-500`}
+                class={`flex-shrink-0 w-12 h-12 rounded-md bg-white/90 shadow-sm ${val.color} flex items-center justify-center group-hover:scale-110 group-hover:rotate-6 transition-transform duration-500`}
               >
                 <Icon name={val.icon} class="w-6 h-6" />
               </div>
-              <div>
+              <div class="min-w-0 w-full sm:flex-1">
                 <h5 class="font-bold text-slate-900 mb-1 text-sm md:text-base">
                   {val.title}
                 </h5>
-                <p class="text-slate-500 text-[11px] md:text-[13px] leading-snug">
+                <p
+                  class="text-slate-600 text-[11px] md:text-[11px] leading-normal truncate"
+                  title={val.description}
+                >
                   {val.description}
                 </p>
               </div>
