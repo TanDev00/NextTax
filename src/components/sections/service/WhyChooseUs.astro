@@ -1,19 +1,26 @@
 ---
 import { Icon } from "astro-icon/components";
 import SectionHeading from "../../ui/SectionHeading.astro";
-import StatCard from "../../ui/StatCard.astro";
 
-interface Stat {
-  number: string;
-  subTitle: string;
-}
+/** Default copy when CMS omits or pads shorter `highlights` arrays. */
+const DEFAULT_HIGHLIGHTS = [
+  "Luôn đặt khách hàng làm trọng tâm; ưu tiên lợi ích khách hàng lên hàng đầu.",
+  "Hướng tới minh bạch hóa và tuân thủ pháp luật trong hoạt động tài chính kế toán.",
+  "Không ngừng cải tiến quy trình và số hóa nghiệp vụ quản lý kế toán.",
+] as const;
+
+/** Icons aligned by slot index (lucide via astro-icon). */
+const HIGHLIGHT_ICONS = [
+  "lucide:users",
+  "lucide:scale",
+  "lucide:sparkles",
+] as const;
 
 interface Props {
   data?: {
     title: string;
-    subTitle1: string;
-    subTitle2: string;
-    valueList: Stat[];
+    /** Up to three short highlight lines; missing slots use defaults. */
+    highlights?: string[];
     button: {
       buttonTitle: string;
       buttonLink: string;
@@ -23,19 +30,18 @@ interface Props {
 
 const { data } = Astro.props;
 
-const stats = data?.valueList || [
-  { number: "100%", subTitle: "Tuân thủ pháp luật" },
-  { number: "24/7", subTitle: "Hỗ trợ khách hàng" },
-  { number: "500+", subTitle: "Khách hàng tin tưởng" },
-];
+function resolveHighlights(incoming: string[] | undefined): string[] {
+  const cleaned =
+    incoming?.map((s) => s.trim()).filter((s) => s.length > 0) ?? [];
+  const out = [...cleaned];
+  while (out.length < 3) {
+    out.push(DEFAULT_HIGHLIGHTS[out.length]);
+  }
+  return out.slice(0, 3);
+}
 
 const title = data?.title || "Tại Sao Chọn Dịch Vụ Của Chúng Tôi?";
-const subTitle1 =
-  data?.subTitle1 ||
-  "Dịch vụ kế toán uy tín NextTax quy tụ những chuyên gia dày dạn kinh nghiệm nhất trong lĩnh vực tài chính và thuế. Chúng tôi tự hào mang đến giải pháp tối ưu cho doanh nghiệp, đảm bảo sự an tâm tuyệt đối về tính minh bạch và tuân thủ.";
-const subTitle2 =
-  data?.subTitle2 ||
-  "Với sứ mệnh đồng hành cùng sự phát triển của doanh nghiệp Việt, NextTax không ngừng cải tiến quy trình và áp dụng công nghệ số vào quản lý kế toán. Sự tận tâm 24/7 và cam kết kết quả vượt trội chính là những giá trị cốt lõi làm nên thương hiệu của chúng tôi trong lòng hàng trăm khách hàng.";
+const highlights = resolveHighlights(data?.highlights);
 const btnTitle = data?.button?.buttonTitle || "Đăng ký tư vấn miễn phí";
 const btnLink = data?.button?.buttonLink || "/contact";
 ---
@@ -44,40 +50,60 @@ const btnLink = data?.button?.buttonLink || "/contact";
   <div class="container mx-auto px-4 max-w-7xl">
     <SectionHeading title={title} centered class="mb-16" />
 
-    <!-- Stats Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
+    <!-- Three value highlights (no stat numbers) -->
+    <div
+      class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mb-16 md:mb-20"
+      role="list"
+    >
       {
-        stats.map((stat: any) => (
-          <StatCard number={stat.number} label={stat.subTitle} />
+        highlights.map((text, index) => (
+          <div
+            role="listitem"
+            class="group relative rounded-xl p-[2px] overflow-hidden bg-white shadow-[0_4px_20px_rgb(0,0,0,0.06)] transition-all duration-500 hover:shadow-[0_14px_45px_rgb(0,0,0,0.1)] hover:-translate-y-1 isolate"
+          >
+            <div
+              class="absolute inset-[-100%] opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0 pointer-events-none"
+              aria-hidden="true"
+            >
+              <div class="absolute inset-0 bg-[conic-gradient(from_0deg_at_50%_50%,transparent_0%,transparent_60%,#ef4444_80%,#fb923c_100%)] animate-spin-slow" />
+            </div>
+            <div
+              class="relative z-10 h-full rounded-[10px] bg-white p-6 md:p-8 flex flex-col items-center justify-center text-center gap-4 min-h-[140px] md:min-h-[160px]"
+            >
+              <div
+                class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 bg-gradient-to-tr from-[#ff6b30]/10 via-white to-white rounded-[10px]"
+                aria-hidden="true"
+              />
+              <div
+                class="relative z-10 flex h-14 w-14 md:h-16 md:w-16 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-orange-500/15 to-orange-600/5 text-orange-600 ring-1 ring-orange-500/20 transition-transform duration-300 group-hover:scale-105 group-hover:text-orange-700"
+                aria-hidden="true"
+              >
+                <Icon
+                  name={HIGHLIGHT_ICONS[index]}
+                  class="w-7 h-7 md:w-8 md:h-8"
+                />
+              </div>
+              <p
+                class="relative z-10 text-base md:text-lg font-semibold text-slate-800 leading-snug group-hover:text-slate-900 transition-colors duration-300"
+              >
+                {text}
+              </p>
+            </div>
+          </div>
         ))
       }
     </div>
 
-    <!-- Professional Description -->
-    <div class="max-w-4xl mx-auto text-center space-y-12">
-      <div class="space-y-6">
-        <p
-          class="text-lg md:text-xl text-slate-600 leading-relaxed font-medium"
-        >
-          {subTitle1}
-        </p>
-        <p class="text-slate-500 leading-relaxed">
-          {subTitle2}
-        </p>
-      </div>
-
-      <!-- CTA Button -->
+    <div class="max-w-4xl mx-auto text-center">
       <div class="flex justify-center pt-4">
         <a
           href={btnLink}
           class="group relative inline-flex items-center gap-3 px-8 py-4 bg-slate-900 text-white rounded-full font-bold text-lg overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-orange-900/20 hover:-translate-y-1 active:scale-95"
         >
-          <!-- Background Glow Effect on Hover -->
           <div
             class="absolute inset-0 bg-gradient-to-r from-orange-600 to-orange-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10"
-          >
-          </div>
-
+            aria-hidden="true"
+          />
           {btnTitle}
           <Icon
             name="lucide:arrow-right"

@@ -118,12 +118,7 @@ export interface ServicePageData {
   };
   whyChooseUs: {
     title: string;
-    subTitle1: string;
-    subTitle2: string;
-    valueList: Array<{
-      number: string;
-      subTitle: string;
-    }>;
+    highlights?: string[];
     button: {
       buttonTitle: string;
       buttonLink: string;
