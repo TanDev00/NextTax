@@ -8,6 +8,7 @@ import AboutStats from "../components/sections/about/AboutStats.astro";
 import TeamSection from "../components/sections/about/TeamSection.astro";
 
 import { getAboutPageData } from "../services/wordpress";
+import WhyChooseUs from "../components/sections/service/WhyChooseUs.astro";
 const data = await getAboutPageData();
 ---
 
@@ -19,6 +20,7 @@ const data = await getAboutPageData();
   />
   <AboutIntro data={data?.introduction} />
   <CompanyIdentity data={data?.core_values} />
+  <WhyChooseUs data={data?.whyChooseUs} />
   <TeamSection data={data?.team} />
   <AboutStats data={data?.numbers} />
 </MainLayout>

@@ -32,16 +32,11 @@ import SectionHeading from "../../ui/SectionHeading.astro";
         <SectionHeading
           badge={data?.sub_title}
           title={data?.title || ""}
-          class="mb-16"
+          class="mb-10"
           badgeClass="services-label"
           titleClass="services-heading"
         />
-        <p class="text-lg text-slate-500 leading-relaxed font-medium">
-          {
-            data?.description ||
-              "Chúng tôi là tổ chức tư vấn với nhiều năm kinh nghiệm thực chiến đa ngành, tự hào sát cánh cùng sự phát triển tài chính của hàng ngàn doanh nghiệp."
-          }
-        </p>
+        <div class="text-lg text-slate-500 leading-relaxed font-medium" set:html={data?.description} />
 
         <div class="flex flex-wrap items-center gap-8 pt-4">
           <Button

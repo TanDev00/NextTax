@@ -64,7 +64,29 @@ const coreValues = [
 
 <section class="py-24 bg-white overflow-hidden" id="company-identity">
   <div class="container mx-auto px-4 max-w-7xl">
-    <!-- Top Section: Image & Mission/Vision Split -->
+    <div class="identity-values-row mb-16 border-slate-100">
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
+        {
+          coreValues.map((val) => (
+            <div class="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-4 md:gap-5 p-4 rounded-md bg-slate-50/50 border border-slate-100/50 hover:bg-white hover:shadow-md hover:border-orange-100 transition-all duration-300 group">
+              <div
+                class={`flex-shrink-0 w-12 h-12 rounded-md ${val.bg} ${val.color} flex items-center justify-center group-hover:scale-110 group-hover:rotate-6 transition-transform duration-500`}
+              >
+                <Icon name={val.icon} class="w-6 h-6" />
+              </div>
+              <div>
+                <h5 class="font-bold text-slate-900 mb-1 text-sm md:text-base">
+                  {val.title}
+                </h5>
+                <p class="text-slate-500 text-[11px] md:text-[13px] leading-snug">
+                  {val.description}
+                </p>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
     <div
       class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20 items-center mb-16 lg:mb-24"
     >
@@ -149,31 +171,6 @@ const coreValues = [
             </div>
           </div>
         </div>
-      </div>
-    </div>
-
-    <!-- Bottom Section: Core Values Row -->
-    <div class="identity-values-row pt-16 border-t border-slate-100">
-      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
-        {
-          coreValues.map((val) => (
-            <div class="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-4 md:gap-5 p-4 rounded-md bg-slate-50/50 border border-slate-100/50 hover:bg-white hover:shadow-md hover:border-orange-100 transition-all duration-300 group">
-              <div
-                class={`flex-shrink-0 w-12 h-12 rounded-md ${val.bg} ${val.color} flex items-center justify-center group-hover:scale-110 group-hover:rotate-6 transition-transform duration-500`}
-              >
-                <Icon name={val.icon} class="w-6 h-6" />
-              </div>
-              <div>
-                <h5 class="font-bold text-slate-900 mb-1 text-sm md:text-base">
-                  {val.title}
-                </h5>
-                <p class="text-slate-500 text-[11px] md:text-[13px] leading-snug">
-                  {val.description}
-                </p>
-              </div>
-            </div>
-          ))
-        }
       </div>
     </div>
   </div>
