@@ -73,12 +73,12 @@ const iconName = rawIconName?.includes(':') ? rawIconName.toLowerCase() : `lucid
     <!-- Content Area -->
     <div class="relative z-10 flex-grow">
       <h3
-        class={`text-xl lg:text-2xl font-bold ${backgroundImage ? 'text-white' : 'text-slate-900'} mb-4 tracking-tight group-hover:text-orange-400 transition-colors`}
+        class={`text-xl lg:text-2xl font-bold ${backgroundImage ? 'text-white' : ''} mb-4 tracking-tight group-hover:text-orange-400 transition-colors`}
       >
         {title}
       </h3>
       <p
-        class={`text-[15px] leading-relaxed font-[400] mb-8 ${backgroundImage ? 'text-slate-200' : 'text-slate-500'} group-hover:text-white transition-colors duration-500`}
+        class={`text-[15px] leading-relaxed font-[400] mb-8 ${backgroundImage ? 'text-slate-200' : ''} group-hover:text-white transition-colors duration-500`}
       >
         {description}
       </p>
@@ -88,7 +88,7 @@ const iconName = rawIconName?.includes(':') ? rawIconName.toLowerCase() : `lucid
         features.length > 0 && (
           <ul class="space-y-3 mb-8">
             {features.map((feature) => (
-              <li class={`flex items-start gap-2.5 ${backgroundImage ? 'text-slate-200' : 'text-slate-600'}`}>
+              <li class={`flex items-start gap-2.5 ${backgroundImage ? 'text-slate-200' : ''}`}>
                 <div class={`mt-1 ${backgroundImage ? 'text-white bg-white/20' : 'text-orange-600 bg-orange-50'} rounded-full p-0.5`}>
                   <Icon
                     name="lucide:check"
@@ -115,7 +115,7 @@ const iconName = rawIconName?.includes(':') ? rawIconName.toLowerCase() : `lucid
               <span class={`text-[10px] uppercase tracking-wider ${backgroundImage ? 'text-slate-300' : 'text-slate-400'} font-bold`}>
                 Giá dịch vụ
               </span>
-              <span class={`text-lg font-black ${backgroundImage ? 'text-white' : 'text-slate-900'}`}>
+              <span class={`text-lg font-black ${backgroundImage ? 'text-white' : ''}`}>
                 {priceValue}
               </span>
             </div>

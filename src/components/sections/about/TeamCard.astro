@@ -11,7 +11,7 @@ interface Props {
 const { name, role, image, isFeatured = false } = Astro.props;
 
 // Conditional colors/gradients based on featured state
-const socialColor = isFeatured ? "text-orange-600" : "text-slate-900";
+const socialColor = isFeatured ? "text-orange-600" : "";
 const overlayClass = isFeatured 
   ? "bg-gradient-to-tr from-orange-600/20 via-transparent to-transparent opacity-60" 
   : "bg-gradient-to-tr from-slate-900/10 via-transparent to-transparent opacity-30";
@@ -32,7 +32,7 @@ const overlayClass = isFeatured
 
   <!-- Info Area -->
   <div class="p-8 pb-10 flex-grow relative flex flex-col gap-1">
-    <h3 class="text-2xl font-black text-slate-900 tracking-tight group-hover:text-orange-600 transition-colors">
+    <h3 class="text-2xl font-black  tracking-tight group-hover:text-orange-600 transition-colors">
       {name}
     </h3>
     <p class="text-slate-400 font-medium text-[15px] italic">

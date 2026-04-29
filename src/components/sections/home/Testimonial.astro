@@ -55,8 +55,8 @@ const firstImage = safeTestimonials[0]?.image?.node?.sourceUrl || '';
                     <!-- Author block pushed right to leave space for absolute arrows -->
                     <div class="testimonial-author flex items-center ml-24 md:ml-32 min-h-[50px]">
                       <div class="flex flex-col">
-                        <span class="font-bold text-slate-900 text-lg leading-tight">{t.author}</span>
-                        <span class="text-sm text-slate-500">{t.company}</span>
+                        <span class="font-bold  text-lg leading-tight">{t.author}</span>
+                        <span class="text-sm ">{t.company}</span>
                       </div>
                     </div>
                   </div>
@@ -68,10 +68,10 @@ const firstImage = safeTestimonials[0]?.image?.node?.sourceUrl || '';
 
         <!-- External Minimalist Navigation -->
         <div class="absolute bottom-0 left-0 flex items-center gap-6 text-slate-400 testimonial-nav z-10 h-[50px]">
-          <button class="swiper-prev hover:text-slate-900 transition-colors">
+          <button class="swiper-prev hover: transition-colors">
             <Icon name="lucide:arrow-left" class="w-[22px] h-[22px] stroke-[1.5]" />
           </button>
-          <button class="swiper-next hover:text-slate-900 transition-colors">
+          <button class="swiper-next hover: transition-colors">
             <Icon name="lucide:arrow-right" class="w-[22px] h-[22px] stroke-[1.5]" />
           </button>
         </div>

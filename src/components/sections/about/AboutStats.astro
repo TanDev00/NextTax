@@ -21,17 +21,17 @@ const { data } = Astro.props;
           <div class="about-stat-item space-y-4">
             <div class="flex items-baseline gap-2">
               <h3
-                class="text-4xl lg:text-[2.75rem] font-bold text-slate-900 tracking-tight stat-counter"
+                class="text-4xl lg:text-[2.75rem] font-bold  tracking-tight stat-counter"
                 data-target={n.number || "0"}
               >
                 0
               </h3>
               <Icon
                 name="lucide:arrow-up-right"
-                class="w-6 h-6 text-slate-900 stroke-1 opacity-80"
+                class="w-6 h-6  stroke-1 opacity-80"
               />
             </div>
-            <p class="text-sm text-slate-500 leading-relaxed font-medium pr-4">
+            <p class="text-sm  leading-relaxed font-medium pr-4">
               {n.description || ""}
             </p>
           </div>

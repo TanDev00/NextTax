@@ -55,7 +55,7 @@ const image = post.featuredImage?.node?.sourceUrl || 'https://images.unsplash.co
             <Icon name="lucide:chevron-right" class="w-4 h-4 text-slate-400" />
             <a href="/blog" class="hover:text-[#f36a33] transition-colors">Blog</a>
             <Icon name="lucide:chevron-right" class="w-4 h-4 text-slate-400" />
-            <span class="text-slate-500 font-normal truncate max-w-[200px] md:max-w-md">{post.title}</span>
+            <span class=" font-normal truncate max-w-[200px] md:max-w-md">{post.title}</span>
           </div>
 
           <!-- Featured Image -->
@@ -74,12 +74,12 @@ const image = post.featuredImage?.node?.sourceUrl || 'https://images.unsplash.co
           </div>
 
           <!-- Content Body -->
-          <div class="prose porange-lg max-w-none text-slate-600 leading-relaxed wordpress-content mt-6 mb-12" set:html={post.content} />
+          <div class="prose porange-lg max-w-none  leading-relaxed wordpress-content mt-6 mb-12" set:html={post.content} />
 
           <!-- Post Navigation -->
           <div class="flex items-center justify-between py-10 border-t border-slate-100 mt-12">
             {prevPost ? (
-              <a href={`/blog/${prevPost.slug}`} class="group flex items-center gap-2 font-bold text-slate-900 hover:text-[#f36a33] transition-colors relative pb-1">
+              <a href={`/blog/${prevPost.slug}`} class="group flex items-center gap-2 font-bold  hover:text-[#f36a33] transition-colors relative pb-1">
                 <Icon name="lucide:arrow-up-left" class="w-5 h-5 transition-transform group-hover:-translate-x-1 group-hover:-translate-y-1" />
                 Bài viết trước
                 <span class="absolute bottom-0 left-0 w-full h-[2px] bg-slate-900 group-hover:bg-[#f36a33] transition-colors"></span>
@@ -87,7 +87,7 @@ const image = post.featuredImage?.node?.sourceUrl || 'https://images.unsplash.co
             ) : <div></div>}
             
             {nextPost ? (
-              <a href={`/blog/${nextPost.slug}`} class="group flex items-center gap-2 font-bold text-slate-900 hover:text-[#f36a33] transition-colors relative pb-1">
+              <a href={`/blog/${nextPost.slug}`} class="group flex items-center gap-2 font-bold  hover:text-[#f36a33] transition-colors relative pb-1">
                 Bài viết tiếp theo
                 <Icon name="lucide:arrow-up-right" class="w-5 h-5 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
                 <span class="absolute bottom-0 left-0 w-full h-[2px] bg-slate-900 group-hover:bg-[#f36a33] transition-colors"></span>
@@ -97,7 +97,7 @@ const image = post.featuredImage?.node?.sourceUrl || 'https://images.unsplash.co
 
           <!-- Comments Section (Dynamic from WordPress) -->
           <div class="pt-10">
-            <h3 class="text-2xl font-bold text-slate-900 mb-8">
+            <h3 class="text-2xl font-bold  mb-8">
               {post.comments?.nodes?.length || 0} bình luận
             </h3>
             
@@ -113,10 +113,10 @@ const image = post.featuredImage?.node?.sourceUrl || 'https://images.unsplash.co
                     />
                     <div class="flex-1">
                       <div class="flex items-baseline gap-4 mb-2">
-                        <h4 class="text-lg font-bold text-slate-900">{comment.author?.node?.name || 'Anonymous'}</h4>
+                        <h4 class="text-lg font-bold ">{comment.author?.node?.name || 'Anonymous'}</h4>
                         <span class="text-sm text-slate-400">{comment.date ? formatDate(comment.date) : ''}</span>
                       </div>
-                      <div class="bg-gray-50/80 p-8 relative text-slate-600 leading-relaxed shadow-sm">
+                      <div class="bg-gray-50/80 p-8 relative  leading-relaxed shadow-sm">
                         <!-- Triangle pointer -->
                         <div class="absolute w-4 h-4 bg-gray-50/80 rotate-45 -left-2 top-6"></div>
                         <div set:html={comment.content} />
@@ -125,13 +125,13 @@ const image = post.featuredImage?.node?.sourceUrl || 'https://images.unsplash.co
                   </div>
                 ))
               ) : (
-                <p class="text-slate-500 italic">Chưa có bình luận nào cho bài viết này. Hãy là người đầu tiên!</p>
+                <p class=" italic">Chưa có bình luận nào cho bài viết này. Hãy là người đầu tiên!</p>
               )}
             </div>
 
             <!-- Leave a Reply Form -->
             <div class="mt-16 bg-white border border-slate-100 shadow-sm p-10">
-              <h3 class="text-2xl font-bold text-slate-900 mb-8">Viết bình luận</h3>
+              <h3 class="text-2xl font-bold  mb-8">Viết bình luận</h3>
               <form id="comment-form" data-post-id={post.databaseId} class="space-y-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
@@ -175,7 +175,7 @@ const image = post.featuredImage?.node?.sourceUrl || 'https://images.unsplash.co
 
           <!-- Recent Posts Widget -->
           <div class="bg-gray-50/80 p-10">
-            <h3 class="text-2xl font-bold text-slate-900 mb-8">Bài viết gần đây</h3>
+            <h3 class="text-2xl font-bold  mb-8">Bài viết gần đây</h3>
             <div class="flex flex-col gap-6">
               {recentPosts.map((rp) => (
                 <a href={`/blog/${rp.slug}`} class="flex items-center gap-4 group">
@@ -187,10 +187,10 @@ const image = post.featuredImage?.node?.sourceUrl || 'https://images.unsplash.co
                     />
                   </div>
                   <div class="flex flex-col gap-1.5 flex-1">
-                    <h4 class="font-bold text-slate-900 text-[15px] leading-snug group-hover:text-[#f36a33] transition-colors line-clamp-2">
+                    <h4 class="font-bold  text-[15px] leading-snug group-hover:text-[#f36a33] transition-colors line-clamp-2">
                        {rp.title}
                     </h4>
-                    <span class="text-xs text-slate-500">{rp.date ? formatDate(rp.date) : ''}</span>
+                    <span class="text-xs ">{rp.date ? formatDate(rp.date) : ''}</span>
                   </div>
                 </a>
               ))}

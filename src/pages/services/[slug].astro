@@ -84,7 +84,7 @@ const content =
                                                   class={`flex items-center justify-between px-6 py-4 rounded-md font-bold transition-all duration-300 ${
                                                       item.slug === slug
                                                           ? "bg-orange-600 text-white shadow-lg shadow-orange-200 translate-x-1"
-                                                          : "bg-white text-slate-900 hover:bg-slate-900 hover:text-white border border-slate-100"
+                                                          : "bg-white  hover:bg-slate-900 hover:text-white border border-slate-100"
                                                   }`}
                                               >
                                                   <span>{item.title}</span>
@@ -103,7 +103,7 @@ const content =
                                                       class={`flex items-center justify-between px-6 py-4 rounded-md font-bold transition-all duration-300 ${
                                                           s === slug
                                                               ? "bg-orange-600 text-white shadow-lg shadow-orange-200 translate-x-1"
-                                                              : "bg-white text-slate-900 hover:bg-slate-900 hover:text-white border border-slate-100"
+                                                              : "bg-white  hover:bg-slate-900 hover:text-white border border-slate-100"
                                                       }`}
                                                   >
                                                       <span>{t}</span>
@@ -161,8 +161,8 @@ const content =
                     <div class="space-y-8">
                         <div
                             class="prose prose-slate prose-orange max-w-none
-                prose-p:text-slate-600 prose-p:leading-relaxed prose-p:text-xl
-                prose-strong:text-slate-900 prose-strong:font-black"
+                prose-p: prose-p:leading-relaxed prose-p:text-xl
+                prose-strong: prose-strong:font-black"
                             set:html={content}
                         />
                     </div>
